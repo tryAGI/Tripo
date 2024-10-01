@@ -5,12 +5,12 @@ namespace Tripo
 {
     public sealed partial class TripoApi
     {
-        /// <inheritdoc cref="TripoApi(global::System.Net.Http.HttpClient?, global::System.Uri?, global::Tripo.EndPointAuthorization?)"/>
+        /// <inheritdoc cref="TripoApi(global::System.Net.Http.HttpClient?, global::System.Uri?, global::System.Collections.Generic.List{global::Tripo.EndPointAuthorization}?)"/>
         public TripoApi(
             string apiKey,
             global::System.Net.Http.HttpClient? httpClient = null,
             global::System.Uri? baseUri = null,
-            global::Tripo.EndPointAuthorization? authorization = null) : this(httpClient, baseUri, authorization)
+            global::System.Collections.Generic.List<global::Tripo.EndPointAuthorization>? authorizations = null) : this(httpClient, baseUri, authorizations)
         {
             Authorizing(_httpClient, ref apiKey);
 

@@ -14,11 +14,14 @@ namespace Tripo
         {
             apiKey = apiKey ?? throw new global::System.ArgumentNullException(nameof(apiKey));
 
-            _authorization = new global::Tripo.EndPointAuthorization
+            _authorizations.Clear();
+            _authorizations.Add(new global::Tripo.EndPointAuthorization
             {
+                Type = "Http",
+                Location = "Header",
                 Name = "Bearer",
                 Value = apiKey,
-            };
+            });
         }
     }
 }
