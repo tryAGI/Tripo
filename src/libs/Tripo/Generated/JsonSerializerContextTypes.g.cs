@@ -30,7 +30,7 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.TaskInput? Type3 { get; set; }
+        public object? Type3 { get; set; }
         /// <summary>
         /// 
         /// </summary>
