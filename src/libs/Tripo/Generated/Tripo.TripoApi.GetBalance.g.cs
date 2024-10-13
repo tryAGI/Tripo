@@ -96,7 +96,7 @@ namespace Tripo
             }
 
             return
-                global::System.Text.Json.JsonSerializer.Deserialize(__content, typeof(global::Tripo.GetBalanceResponse), JsonSerializerContext) as global::Tripo.GetBalanceResponse ??
+                global::Tripo.GetBalanceResponse.FromJson(__content, JsonSerializerContext) ??
                 throw new global::System.InvalidOperationException($"Response deserialization failed for \"{__content}\" ");
         }
     }
