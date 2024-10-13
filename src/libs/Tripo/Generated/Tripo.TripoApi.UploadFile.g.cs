@@ -116,7 +116,7 @@ namespace Tripo
             }
 
             return
-                global::System.Text.Json.JsonSerializer.Deserialize(__content, typeof(global::Tripo.UploadFileResponse), JsonSerializerContext) as global::Tripo.UploadFileResponse ??
+                global::Tripo.UploadFileResponse.FromJson(__content, JsonSerializerContext) ??
                 throw new global::System.InvalidOperationException($"Response deserialization failed for \"{__content}\" ");
         }
 
