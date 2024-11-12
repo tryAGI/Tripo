@@ -8,7 +8,7 @@ namespace Tripo
         /// get user balance
         /// </summary>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
-        /// <exception cref="global::System.InvalidOperationException"></exception>
+        /// <exception cref="global::Tripo.ApiException"></exception>
         global::System.Threading.Tasks.Task<global::Tripo.GetBalanceResponse> GetBalanceAsync(
             global::System.Threading.CancellationToken cancellationToken = default);
     }
