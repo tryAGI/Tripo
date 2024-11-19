@@ -50,6 +50,7 @@ namespace Tripo
             typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant9TextureFormatJsonConverter),
             typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant9TextureFormatNullableJsonConverter),
             typeof(global::Tripo.JsonConverters.OneOfJsonConverter<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9>),
+            typeof(global::Tripo.JsonConverters.UnixTimestampJsonConverter),
         })]
 
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.JsonSerializerContextTypes))]
