@@ -99,7 +99,9 @@ namespace Tripo
         /// <param name="textureSize"></param>
         /// <param name="textureFormat"></param>
         /// <param name="pivotToCenterBottom"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public CreateTaskRequestVariant9(
             global::Tripo.CreateTaskRequestVariant9Format format,
             string originalModelTaskId,

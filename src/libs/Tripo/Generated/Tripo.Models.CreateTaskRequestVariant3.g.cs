@@ -57,7 +57,9 @@ namespace Tripo
         /// <param name="mode"></param>
         /// <param name="modelVersion"></param>
         /// <param name="orthographicProjection"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public CreateTaskRequestVariant3(
             global::System.Collections.Generic.IList<global::Tripo.CreateTaskRequestVariant3File> files,
             global::Tripo.CreateTaskRequestVariant3Mode mode,

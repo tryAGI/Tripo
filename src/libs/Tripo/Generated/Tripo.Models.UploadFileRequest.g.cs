@@ -33,7 +33,9 @@ namespace Tripo
         /// </summary>
         /// <param name="file"></param>
         /// <param name="filename"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public UploadFileRequest(
             byte[] file,
             string filename)

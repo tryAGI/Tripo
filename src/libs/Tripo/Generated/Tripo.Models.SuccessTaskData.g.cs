@@ -27,7 +27,9 @@ namespace Tripo
         /// <param name="taskId">
         /// used for getTask
         /// </param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public SuccessTaskData(
             string taskId)
         {

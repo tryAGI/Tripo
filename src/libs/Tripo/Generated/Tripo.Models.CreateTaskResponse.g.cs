@@ -41,7 +41,9 @@ namespace Tripo
         /// <param name="code"></param>
         /// <param name="message"></param>
         /// <param name="suggestion"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public CreateTaskResponse(
             int code,
             string message,

@@ -45,7 +45,9 @@ namespace Tripo
         /// <param name="baseModel"></param>
         /// <param name="pbrModel"></param>
         /// <param name="renderedImage"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public TaskOutput(
             string? model,
             string? baseModel,

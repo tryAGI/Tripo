@@ -74,7 +74,9 @@ namespace Tripo
         /// <param name="output"></param>
         /// <param name="progress"></param>
         /// <param name="createTime"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public Task(
             string taskId,
             string type,

@@ -62,7 +62,9 @@ namespace Tripo
         /// <param name="faceLimit"></param>
         /// <param name="texture"></param>
         /// <param name="pbr"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public CreateTaskRequestVariant2(
             global::Tripo.CreateTaskRequestVariant2File file,
             global::Tripo.CreateTaskRequestVariant2Type type,
