@@ -49,7 +49,9 @@ namespace Tripo
         /// <param name="style"></param>
         /// <param name="originalModelTaskId"></param>
         /// <param name="blockSize"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public CreateTaskRequestVariant8(
             global::Tripo.CreateTaskRequestVariant8Style style,
             string originalModelTaskId,

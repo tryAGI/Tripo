@@ -33,7 +33,9 @@ namespace Tripo
         /// </summary>
         /// <param name="type"></param>
         /// <param name="originalModelTaskId"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public CreateTaskRequestVariant5(
             string originalModelTaskId,
             global::Tripo.CreateTaskRequestVariant5Type type)

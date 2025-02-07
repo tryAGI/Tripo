@@ -49,7 +49,9 @@ namespace Tripo
         /// <param name="originalModelTaskId"></param>
         /// <param name="outFormat"></param>
         /// <param name="animation"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public CreateTaskRequestVariant7(
             string originalModelTaskId,
             global::Tripo.CreateTaskRequestVariant7Animation animation,

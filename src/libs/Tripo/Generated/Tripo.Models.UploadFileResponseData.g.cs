@@ -25,7 +25,9 @@ namespace Tripo
         /// Initializes a new instance of the <see cref="UploadFileResponseData" /> class.
         /// </summary>
         /// <param name="imageToken"></param>
+#if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
+#endif
         public UploadFileResponseData(
             string imageToken)
         {
