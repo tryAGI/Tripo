@@ -28,6 +28,10 @@ namespace Tripo.JsonConverters
                     var numValue = reader.GetInt32();
                     return (global::Tripo.CreateTaskRequestVariant2ModelVersion)numValue;
                 }
+                case global::System.Text.Json.JsonTokenType.Null:
+                {
+                    return default(global::Tripo.CreateTaskRequestVariant2ModelVersion?);
+                }
                 default:
                     throw new global::System.ArgumentOutOfRangeException(nameof(reader));
             }
