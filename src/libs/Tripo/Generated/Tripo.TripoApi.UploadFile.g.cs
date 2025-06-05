@@ -39,7 +39,7 @@ namespace Tripo
                 httpClient: HttpClient,
                 request: request);
 
-            var __pathBuilder = new PathBuilder(
+            var __pathBuilder = new global::Tripo.PathBuilder(
                 path: "/upload",
                 baseUri: HttpClient.BaseAddress); 
             var __path = __pathBuilder.ToString();
