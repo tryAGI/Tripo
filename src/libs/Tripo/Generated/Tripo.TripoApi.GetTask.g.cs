@@ -37,7 +37,7 @@ namespace Tripo
                 httpClient: HttpClient,
                 taskId: ref taskId);
 
-            var __pathBuilder = new PathBuilder(
+            var __pathBuilder = new global::Tripo.PathBuilder(
                 path: $"/task/{taskId}",
                 baseUri: HttpClient.BaseAddress); 
             var __path = __pathBuilder.ToString();
