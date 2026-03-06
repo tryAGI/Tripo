@@ -11,11 +11,11 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        LEFT,
+        Left,
         /// <summary>
         /// 
         /// </summary>
-        RIGHT,
+        Right,
     }
 
     /// <summary>
@@ -30,8 +30,8 @@ namespace Tripo
         {
             return value switch
             {
-                CreateTaskRequestVariant3Mode.LEFT => "LEFT",
-                CreateTaskRequestVariant3Mode.RIGHT => "RIGHT",
+                CreateTaskRequestVariant3Mode.Left => "LEFT",
+                CreateTaskRequestVariant3Mode.Right => "RIGHT",
                 _ => throw new global::System.ArgumentOutOfRangeException(nameof(value), value, null),
             };
         }
@@ -42,8 +42,8 @@ namespace Tripo
         {
             return value switch
             {
-                "LEFT" => CreateTaskRequestVariant3Mode.LEFT,
-                "RIGHT" => CreateTaskRequestVariant3Mode.RIGHT,
+                "LEFT" => CreateTaskRequestVariant3Mode.Left,
+                "RIGHT" => CreateTaskRequestVariant3Mode.Right,
                 _ => null,
             };
         }

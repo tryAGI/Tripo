@@ -11,23 +11,23 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        GLTF,
+        Gltf,
         /// <summary>
         /// 
         /// </summary>
-        USDZ,
+        Usdz,
         /// <summary>
         /// 
         /// </summary>
-        FBX,
+        Fbx,
         /// <summary>
         /// 
         /// </summary>
-        OBJ,
+        Obj,
         /// <summary>
         /// 
         /// </summary>
-        STL,
+        Stl,
     }
 
     /// <summary>
@@ -42,11 +42,11 @@ namespace Tripo
         {
             return value switch
             {
-                CreateTaskRequestVariant9Format.GLTF => "GLTF",
-                CreateTaskRequestVariant9Format.USDZ => "USDZ",
-                CreateTaskRequestVariant9Format.FBX => "FBX",
-                CreateTaskRequestVariant9Format.OBJ => "OBJ",
-                CreateTaskRequestVariant9Format.STL => "STL",
+                CreateTaskRequestVariant9Format.Gltf => "GLTF",
+                CreateTaskRequestVariant9Format.Usdz => "USDZ",
+                CreateTaskRequestVariant9Format.Fbx => "FBX",
+                CreateTaskRequestVariant9Format.Obj => "OBJ",
+                CreateTaskRequestVariant9Format.Stl => "STL",
                 _ => throw new global::System.ArgumentOutOfRangeException(nameof(value), value, null),
             };
         }
@@ -57,11 +57,11 @@ namespace Tripo
         {
             return value switch
             {
-                "GLTF" => CreateTaskRequestVariant9Format.GLTF,
-                "USDZ" => CreateTaskRequestVariant9Format.USDZ,
-                "FBX" => CreateTaskRequestVariant9Format.FBX,
-                "OBJ" => CreateTaskRequestVariant9Format.OBJ,
-                "STL" => CreateTaskRequestVariant9Format.STL,
+                "GLTF" => CreateTaskRequestVariant9Format.Gltf,
+                "USDZ" => CreateTaskRequestVariant9Format.Usdz,
+                "FBX" => CreateTaskRequestVariant9Format.Fbx,
+                "OBJ" => CreateTaskRequestVariant9Format.Obj,
+                "STL" => CreateTaskRequestVariant9Format.Stl,
                 _ => null,
             };
         }

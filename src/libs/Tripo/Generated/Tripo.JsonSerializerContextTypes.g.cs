@@ -14,10 +14,12 @@ namespace Tripo
         /// 
         /// </summary>
         public global::System.Collections.Generic.Dictionary<string, string>? StringStringDictionary { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
         public global::System.Collections.Generic.Dictionary<string, object>? StringObjectDictionary { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -231,5 +233,10 @@ namespace Tripo
         /// 
         /// </summary>
         public global::Tripo.GetBalanceResponse2? Type51 { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::System.Collections.Generic.List<global::Tripo.CreateTaskRequestVariant3File>? ListType0 { get; set; }
     }
 }
