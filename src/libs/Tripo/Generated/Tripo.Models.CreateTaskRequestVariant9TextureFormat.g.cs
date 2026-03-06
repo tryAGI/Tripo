@@ -11,39 +11,39 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        BMP,
+        Bmp,
         /// <summary>
         /// 
         /// </summary>
-        DPX,
+        Dpx,
         /// <summary>
         /// 
         /// </summary>
-        HDR,
+        Hdr,
         /// <summary>
         /// 
         /// </summary>
-        JPEG,
+        Jpeg,
         /// <summary>
         /// 
         /// </summary>
-        OPENEXR,
+        OpenExr,
         /// <summary>
         /// 
         /// </summary>
-        PNG,
+        Png,
         /// <summary>
         /// 
         /// </summary>
-        TARGA,
+        Targa,
         /// <summary>
         /// 
         /// </summary>
-        TIFF,
+        Tiff,
         /// <summary>
         /// 
         /// </summary>
-        WEBP,
+        Webp,
     }
 
     /// <summary>
@@ -58,15 +58,15 @@ namespace Tripo
         {
             return value switch
             {
-                CreateTaskRequestVariant9TextureFormat.BMP => "BMP",
-                CreateTaskRequestVariant9TextureFormat.DPX => "DPX",
-                CreateTaskRequestVariant9TextureFormat.HDR => "HDR",
-                CreateTaskRequestVariant9TextureFormat.JPEG => "JPEG",
-                CreateTaskRequestVariant9TextureFormat.OPENEXR => "OPEN_EXR",
-                CreateTaskRequestVariant9TextureFormat.PNG => "PNG",
-                CreateTaskRequestVariant9TextureFormat.TARGA => "TARGA",
-                CreateTaskRequestVariant9TextureFormat.TIFF => "TIFF",
-                CreateTaskRequestVariant9TextureFormat.WEBP => "WEBP",
+                CreateTaskRequestVariant9TextureFormat.Bmp => "BMP",
+                CreateTaskRequestVariant9TextureFormat.Dpx => "DPX",
+                CreateTaskRequestVariant9TextureFormat.Hdr => "HDR",
+                CreateTaskRequestVariant9TextureFormat.Jpeg => "JPEG",
+                CreateTaskRequestVariant9TextureFormat.OpenExr => "OPEN_EXR",
+                CreateTaskRequestVariant9TextureFormat.Png => "PNG",
+                CreateTaskRequestVariant9TextureFormat.Targa => "TARGA",
+                CreateTaskRequestVariant9TextureFormat.Tiff => "TIFF",
+                CreateTaskRequestVariant9TextureFormat.Webp => "WEBP",
                 _ => throw new global::System.ArgumentOutOfRangeException(nameof(value), value, null),
             };
         }
@@ -77,15 +77,15 @@ namespace Tripo
         {
             return value switch
             {
-                "BMP" => CreateTaskRequestVariant9TextureFormat.BMP,
-                "DPX" => CreateTaskRequestVariant9TextureFormat.DPX,
-                "HDR" => CreateTaskRequestVariant9TextureFormat.HDR,
-                "JPEG" => CreateTaskRequestVariant9TextureFormat.JPEG,
-                "OPEN_EXR" => CreateTaskRequestVariant9TextureFormat.OPENEXR,
-                "PNG" => CreateTaskRequestVariant9TextureFormat.PNG,
-                "TARGA" => CreateTaskRequestVariant9TextureFormat.TARGA,
-                "TIFF" => CreateTaskRequestVariant9TextureFormat.TIFF,
-                "WEBP" => CreateTaskRequestVariant9TextureFormat.WEBP,
+                "BMP" => CreateTaskRequestVariant9TextureFormat.Bmp,
+                "DPX" => CreateTaskRequestVariant9TextureFormat.Dpx,
+                "HDR" => CreateTaskRequestVariant9TextureFormat.Hdr,
+                "JPEG" => CreateTaskRequestVariant9TextureFormat.Jpeg,
+                "OPEN_EXR" => CreateTaskRequestVariant9TextureFormat.OpenExr,
+                "PNG" => CreateTaskRequestVariant9TextureFormat.Png,
+                "TARGA" => CreateTaskRequestVariant9TextureFormat.Targa,
+                "TIFF" => CreateTaskRequestVariant9TextureFormat.Tiff,
+                "WEBP" => CreateTaskRequestVariant9TextureFormat.Webp,
                 _ => null,
             };
         }
