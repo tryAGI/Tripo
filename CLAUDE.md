@@ -10,10 +10,10 @@ C# SDK for the [Tripo](https://www.tripo3d.ai/) AI 3D model generation platform,
 
 ```bash
 # Build the solution
-dotnet build Tripo.sln
+dotnet build Tripo.slnx
 
 # Build for release (also produces NuGet package)
-dotnet build Tripo.sln -c Release
+dotnet build Tripo.slnx -c Release
 
 # Run integration tests (requires TRIPO_API_KEY env var)
 dotnet test src/tests/IntegrationTests/Tripo.IntegrationTests.csproj
