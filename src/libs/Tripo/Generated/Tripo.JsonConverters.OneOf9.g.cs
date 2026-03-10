@@ -123,15 +123,23 @@ namespace Tripo.JsonConverters
             {
             }
 
-            var result = new global::Tripo.OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9>(
+            var __value = new global::Tripo.OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9>(
                 value1,
+
                 value2,
+
                 value3,
+
                 value4,
+
                 value5,
+
                 value6,
+
                 value7,
+
                 value8,
+
                 value9
                 );
 
@@ -190,7 +198,7 @@ namespace Tripo.JsonConverters
                 _ = global::System.Text.Json.JsonSerializer.Deserialize(ref reader, typeInfo);
             }
 
-            return result;
+            return __value;
         }
 
         /// <inheritdoc />
