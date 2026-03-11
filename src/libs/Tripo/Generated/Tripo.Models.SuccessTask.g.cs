@@ -13,14 +13,14 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("code")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public int Code { get; set; } = default!;
+        public required int Code { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("data")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public global::Tripo.SuccessTaskData Data { get; set; } = default!;
+        public required global::Tripo.SuccessTaskData Data { get; set; }
 
         /// <summary>
         /// Additional properties that are not explicitly defined in the schema

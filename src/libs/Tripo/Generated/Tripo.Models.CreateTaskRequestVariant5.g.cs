@@ -20,7 +20,7 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("original_model_task_id")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public string OriginalModelTaskId { get; set; } = default!;
+        public required string OriginalModelTaskId { get; set; }
 
         /// <summary>
         /// Additional properties that are not explicitly defined in the schema

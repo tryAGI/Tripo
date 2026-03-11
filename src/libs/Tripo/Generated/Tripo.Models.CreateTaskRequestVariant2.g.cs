@@ -20,7 +20,7 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("file")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public global::Tripo.CreateTaskRequestVariant2File File { get; set; } = default!;
+        public required global::Tripo.CreateTaskRequestVariant2File File { get; set; }
 
         /// <summary>
         /// 

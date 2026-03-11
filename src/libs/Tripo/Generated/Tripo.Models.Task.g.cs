@@ -13,14 +13,14 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("task_id")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public string TaskId { get; set; } = default!;
+        public required string TaskId { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("type")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public string Type { get; set; } = default!;
+        public required string Type { get; set; }
 
         /// <summary>
         /// 
@@ -28,35 +28,35 @@ namespace Tripo
         [global::System.Text.Json.Serialization.JsonPropertyName("status")]
         [global::System.Text.Json.Serialization.JsonConverter(typeof(global::Tripo.JsonConverters.TaskStatusJsonConverter))]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public global::Tripo.TaskStatus Status { get; set; } = default!;
+        public required global::Tripo.TaskStatus Status { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("input")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public object Input { get; set; } = default!;
+        public required object Input { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("output")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public global::Tripo.TaskOutput Output { get; set; } = default!;
+        public required global::Tripo.TaskOutput Output { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("progress")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public int Progress { get; set; } = default!;
+        public required int Progress { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("create_time")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public int CreateTime { get; set; } = default!;
+        public required int CreateTime { get; set; }
 
         /// <summary>
         /// Additional properties that are not explicitly defined in the schema
