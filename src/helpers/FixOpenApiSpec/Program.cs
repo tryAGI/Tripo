@@ -1,7 +1,5 @@
 using Microsoft.OpenApi;
-using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Extensions;
-using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 
 var path = args[0];
@@ -12,30 +10,6 @@ text = text
     ;
 
 var openApiDocument = new OpenApiStringReader().Read(text, out var diagnostics);
-
-// Add bearer
-openApiDocument.Components.SecuritySchemes.Clear();
-openApiDocument.SecurityRequirements.Clear();
-openApiDocument.Components.SecuritySchemes.Add("bearer", new OpenApiSecurityScheme
-{
-    Type = SecuritySchemeType.Http,
-    Scheme = "bearer",
-});
-openApiDocument.SecurityRequirements.Add(new OpenApiSecurityRequirement
-{
-    {
-        new OpenApiSecurityScheme
-        {
-            Reference = new OpenApiReference
-            {
-                Id = "bearer",
-                Type = ReferenceType.SecurityScheme,
-            },
-        },
-        new List<string>()
-    }
-});
-//openApiDocument.Components.Schemas["GenerateCompletionRequest"]!.Properties["stream"]!.Default = new OpenApiBoolean(true);
 
 text = openApiDocument.SerializeAsYaml(OpenApiSpecVersion.OpenApi3_0);
 _ = new OpenApiStringReader().Read(text, out diagnostics);

@@ -12,4 +12,5 @@ autosdk generate openapi.yaml \
   --clientClassName TripoApi \
   --targetFramework net8.0 \
   --output Generated \
-  --exclude-deprecated-operations
+  --exclude-deprecated-operations \
+  --security-scheme Http:Header:Bearer
