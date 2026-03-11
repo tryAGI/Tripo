@@ -21,14 +21,14 @@ namespace Tripo
         [global::System.Text.Json.Serialization.JsonPropertyName("format")]
         [global::System.Text.Json.Serialization.JsonConverter(typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant9FormatJsonConverter))]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public global::Tripo.CreateTaskRequestVariant9Format Format { get; set; } = default!;
+        public required global::Tripo.CreateTaskRequestVariant9Format Format { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("original_model_task_id")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public string OriginalModelTaskId { get; set; } = default!;
+        public required string OriginalModelTaskId { get; set; }
 
         /// <summary>
         /// 
