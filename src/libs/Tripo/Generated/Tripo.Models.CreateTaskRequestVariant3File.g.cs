@@ -13,14 +13,14 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("type")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public required string Type { get; set; }
+        public string Type { get; set; } = default!;
 
         /// <summary>
         /// 
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("file_token")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public required string FileToken { get; set; }
+        public string FileToken { get; set; } = default!;
 
         /// <summary>
         /// Additional properties that are not explicitly defined in the schema

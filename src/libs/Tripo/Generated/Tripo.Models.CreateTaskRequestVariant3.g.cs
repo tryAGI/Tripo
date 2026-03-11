@@ -20,7 +20,7 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("files")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public required global::System.Collections.Generic.IList<global::Tripo.CreateTaskRequestVariant3File> Files { get; set; }
+        public global::System.Collections.Generic.IList<global::Tripo.CreateTaskRequestVariant3File> Files { get; set; } = default!;
 
         /// <summary>
         /// 
@@ -28,7 +28,7 @@ namespace Tripo
         [global::System.Text.Json.Serialization.JsonPropertyName("mode")]
         [global::System.Text.Json.Serialization.JsonConverter(typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant3ModeJsonConverter))]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public required global::Tripo.CreateTaskRequestVariant3Mode Mode { get; set; }
+        public global::Tripo.CreateTaskRequestVariant3Mode Mode { get; set; } = default!;
 
         /// <summary>
         /// 

@@ -20,7 +20,7 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("original_model_task_id")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public required string OriginalModelTaskId { get; set; }
+        public string OriginalModelTaskId { get; set; } = default!;
 
         /// <summary>
         /// 
@@ -34,7 +34,7 @@ namespace Tripo
         [global::System.Text.Json.Serialization.JsonPropertyName("animation")]
         [global::System.Text.Json.Serialization.JsonConverter(typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant7AnimationJsonConverter))]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public required global::Tripo.CreateTaskRequestVariant7Animation Animation { get; set; }
+        public global::Tripo.CreateTaskRequestVariant7Animation Animation { get; set; } = default!;
 
         /// <summary>
         /// Additional properties that are not explicitly defined in the schema

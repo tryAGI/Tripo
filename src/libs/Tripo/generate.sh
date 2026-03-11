@@ -10,7 +10,7 @@ fi
 autosdk generate openapi.yaml \
   --namespace Tripo \
   --clientClassName TripoApi \
-  --targetFramework net8.0 \
+  --targetFramework net10.0 \
   --output Generated \
   --exclude-deprecated-operations \
   --security-scheme Http:Header:Bearer

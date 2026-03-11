@@ -13,14 +13,14 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("balance")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public required double Balance { get; set; }
+        public double Balance { get; set; } = default!;
 
         /// <summary>
         /// 
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("frozen")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public required double Frozen { get; set; }
+        public double Frozen { get; set; } = default!;
 
         /// <summary>
         /// Additional properties that are not explicitly defined in the schema
