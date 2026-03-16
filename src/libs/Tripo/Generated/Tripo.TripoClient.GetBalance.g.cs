@@ -3,49 +3,41 @@
 
 namespace Tripo
 {
-    public partial class TripoApi
+    public partial class TripoClient
     {
-        partial void PrepareUploadFileArguments(
+        partial void PrepareGetBalanceArguments(
+            global::System.Net.Http.HttpClient httpClient);
+        partial void PrepareGetBalanceRequest(
             global::System.Net.Http.HttpClient httpClient,
-            global::Tripo.UploadFileRequest request);
-        partial void PrepareUploadFileRequest(
-            global::System.Net.Http.HttpClient httpClient,
-            global::System.Net.Http.HttpRequestMessage httpRequestMessage,
-            global::Tripo.UploadFileRequest request);
-        partial void ProcessUploadFileResponse(
+            global::System.Net.Http.HttpRequestMessage httpRequestMessage);
+        partial void ProcessGetBalanceResponse(
             global::System.Net.Http.HttpClient httpClient,
             global::System.Net.Http.HttpResponseMessage httpResponseMessage);
 
-        partial void ProcessUploadFileResponseContent(
+        partial void ProcessGetBalanceResponseContent(
             global::System.Net.Http.HttpClient httpClient,
             global::System.Net.Http.HttpResponseMessage httpResponseMessage,
             ref string content);
 
         /// <summary>
-        /// upload a file
+        /// get user balance
         /// </summary>
-        /// <param name="request"></param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::Tripo.ApiException"></exception>
-        public async global::System.Threading.Tasks.Task<global::Tripo.UploadFileResponse> UploadFileAsync(
-
-            global::Tripo.UploadFileRequest request,
+        public async global::System.Threading.Tasks.Task<global::Tripo.GetBalanceResponse> GetBalanceAsync(
             global::System.Threading.CancellationToken cancellationToken = default)
         {
-            request = request ?? throw new global::System.ArgumentNullException(nameof(request));
-
             PrepareArguments(
                 client: HttpClient);
-            PrepareUploadFileArguments(
-                httpClient: HttpClient,
-                request: request);
+            PrepareGetBalanceArguments(
+                httpClient: HttpClient);
 
             var __pathBuilder = new global::Tripo.PathBuilder(
-                path: "/upload",
+                path: "/user/balance",
                 baseUri: HttpClient.BaseAddress); 
             var __path = __pathBuilder.ToString();
             using var __httpRequest = new global::System.Net.Http.HttpRequestMessage(
-                method: global::System.Net.Http.HttpMethod.Post,
+                method: global::System.Net.Http.HttpMethod.Get,
                 requestUri: new global::System.Uri(__path, global::System.UriKind.RelativeOrAbsolute));
 #if NET6_0_OR_GREATER
             __httpRequest.Version = global::System.Net.HttpVersion.Version11;
@@ -67,25 +59,13 @@ namespace Tripo
                     __httpRequest.Headers.Add(__authorization.Name, __authorization.Value);
                 }
             }
-            using var __httpRequestContent = new global::System.Net.Http.MultipartFormDataContent();
-            var __contentFile = new global::System.Net.Http.ByteArrayContent(request.File ?? global::System.Array.Empty<byte>());
-            __httpRequestContent.Add(
-                content: __contentFile,
-                name: "\"file\"",
-                fileName: request.Filename != null ? $"\"{request.Filename}\"" : string.Empty);
-            if (__contentFile.Headers.ContentDisposition != null)
-            {
-                __contentFile.Headers.ContentDisposition.FileNameStar = null;
-            }
-            __httpRequest.Content = __httpRequestContent;
 
             PrepareRequest(
                 client: HttpClient,
                 request: __httpRequest);
-            PrepareUploadFileRequest(
+            PrepareGetBalanceRequest(
                 httpClient: HttpClient,
-                httpRequestMessage: __httpRequest,
-                request: request);
+                httpRequestMessage: __httpRequest);
 
             using var __response = await HttpClient.SendAsync(
                 request: __httpRequest,
@@ -95,40 +75,40 @@ namespace Tripo
             ProcessResponse(
                 client: HttpClient,
                 response: __response);
-            ProcessUploadFileResponse(
+            ProcessGetBalanceResponse(
                 httpClient: HttpClient,
                 httpResponseMessage: __response);
             // failed
-            if ((int)__response.StatusCode == 400)
+            if ((int)__response.StatusCode == 500)
             {
-                string? __content_400 = null;
-                global::System.Exception? __exception_400 = null;
-                global::Tripo.UploadFileResponse2? __value_400 = null;
+                string? __content_500 = null;
+                global::System.Exception? __exception_500 = null;
+                global::Tripo.GetBalanceResponse2? __value_500 = null;
                 try
                 {
                     if (ReadResponseAsString)
                     {
-                        __content_400 = await __response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                        __value_400 = global::Tripo.UploadFileResponse2.FromJson(__content_400, JsonSerializerContext);
+                        __content_500 = await __response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        __value_500 = global::Tripo.GetBalanceResponse2.FromJson(__content_500, JsonSerializerContext);
                     }
                     else
                     {
-                        var __contentStream_400 = await __response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-                        __value_400 = await global::Tripo.UploadFileResponse2.FromJsonStreamAsync(__contentStream_400, JsonSerializerContext).ConfigureAwait(false);
+                        var __contentStream_500 = await __response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+                        __value_500 = await global::Tripo.GetBalanceResponse2.FromJsonStreamAsync(__contentStream_500, JsonSerializerContext).ConfigureAwait(false);
                     }
                 }
                 catch (global::System.Exception __ex)
                 {
-                    __exception_400 = __ex;
+                    __exception_500 = __ex;
                 }
 
-                throw new global::Tripo.ApiException<global::Tripo.UploadFileResponse2>(
-                    message: __content_400 ?? __response.ReasonPhrase ?? string.Empty,
-                    innerException: __exception_400,
+                throw new global::Tripo.ApiException<global::Tripo.GetBalanceResponse2>(
+                    message: __content_500 ?? __response.ReasonPhrase ?? string.Empty,
+                    innerException: __exception_500,
                     statusCode: __response.StatusCode)
                 {
-                    ResponseBody = __content_400,
-                    ResponseObject = __value_400,
+                    ResponseBody = __content_500,
+                    ResponseObject = __value_500,
                     ResponseHeaders = global::System.Linq.Enumerable.ToDictionary(
                         __response.Headers,
                         h => h.Key,
@@ -148,7 +128,7 @@ namespace Tripo
                     client: HttpClient,
                     response: __response,
                     content: ref __content);
-                ProcessUploadFileResponseContent(
+                ProcessGetBalanceResponseContent(
                     httpClient: HttpClient,
                     httpResponseMessage: __response,
                     content: ref __content);
@@ -158,7 +138,7 @@ namespace Tripo
                     __response.EnsureSuccessStatusCode();
 
                     return
-                        global::Tripo.UploadFileResponse.FromJson(__content, JsonSerializerContext) ??
+                        global::Tripo.GetBalanceResponse.FromJson(__content, JsonSerializerContext) ??
                         throw new global::System.InvalidOperationException($"Response deserialization failed for \"{__content}\" ");
                 }
                 catch (global::System.Exception __ex)
@@ -189,7 +169,7 @@ namespace Tripo
                     ).ConfigureAwait(false);
 
                     return
-                        await global::Tripo.UploadFileResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
+                        await global::Tripo.GetBalanceResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
                         throw new global::System.InvalidOperationException("Response deserialization failed.");
                 }
                 catch (global::System.Exception __ex)
@@ -206,29 +186,6 @@ namespace Tripo
                     };
                 }
             }
-        }
-
-        /// <summary>
-        /// upload a file
-        /// </summary>
-        /// <param name="file"></param>
-        /// <param name="filename"></param>
-        /// <param name="cancellationToken">The token to cancel the operation with</param>
-        /// <exception cref="global::System.InvalidOperationException"></exception>
-        public async global::System.Threading.Tasks.Task<global::Tripo.UploadFileResponse> UploadFileAsync(
-            byte[] file,
-            string filename,
-            global::System.Threading.CancellationToken cancellationToken = default)
-        {
-            var __request = new global::Tripo.UploadFileRequest
-            {
-                File = file,
-                Filename = filename,
-            };
-
-            return await UploadFileAsync(
-                request: __request,
-                cancellationToken: cancellationToken).ConfigureAwait(false);
         }
     }
 }

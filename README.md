@@ -16,7 +16,7 @@
 ```csharp
 using Tripo;
 
-using var api = new TripoApi(apiKey);
+using var api = new TripoClient(apiKey);
 
 SuccessTask response = await api.CreateTaskAsync(new CreateTaskRequestVariant1
 {

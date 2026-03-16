@@ -7,7 +7,7 @@ public partial class Tests
     [TestMethod]
     public async Task TextToModel()
     {
-        using var api = GetAuthenticatedApi();
+        using var api = GetAuthenticatedClient();
 
         SuccessTask response = await api.CreateTaskAsync(new CreateTaskRequestVariant1
         {

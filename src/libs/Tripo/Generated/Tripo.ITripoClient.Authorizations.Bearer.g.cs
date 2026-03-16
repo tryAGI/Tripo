@@ -3,7 +3,7 @@
 
 namespace Tripo
 {
-    public partial interface ITripoApi
+    public partial interface ITripoClient
     {
         /// <summary>
         /// Authorize using bearer authentication.

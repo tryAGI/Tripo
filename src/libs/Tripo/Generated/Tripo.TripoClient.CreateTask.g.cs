@@ -3,46 +3,47 @@
 
 namespace Tripo
 {
-    public partial class TripoApi
+    public partial class TripoClient
     {
-        partial void PrepareGetTaskArguments(
+        partial void PrepareCreateTaskArguments(
             global::System.Net.Http.HttpClient httpClient,
-            ref string taskId);
-        partial void PrepareGetTaskRequest(
+            global::Tripo.OneOf<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9> request);
+        partial void PrepareCreateTaskRequest(
             global::System.Net.Http.HttpClient httpClient,
             global::System.Net.Http.HttpRequestMessage httpRequestMessage,
-            string taskId);
-        partial void ProcessGetTaskResponse(
+            global::Tripo.OneOf<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9> request);
+        partial void ProcessCreateTaskResponse(
             global::System.Net.Http.HttpClient httpClient,
             global::System.Net.Http.HttpResponseMessage httpResponseMessage);
 
-        partial void ProcessGetTaskResponseContent(
+        partial void ProcessCreateTaskResponseContent(
             global::System.Net.Http.HttpClient httpClient,
             global::System.Net.Http.HttpResponseMessage httpResponseMessage,
             ref string content);
 
         /// <summary>
-        /// use the task_id created by createTask to get the status of a task
+        /// create a task
         /// </summary>
-        /// <param name="taskId"></param>
+        /// <param name="request"></param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::Tripo.ApiException"></exception>
-        public async global::System.Threading.Tasks.Task<global::Tripo.GetTaskResponse> GetTaskAsync(
-            string taskId,
+        public async global::System.Threading.Tasks.Task<global::Tripo.SuccessTask> CreateTaskAsync(
+
+            global::Tripo.OneOf<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9> request,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
             PrepareArguments(
                 client: HttpClient);
-            PrepareGetTaskArguments(
+            PrepareCreateTaskArguments(
                 httpClient: HttpClient,
-                taskId: ref taskId);
+                request: request);
 
             var __pathBuilder = new global::Tripo.PathBuilder(
-                path: $"/task/{taskId}",
+                path: "/task",
                 baseUri: HttpClient.BaseAddress); 
             var __path = __pathBuilder.ToString();
             using var __httpRequest = new global::System.Net.Http.HttpRequestMessage(
-                method: global::System.Net.Http.HttpMethod.Get,
+                method: global::System.Net.Http.HttpMethod.Post,
                 requestUri: new global::System.Uri(__path, global::System.UriKind.RelativeOrAbsolute));
 #if NET6_0_OR_GREATER
             __httpRequest.Version = global::System.Net.HttpVersion.Version11;
@@ -64,14 +65,20 @@ namespace Tripo
                     __httpRequest.Headers.Add(__authorization.Name, __authorization.Value);
                 }
             }
+            var __httpRequestContentBody = request.ToJson(JsonSerializerContext);
+            var __httpRequestContent = new global::System.Net.Http.StringContent(
+                content: __httpRequestContentBody,
+                encoding: global::System.Text.Encoding.UTF8,
+                mediaType: "application/json");
+            __httpRequest.Content = __httpRequestContent;
 
             PrepareRequest(
                 client: HttpClient,
                 request: __httpRequest);
-            PrepareGetTaskRequest(
+            PrepareCreateTaskRequest(
                 httpClient: HttpClient,
                 httpRequestMessage: __httpRequest,
-                taskId: taskId);
+                request: request);
 
             using var __response = await HttpClient.SendAsync(
                 request: __httpRequest,
@@ -81,7 +88,7 @@ namespace Tripo
             ProcessResponse(
                 client: HttpClient,
                 response: __response);
-            ProcessGetTaskResponse(
+            ProcessCreateTaskResponse(
                 httpClient: HttpClient,
                 httpResponseMessage: __response);
             // failed
@@ -89,18 +96,18 @@ namespace Tripo
             {
                 string? __content_400 = null;
                 global::System.Exception? __exception_400 = null;
-                global::Tripo.GetTaskResponse2? __value_400 = null;
+                global::Tripo.CreateTaskResponse? __value_400 = null;
                 try
                 {
                     if (ReadResponseAsString)
                     {
                         __content_400 = await __response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                        __value_400 = global::Tripo.GetTaskResponse2.FromJson(__content_400, JsonSerializerContext);
+                        __value_400 = global::Tripo.CreateTaskResponse.FromJson(__content_400, JsonSerializerContext);
                     }
                     else
                     {
                         var __contentStream_400 = await __response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-                        __value_400 = await global::Tripo.GetTaskResponse2.FromJsonStreamAsync(__contentStream_400, JsonSerializerContext).ConfigureAwait(false);
+                        __value_400 = await global::Tripo.CreateTaskResponse.FromJsonStreamAsync(__contentStream_400, JsonSerializerContext).ConfigureAwait(false);
                     }
                 }
                 catch (global::System.Exception __ex)
@@ -108,7 +115,7 @@ namespace Tripo
                     __exception_400 = __ex;
                 }
 
-                throw new global::Tripo.ApiException<global::Tripo.GetTaskResponse2>(
+                throw new global::Tripo.ApiException<global::Tripo.CreateTaskResponse>(
                     message: __content_400 ?? __response.ReasonPhrase ?? string.Empty,
                     innerException: __exception_400,
                     statusCode: __response.StatusCode)
@@ -134,7 +141,7 @@ namespace Tripo
                     client: HttpClient,
                     response: __response,
                     content: ref __content);
-                ProcessGetTaskResponseContent(
+                ProcessCreateTaskResponseContent(
                     httpClient: HttpClient,
                     httpResponseMessage: __response,
                     content: ref __content);
@@ -144,7 +151,7 @@ namespace Tripo
                     __response.EnsureSuccessStatusCode();
 
                     return
-                        global::Tripo.GetTaskResponse.FromJson(__content, JsonSerializerContext) ??
+                        global::Tripo.SuccessTask.FromJson(__content, JsonSerializerContext) ??
                         throw new global::System.InvalidOperationException($"Response deserialization failed for \"{__content}\" ");
                 }
                 catch (global::System.Exception __ex)
@@ -175,7 +182,7 @@ namespace Tripo
                     ).ConfigureAwait(false);
 
                     return
-                        await global::Tripo.GetTaskResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
+                        await global::Tripo.SuccessTask.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
                         throw new global::System.InvalidOperationException("Response deserialization failed.");
                 }
                 catch (global::System.Exception __ex)
@@ -192,6 +199,23 @@ namespace Tripo
                     };
                 }
             }
+        }
+
+        /// <summary>
+        /// create a task
+        /// </summary>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::System.InvalidOperationException"></exception>
+        public async global::System.Threading.Tasks.Task<global::Tripo.SuccessTask> CreateTaskAsync(
+            global::System.Threading.CancellationToken cancellationToken = default)
+        {
+            var __request = new global::Tripo.OneOf<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9>
+            {
+            };
+
+            return await CreateTaskAsync(
+                request: __request,
+                cancellationToken: cancellationToken).ConfigureAwait(false);
         }
     }
 }

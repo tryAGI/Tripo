@@ -37,7 +37,7 @@ The SDK code is **entirely auto-generated** -- do not manually edit files in `sr
 
 | Project | Purpose |
 |---------|---------|
-| `src/libs/Tripo/` | Main SDK library (`TripoApi`) |
+| `src/libs/Tripo/` | Main SDK library (`TripoClient`) |
 | `src/tests/IntegrationTests/` | Integration tests against real Tripo API |
 | `src/helpers/FixOpenApiSpec/` | OpenAPI spec fixer tool |
 | `src/helpers/GenerateDocs/` | Documentation generator from integration tests |

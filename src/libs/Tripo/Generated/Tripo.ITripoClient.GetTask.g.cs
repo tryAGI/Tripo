@@ -2,7 +2,7 @@
 
 namespace Tripo
 {
-    public partial interface ITripoApi
+    public partial interface ITripoClient
     {
         /// <summary>
         /// use the task_id created by createTask to get the status of a task

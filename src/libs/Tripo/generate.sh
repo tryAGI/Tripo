@@ -9,7 +9,7 @@ if [ $? -ne 0 ]; then
 fi
 autosdk generate openapi.yaml \
   --namespace Tripo \
-  --clientClassName TripoApi \
+  --clientClassName TripoClient \
   --targetFramework net10.0 \
   --output Generated \
   --exclude-deprecated-operations \

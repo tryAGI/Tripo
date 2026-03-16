@@ -7,7 +7,7 @@ public partial class Tests
     [TestMethod]
     public async Task GetBalance()
     {
-        using var api = GetAuthenticatedApi();
+        using var api = GetAuthenticatedClient();
 
         GetBalanceResponse response = await api.GetBalanceAsync();
         

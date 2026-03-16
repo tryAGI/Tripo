@@ -3,37 +3,42 @@
 
 namespace Tripo
 {
-    public partial class TripoApi
+    public partial class TripoClient
     {
-        partial void PrepareGetBalanceArguments(
-            global::System.Net.Http.HttpClient httpClient);
-        partial void PrepareGetBalanceRequest(
+        partial void PrepareGetTaskArguments(
             global::System.Net.Http.HttpClient httpClient,
-            global::System.Net.Http.HttpRequestMessage httpRequestMessage);
-        partial void ProcessGetBalanceResponse(
+            ref string taskId);
+        partial void PrepareGetTaskRequest(
+            global::System.Net.Http.HttpClient httpClient,
+            global::System.Net.Http.HttpRequestMessage httpRequestMessage,
+            string taskId);
+        partial void ProcessGetTaskResponse(
             global::System.Net.Http.HttpClient httpClient,
             global::System.Net.Http.HttpResponseMessage httpResponseMessage);
 
-        partial void ProcessGetBalanceResponseContent(
+        partial void ProcessGetTaskResponseContent(
             global::System.Net.Http.HttpClient httpClient,
             global::System.Net.Http.HttpResponseMessage httpResponseMessage,
             ref string content);
 
         /// <summary>
-        /// get user balance
+        /// use the task_id created by createTask to get the status of a task
         /// </summary>
+        /// <param name="taskId"></param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::Tripo.ApiException"></exception>
-        public async global::System.Threading.Tasks.Task<global::Tripo.GetBalanceResponse> GetBalanceAsync(
+        public async global::System.Threading.Tasks.Task<global::Tripo.GetTaskResponse> GetTaskAsync(
+            string taskId,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
             PrepareArguments(
                 client: HttpClient);
-            PrepareGetBalanceArguments(
-                httpClient: HttpClient);
+            PrepareGetTaskArguments(
+                httpClient: HttpClient,
+                taskId: ref taskId);
 
             var __pathBuilder = new global::Tripo.PathBuilder(
-                path: "/user/balance",
+                path: $"/task/{taskId}",
                 baseUri: HttpClient.BaseAddress); 
             var __path = __pathBuilder.ToString();
             using var __httpRequest = new global::System.Net.Http.HttpRequestMessage(
@@ -63,9 +68,10 @@ namespace Tripo
             PrepareRequest(
                 client: HttpClient,
                 request: __httpRequest);
-            PrepareGetBalanceRequest(
+            PrepareGetTaskRequest(
                 httpClient: HttpClient,
-                httpRequestMessage: __httpRequest);
+                httpRequestMessage: __httpRequest,
+                taskId: taskId);
 
             using var __response = await HttpClient.SendAsync(
                 request: __httpRequest,
@@ -75,40 +81,40 @@ namespace Tripo
             ProcessResponse(
                 client: HttpClient,
                 response: __response);
-            ProcessGetBalanceResponse(
+            ProcessGetTaskResponse(
                 httpClient: HttpClient,
                 httpResponseMessage: __response);
             // failed
-            if ((int)__response.StatusCode == 500)
+            if ((int)__response.StatusCode == 400)
             {
-                string? __content_500 = null;
-                global::System.Exception? __exception_500 = null;
-                global::Tripo.GetBalanceResponse2? __value_500 = null;
+                string? __content_400 = null;
+                global::System.Exception? __exception_400 = null;
+                global::Tripo.GetTaskResponse2? __value_400 = null;
                 try
                 {
                     if (ReadResponseAsString)
                     {
-                        __content_500 = await __response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                        __value_500 = global::Tripo.GetBalanceResponse2.FromJson(__content_500, JsonSerializerContext);
+                        __content_400 = await __response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        __value_400 = global::Tripo.GetTaskResponse2.FromJson(__content_400, JsonSerializerContext);
                     }
                     else
                     {
-                        var __contentStream_500 = await __response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-                        __value_500 = await global::Tripo.GetBalanceResponse2.FromJsonStreamAsync(__contentStream_500, JsonSerializerContext).ConfigureAwait(false);
+                        var __contentStream_400 = await __response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+                        __value_400 = await global::Tripo.GetTaskResponse2.FromJsonStreamAsync(__contentStream_400, JsonSerializerContext).ConfigureAwait(false);
                     }
                 }
                 catch (global::System.Exception __ex)
                 {
-                    __exception_500 = __ex;
+                    __exception_400 = __ex;
                 }
 
-                throw new global::Tripo.ApiException<global::Tripo.GetBalanceResponse2>(
-                    message: __content_500 ?? __response.ReasonPhrase ?? string.Empty,
-                    innerException: __exception_500,
+                throw new global::Tripo.ApiException<global::Tripo.GetTaskResponse2>(
+                    message: __content_400 ?? __response.ReasonPhrase ?? string.Empty,
+                    innerException: __exception_400,
                     statusCode: __response.StatusCode)
                 {
-                    ResponseBody = __content_500,
-                    ResponseObject = __value_500,
+                    ResponseBody = __content_400,
+                    ResponseObject = __value_400,
                     ResponseHeaders = global::System.Linq.Enumerable.ToDictionary(
                         __response.Headers,
                         h => h.Key,
@@ -128,7 +134,7 @@ namespace Tripo
                     client: HttpClient,
                     response: __response,
                     content: ref __content);
-                ProcessGetBalanceResponseContent(
+                ProcessGetTaskResponseContent(
                     httpClient: HttpClient,
                     httpResponseMessage: __response,
                     content: ref __content);
@@ -138,7 +144,7 @@ namespace Tripo
                     __response.EnsureSuccessStatusCode();
 
                     return
-                        global::Tripo.GetBalanceResponse.FromJson(__content, JsonSerializerContext) ??
+                        global::Tripo.GetTaskResponse.FromJson(__content, JsonSerializerContext) ??
                         throw new global::System.InvalidOperationException($"Response deserialization failed for \"{__content}\" ");
                 }
                 catch (global::System.Exception __ex)
@@ -169,7 +175,7 @@ namespace Tripo
                     ).ConfigureAwait(false);
 
                     return
-                        await global::Tripo.GetBalanceResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
+                        await global::Tripo.GetTaskResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
                         throw new global::System.InvalidOperationException("Response deserialization failed.");
                 }
                 catch (global::System.Exception __ex)

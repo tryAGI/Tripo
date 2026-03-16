@@ -3,7 +3,7 @@
 
 namespace Tripo
 {
-    public sealed partial class TripoApi
+    public sealed partial class TripoClient
     {
         /// <inheritdoc/>
         public void AuthorizeUsingBearer(
