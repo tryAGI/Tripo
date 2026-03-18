@@ -29,7 +29,6 @@ cd src/libs/Tripo && ./generate.sh
 The SDK code is **entirely auto-generated** -- do not manually edit files in `src/libs/Tripo/Generated/`.
 
 1. `src/libs/Tripo/openapi.yaml` -- the Tripo OpenAPI spec (see `https://platform.tripo3d.ai/docs/schema`)
-2. `src/helpers/FixOpenApiSpec/` -- converts OpenAPI 3.1 to 3.0 format for compatibility
 3. `src/libs/Tripo/generate.sh` -- orchestrates: fix spec, run AutoSDK CLI, output to `Generated/`
 4. CI auto-updates the spec and creates PRs if changes are detected
 
@@ -39,8 +38,6 @@ The SDK code is **entirely auto-generated** -- do not manually edit files in `sr
 |---------|---------|
 | `src/libs/Tripo/` | Main SDK library (`TripoClient`) |
 | `src/tests/IntegrationTests/` | Integration tests against real Tripo API |
-| `src/helpers/FixOpenApiSpec/` | OpenAPI spec fixer tool |
-| `src/helpers/GenerateDocs/` | Documentation generator from integration tests |
 
 ### Build Configuration
 
