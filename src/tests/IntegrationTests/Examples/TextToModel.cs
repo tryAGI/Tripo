@@ -1,3 +1,9 @@
+/*
+order: 20
+title: Text To Model
+slug: text-to-model
+*/
+
 namespace Tripo.IntegrationTests;
 
 using Task = System.Threading.Tasks.Task;

@@ -1,3 +1,9 @@
+/*
+order: 10
+title: Get Balance
+slug: get-balance
+*/
+
 namespace Tripo.IntegrationTests;
 
 using Task = System.Threading.Tasks.Task;
