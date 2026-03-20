@@ -21,11 +21,9 @@ namespace Tripo
             global::System.Net.Http.HttpResponseMessage httpResponseMessage,
             ref string content);
 
-
         /// <summary>
         /// upload a file
         /// </summary>
-
         /// <param name="request"></param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::Tripo.ApiException"></exception>
@@ -224,7 +222,6 @@ namespace Tripo
                 }
             }
         }
-
         /// <summary>
         /// upload a file
         /// </summary>

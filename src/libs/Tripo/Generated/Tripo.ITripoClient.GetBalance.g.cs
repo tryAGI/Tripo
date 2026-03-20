@@ -4,7 +4,6 @@ namespace Tripo
 {
     public partial interface ITripoClient
     {
-
         /// <summary>
         /// get user balance
         /// </summary>

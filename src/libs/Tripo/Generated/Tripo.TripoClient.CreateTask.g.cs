@@ -21,11 +21,9 @@ namespace Tripo
             global::System.Net.Http.HttpResponseMessage httpResponseMessage,
             ref string content);
 
-
         /// <summary>
         /// create a task
         /// </summary>
-
         /// <param name="request"></param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::Tripo.ApiException"></exception>
@@ -217,7 +215,6 @@ namespace Tripo
                 }
             }
         }
-
         /// <summary>
         /// create a task
         /// </summary>
