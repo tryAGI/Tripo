@@ -1,3 +1,9 @@
+# Get Balance
+
+
+
+This example assumes `using Tripo;` is in scope and `apiKey` contains your Tripo API key.
+
 ```csharp
 using var api = new TripoClient(apiKey);
 

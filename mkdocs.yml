@@ -3,8 +3,8 @@ nav:
 - Overview: index.md
 # EXAMPLES:START
 - Examples:
-  - GetBalance: samples/GetBalance.md
-  - TextToModel: samples/TextToModel.md
+  - Get Balance: examples/get-balance.md
+  - Text To Model: examples/text-to-model.md
 # EXAMPLES:END
         
 theme:
