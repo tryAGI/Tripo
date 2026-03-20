@@ -21,7 +21,6 @@ namespace Tripo
             global::System.Net.Http.HttpResponseMessage httpResponseMessage,
             ref string content);
 
-
         /// <summary>
         /// use the task_id created by createTask to get the status of a task
         /// </summary>
