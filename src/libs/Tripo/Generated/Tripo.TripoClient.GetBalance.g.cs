@@ -19,6 +19,7 @@ namespace Tripo
             global::System.Net.Http.HttpResponseMessage httpResponseMessage,
             ref string content);
 
+
         /// <summary>
         /// get user balance
         /// </summary>
