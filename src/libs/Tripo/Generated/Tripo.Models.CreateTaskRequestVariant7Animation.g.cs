@@ -11,7 +11,7 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        Preset_walk,
+        Preset_dive,
         /// <summary>
         /// 
         /// </summary>
@@ -19,7 +19,7 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        Preset_dive,
+        Preset_walk,
     }
 
     /// <summary>
@@ -34,9 +34,9 @@ namespace Tripo
         {
             return value switch
             {
-                CreateTaskRequestVariant7Animation.Preset_walk => "preset:walk",
-                CreateTaskRequestVariant7Animation.Preset_run => "preset:run",
                 CreateTaskRequestVariant7Animation.Preset_dive => "preset:dive",
+                CreateTaskRequestVariant7Animation.Preset_run => "preset:run",
+                CreateTaskRequestVariant7Animation.Preset_walk => "preset:walk",
                 _ => throw new global::System.ArgumentOutOfRangeException(nameof(value), value, null),
             };
         }
@@ -47,9 +47,9 @@ namespace Tripo
         {
             return value switch
             {
-                "preset:walk" => CreateTaskRequestVariant7Animation.Preset_walk,
-                "preset:run" => CreateTaskRequestVariant7Animation.Preset_run,
                 "preset:dive" => CreateTaskRequestVariant7Animation.Preset_dive,
+                "preset:run" => CreateTaskRequestVariant7Animation.Preset_run,
+                "preset:walk" => CreateTaskRequestVariant7Animation.Preset_walk,
                 _ => null,
             };
         }

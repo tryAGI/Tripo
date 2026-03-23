@@ -11,15 +11,11 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        Gltf,
-        /// <summary>
-        /// 
-        /// </summary>
-        Usdz,
-        /// <summary>
-        /// 
-        /// </summary>
         Fbx,
+        /// <summary>
+        /// 
+        /// </summary>
+        Gltf,
         /// <summary>
         /// 
         /// </summary>
@@ -28,6 +24,10 @@ namespace Tripo
         /// 
         /// </summary>
         Stl,
+        /// <summary>
+        /// 
+        /// </summary>
+        Usdz,
     }
 
     /// <summary>
@@ -42,11 +42,11 @@ namespace Tripo
         {
             return value switch
             {
-                CreateTaskRequestVariant9Format.Gltf => "GLTF",
-                CreateTaskRequestVariant9Format.Usdz => "USDZ",
                 CreateTaskRequestVariant9Format.Fbx => "FBX",
+                CreateTaskRequestVariant9Format.Gltf => "GLTF",
                 CreateTaskRequestVariant9Format.Obj => "OBJ",
                 CreateTaskRequestVariant9Format.Stl => "STL",
+                CreateTaskRequestVariant9Format.Usdz => "USDZ",
                 _ => throw new global::System.ArgumentOutOfRangeException(nameof(value), value, null),
             };
         }
@@ -57,11 +57,11 @@ namespace Tripo
         {
             return value switch
             {
-                "GLTF" => CreateTaskRequestVariant9Format.Gltf,
-                "USDZ" => CreateTaskRequestVariant9Format.Usdz,
                 "FBX" => CreateTaskRequestVariant9Format.Fbx,
+                "GLTF" => CreateTaskRequestVariant9Format.Gltf,
                 "OBJ" => CreateTaskRequestVariant9Format.Obj,
                 "STL" => CreateTaskRequestVariant9Format.Stl,
+                "USDZ" => CreateTaskRequestVariant9Format.Usdz,
                 _ => null,
             };
         }

@@ -15,7 +15,7 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        Voxel,
+        Minecraft,
         /// <summary>
         /// 
         /// </summary>
@@ -23,7 +23,7 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        Minecraft,
+        Voxel,
     }
 
     /// <summary>
@@ -39,9 +39,9 @@ namespace Tripo
             return value switch
             {
                 CreateTaskRequestVariant8Style.Lego => "lego",
-                CreateTaskRequestVariant8Style.Voxel => "voxel",
-                CreateTaskRequestVariant8Style.Voronoi => "voronoi",
                 CreateTaskRequestVariant8Style.Minecraft => "minecraft",
+                CreateTaskRequestVariant8Style.Voronoi => "voronoi",
+                CreateTaskRequestVariant8Style.Voxel => "voxel",
                 _ => throw new global::System.ArgumentOutOfRangeException(nameof(value), value, null),
             };
         }
@@ -53,9 +53,9 @@ namespace Tripo
             return value switch
             {
                 "lego" => CreateTaskRequestVariant8Style.Lego,
-                "voxel" => CreateTaskRequestVariant8Style.Voxel,
-                "voronoi" => CreateTaskRequestVariant8Style.Voronoi,
                 "minecraft" => CreateTaskRequestVariant8Style.Minecraft,
+                "voronoi" => CreateTaskRequestVariant8Style.Voronoi,
+                "voxel" => CreateTaskRequestVariant8Style.Voxel,
                 _ => null,
             };
         }
