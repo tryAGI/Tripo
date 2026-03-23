@@ -11,6 +11,22 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
+        Banned,
+        /// <summary>
+        /// 
+        /// </summary>
+        Cancelled,
+        /// <summary>
+        /// 
+        /// </summary>
+        Expired,
+        /// <summary>
+        /// 
+        /// </summary>
+        Failed,
+        /// <summary>
+        /// 
+        /// </summary>
         Queued,
         /// <summary>
         /// 
@@ -23,23 +39,7 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        Failed,
-        /// <summary>
-        /// 
-        /// </summary>
-        Cancelled,
-        /// <summary>
-        /// 
-        /// </summary>
         Unknown,
-        /// <summary>
-        /// 
-        /// </summary>
-        Banned,
-        /// <summary>
-        /// 
-        /// </summary>
-        Expired,
     }
 
     /// <summary>
@@ -54,14 +54,14 @@ namespace Tripo
         {
             return value switch
             {
+                TaskStatus.Banned => "banned",
+                TaskStatus.Cancelled => "cancelled",
+                TaskStatus.Expired => "expired",
+                TaskStatus.Failed => "failed",
                 TaskStatus.Queued => "queued",
                 TaskStatus.Running => "running",
                 TaskStatus.Success => "success",
-                TaskStatus.Failed => "failed",
-                TaskStatus.Cancelled => "cancelled",
                 TaskStatus.Unknown => "unknown",
-                TaskStatus.Banned => "banned",
-                TaskStatus.Expired => "expired",
                 _ => throw new global::System.ArgumentOutOfRangeException(nameof(value), value, null),
             };
         }
@@ -72,14 +72,14 @@ namespace Tripo
         {
             return value switch
             {
+                "banned" => TaskStatus.Banned,
+                "cancelled" => TaskStatus.Cancelled,
+                "expired" => TaskStatus.Expired,
+                "failed" => TaskStatus.Failed,
                 "queued" => TaskStatus.Queued,
                 "running" => TaskStatus.Running,
                 "success" => TaskStatus.Success,
-                "failed" => TaskStatus.Failed,
-                "cancelled" => TaskStatus.Cancelled,
                 "unknown" => TaskStatus.Unknown,
-                "banned" => TaskStatus.Banned,
-                "expired" => TaskStatus.Expired,
                 _ => null,
             };
         }
