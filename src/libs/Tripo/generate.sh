@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 dotnet tool install --global autosdk.cli --prerelease
 rm -rf Generated
 # https://platform.tripo3d.ai/docs/schema
