@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# OpenAPI spec: locally maintained from https://platform.tripo3d.ai/docs/schema (no public spec download)
+
 dotnet tool install --global autosdk.cli --prerelease
 rm -rf Generated
 # https://platform.tripo3d.ai/docs/schema
