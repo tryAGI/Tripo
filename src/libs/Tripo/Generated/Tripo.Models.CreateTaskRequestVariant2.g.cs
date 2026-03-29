@@ -56,8 +56,8 @@ namespace Tripo
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTaskRequestVariant2" /> class.
         /// </summary>
-        /// <param name="type"></param>
         /// <param name="file"></param>
+        /// <param name="type"></param>
         /// <param name="modelVersion"></param>
         /// <param name="faceLimit"></param>
         /// <param name="texture"></param>
@@ -73,8 +73,8 @@ namespace Tripo
             bool? texture,
             bool? pbr)
         {
-            this.File = file ?? throw new global::System.ArgumentNullException(nameof(file));
             this.Type = type;
+            this.File = file ?? throw new global::System.ArgumentNullException(nameof(file));
             this.ModelVersion = modelVersion;
             this.FaceLimit = faceLimit;
             this.Texture = texture;

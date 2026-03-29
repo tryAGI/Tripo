@@ -62,8 +62,8 @@ namespace Tripo
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTaskRequestVariant1" /> class.
         /// </summary>
-        /// <param name="type"></param>
         /// <param name="prompt"></param>
+        /// <param name="type"></param>
         /// <param name="negativePrompt"></param>
         /// <param name="modelVersion"></param>
         /// <param name="faceLimit"></param>
@@ -81,8 +81,8 @@ namespace Tripo
             bool? texture,
             bool? pbr)
         {
-            this.Prompt = prompt ?? throw new global::System.ArgumentNullException(nameof(prompt));
             this.Type = type;
+            this.Prompt = prompt ?? throw new global::System.ArgumentNullException(nameof(prompt));
             this.NegativePrompt = negativePrompt;
             this.ModelVersion = modelVersion;
             this.FaceLimit = faceLimit;

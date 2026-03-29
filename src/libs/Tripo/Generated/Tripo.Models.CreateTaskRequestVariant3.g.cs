@@ -52,9 +52,9 @@ namespace Tripo
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTaskRequestVariant3" /> class.
         /// </summary>
-        /// <param name="type"></param>
         /// <param name="files"></param>
         /// <param name="mode"></param>
+        /// <param name="type"></param>
         /// <param name="modelVersion"></param>
         /// <param name="orthographicProjection"></param>
 #if NET7_0_OR_GREATER
@@ -67,9 +67,9 @@ namespace Tripo
             global::Tripo.CreateTaskRequestVariant3ModelVersion? modelVersion,
             bool? orthographicProjection)
         {
+            this.Type = type;
             this.Files = files ?? throw new global::System.ArgumentNullException(nameof(files));
             this.Mode = mode;
-            this.Type = type;
             this.ModelVersion = modelVersion;
             this.OrthographicProjection = orthographicProjection;
         }

@@ -88,9 +88,9 @@ namespace Tripo
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTaskRequestVariant9" /> class.
         /// </summary>
-        /// <param name="type"></param>
         /// <param name="format"></param>
         /// <param name="originalModelTaskId"></param>
+        /// <param name="type"></param>
         /// <param name="quad"></param>
         /// <param name="forceSymmetry"></param>
         /// <param name="faceLimit"></param>
@@ -115,9 +115,9 @@ namespace Tripo
             global::Tripo.CreateTaskRequestVariant9TextureFormat? textureFormat,
             bool? pivotToCenterBottom)
         {
+            this.Type = type;
             this.Format = format;
             this.OriginalModelTaskId = originalModelTaskId ?? throw new global::System.ArgumentNullException(nameof(originalModelTaskId));
-            this.Type = type;
             this.Quad = quad;
             this.ForceSymmetry = forceSymmetry;
             this.FaceLimit = faceLimit;

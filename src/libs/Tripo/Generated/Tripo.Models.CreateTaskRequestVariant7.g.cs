@@ -45,10 +45,10 @@ namespace Tripo
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateTaskRequestVariant7" /> class.
         /// </summary>
-        /// <param name="type"></param>
         /// <param name="originalModelTaskId"></param>
-        /// <param name="outFormat"></param>
         /// <param name="animation"></param>
+        /// <param name="type"></param>
+        /// <param name="outFormat"></param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
@@ -58,10 +58,10 @@ namespace Tripo
             global::Tripo.CreateTaskRequestVariant7Type type,
             string? outFormat)
         {
-            this.OriginalModelTaskId = originalModelTaskId ?? throw new global::System.ArgumentNullException(nameof(originalModelTaskId));
-            this.Animation = animation;
             this.Type = type;
+            this.OriginalModelTaskId = originalModelTaskId ?? throw new global::System.ArgumentNullException(nameof(originalModelTaskId));
             this.OutFormat = outFormat;
+            this.Animation = animation;
         }
 
         /// <summary>
