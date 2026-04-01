@@ -234,7 +234,6 @@ namespace Tripo
             string filename,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
-
             var __request = new global::Tripo.UploadFileRequest
             {
                 File = file,

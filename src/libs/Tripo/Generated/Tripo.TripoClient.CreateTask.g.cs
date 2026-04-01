@@ -223,7 +223,6 @@ namespace Tripo
         public async global::System.Threading.Tasks.Task<global::Tripo.SuccessTask> CreateTaskAsync(
             global::System.Threading.CancellationToken cancellationToken = default)
         {
-
             var __request = new global::Tripo.OneOf<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9>
             {
             };
