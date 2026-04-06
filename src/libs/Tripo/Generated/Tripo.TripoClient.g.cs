@@ -34,54 +34,7 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        #pragma warning disable CS0618 // Type or member is obsolete
-        public global::System.Text.Json.JsonSerializerOptions JsonSerializerOptions { get; set; } = new global::System.Text.Json.JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                DefaultIgnoreCondition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
-                Converters =
-                {
-                    new global::Tripo.JsonConverters.TaskStatusJsonConverter(),
-                    new global::Tripo.JsonConverters.TaskStatusNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant1TypeJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant1TypeNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant1ModelVersionJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant1ModelVersionNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant2TypeJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant2TypeNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant2ModelVersionJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant2ModelVersionNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant3TypeJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant3TypeNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant3ModeJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant3ModeNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant3ModelVersionJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant3ModelVersionNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant4TypeJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant4TypeNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant5TypeJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant5TypeNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant6TypeJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant6TypeNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant7TypeJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant7TypeNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant7AnimationJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant7AnimationNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant8TypeJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant8TypeNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant8StyleJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant8StyleNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant9TypeJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant9TypeNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant9FormatJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant9FormatNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant9TextureFormatJsonConverter(),
-                    new global::Tripo.JsonConverters.CreateTaskRequestVariant9TextureFormatNullableJsonConverter(),
-                    new global::Tripo.JsonConverters.OneOfJsonConverter<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9>(),
-                    new global::Tripo.JsonConverters.UnixTimestampJsonConverter(),
-                }
-            };
-        #pragma warning restore CS0618 // Type or member is obsolete
+        public global::System.Text.Json.Serialization.JsonSerializerContext JsonSerializerContext { get; set; } = global::Tripo.SourceGenerationContext.Default;
 
 
         /// <summary>
