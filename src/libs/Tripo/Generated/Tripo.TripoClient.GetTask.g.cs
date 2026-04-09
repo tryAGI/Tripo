@@ -5,6 +5,25 @@ namespace Tripo
 {
     public partial class TripoClient
     {
+
+
+        private static readonly global::Tripo.EndPointSecurityRequirement s_GetTaskSecurityRequirement0 =
+            new global::Tripo.EndPointSecurityRequirement
+            {
+                Authorizations = new global::Tripo.EndPointAuthorizationRequirement[]
+                {                    new global::Tripo.EndPointAuthorizationRequirement
+                    {
+                        Type = "Http",
+                        Location = "Header",
+                        Name = "Bearer",
+                        FriendlyName = "Bearer",
+                    },
+                },
+            };
+        private static readonly global::Tripo.EndPointSecurityRequirement[] s_GetTaskSecurityRequirements =
+            new global::Tripo.EndPointSecurityRequirement[]
+            {                s_GetTaskSecurityRequirement0,
+            };
         partial void PrepareGetTaskArguments(
             global::System.Net.Http.HttpClient httpClient,
             ref string taskId);
@@ -37,9 +56,15 @@ namespace Tripo
                 httpClient: HttpClient,
                 taskId: ref taskId);
 
+
+            var __authorizations = global::Tripo.EndPointSecurityResolver.ResolveAuthorizations(
+                availableAuthorizations: Authorizations,
+                securityRequirements: s_GetTaskSecurityRequirements,
+                operationName: "GetTaskAsync");
+
             var __pathBuilder = new global::Tripo.PathBuilder(
                 path: $"/task/{taskId}",
-                baseUri: HttpClient.BaseAddress); 
+                baseUri: HttpClient.BaseAddress);
             var __path = __pathBuilder.ToString();
             using var __httpRequest = new global::System.Net.Http.HttpRequestMessage(
                 method: global::System.Net.Http.HttpMethod.Get,
@@ -49,7 +74,7 @@ namespace Tripo
             __httpRequest.VersionPolicy = global::System.Net.Http.HttpVersionPolicy.RequestVersionOrHigher;
 #endif
 
-            foreach (var __authorization in Authorizations)
+            foreach (var __authorization in __authorizations)
             {
                 if (__authorization.Type == "Http" ||
                     __authorization.Type == "OAuth2")

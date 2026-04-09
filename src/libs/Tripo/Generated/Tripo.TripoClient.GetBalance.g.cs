@@ -5,6 +5,25 @@ namespace Tripo
 {
     public partial class TripoClient
     {
+
+
+        private static readonly global::Tripo.EndPointSecurityRequirement s_GetBalanceSecurityRequirement0 =
+            new global::Tripo.EndPointSecurityRequirement
+            {
+                Authorizations = new global::Tripo.EndPointAuthorizationRequirement[]
+                {                    new global::Tripo.EndPointAuthorizationRequirement
+                    {
+                        Type = "Http",
+                        Location = "Header",
+                        Name = "Bearer",
+                        FriendlyName = "Bearer",
+                    },
+                },
+            };
+        private static readonly global::Tripo.EndPointSecurityRequirement[] s_GetBalanceSecurityRequirements =
+            new global::Tripo.EndPointSecurityRequirement[]
+            {                s_GetBalanceSecurityRequirement0,
+            };
         partial void PrepareGetBalanceArguments(
             global::System.Net.Http.HttpClient httpClient);
         partial void PrepareGetBalanceRequest(
@@ -32,9 +51,15 @@ namespace Tripo
             PrepareGetBalanceArguments(
                 httpClient: HttpClient);
 
+
+            var __authorizations = global::Tripo.EndPointSecurityResolver.ResolveAuthorizations(
+                availableAuthorizations: Authorizations,
+                securityRequirements: s_GetBalanceSecurityRequirements,
+                operationName: "GetBalanceAsync");
+
             var __pathBuilder = new global::Tripo.PathBuilder(
                 path: "/user/balance",
-                baseUri: HttpClient.BaseAddress); 
+                baseUri: HttpClient.BaseAddress);
             var __path = __pathBuilder.ToString();
             using var __httpRequest = new global::System.Net.Http.HttpRequestMessage(
                 method: global::System.Net.Http.HttpMethod.Get,
@@ -44,7 +69,7 @@ namespace Tripo
             __httpRequest.VersionPolicy = global::System.Net.Http.HttpVersionPolicy.RequestVersionOrHigher;
 #endif
 
-            foreach (var __authorization in Authorizations)
+            foreach (var __authorization in __authorizations)
             {
                 if (__authorization.Type == "Http" ||
                     __authorization.Type == "OAuth2")
