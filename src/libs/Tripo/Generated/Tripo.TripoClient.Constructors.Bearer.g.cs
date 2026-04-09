@@ -6,6 +6,7 @@ namespace Tripo
     public sealed partial class TripoClient
     {
         /// <inheritdoc cref="TripoClient(global::System.Net.Http.HttpClient?, global::System.Uri?, global::System.Collections.Generic.List{global::Tripo.EndPointAuthorization}?, bool)"/>
+
         public TripoClient(
             string apiKey,
             global::System.Net.Http.HttpClient? httpClient = null,

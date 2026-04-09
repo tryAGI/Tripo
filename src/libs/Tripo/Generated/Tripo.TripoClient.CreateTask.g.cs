@@ -5,6 +5,25 @@ namespace Tripo
 {
     public partial class TripoClient
     {
+
+
+        private static readonly global::Tripo.EndPointSecurityRequirement s_CreateTaskSecurityRequirement0 =
+            new global::Tripo.EndPointSecurityRequirement
+            {
+                Authorizations = new global::Tripo.EndPointAuthorizationRequirement[]
+                {                    new global::Tripo.EndPointAuthorizationRequirement
+                    {
+                        Type = "Http",
+                        Location = "Header",
+                        Name = "Bearer",
+                        FriendlyName = "Bearer",
+                    },
+                },
+            };
+        private static readonly global::Tripo.EndPointSecurityRequirement[] s_CreateTaskSecurityRequirements =
+            new global::Tripo.EndPointSecurityRequirement[]
+            {                s_CreateTaskSecurityRequirement0,
+            };
         partial void PrepareCreateTaskArguments(
             global::System.Net.Http.HttpClient httpClient,
             global::Tripo.OneOf<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9> request);
@@ -38,9 +57,15 @@ namespace Tripo
                 httpClient: HttpClient,
                 request: request);
 
+
+            var __authorizations = global::Tripo.EndPointSecurityResolver.ResolveAuthorizations(
+                availableAuthorizations: Authorizations,
+                securityRequirements: s_CreateTaskSecurityRequirements,
+                operationName: "CreateTaskAsync");
+
             var __pathBuilder = new global::Tripo.PathBuilder(
                 path: "/task",
-                baseUri: HttpClient.BaseAddress); 
+                baseUri: HttpClient.BaseAddress);
             var __path = __pathBuilder.ToString();
             using var __httpRequest = new global::System.Net.Http.HttpRequestMessage(
                 method: global::System.Net.Http.HttpMethod.Post,
@@ -50,7 +75,7 @@ namespace Tripo
             __httpRequest.VersionPolicy = global::System.Net.Http.HttpVersionPolicy.RequestVersionOrHigher;
 #endif
 
-            foreach (var __authorization in Authorizations)
+            foreach (var __authorization in __authorizations)
             {
                 if (__authorization.Type == "Http" ||
                     __authorization.Type == "OAuth2")
