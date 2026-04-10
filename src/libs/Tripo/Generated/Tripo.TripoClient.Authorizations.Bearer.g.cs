@@ -25,6 +25,7 @@ namespace Tripo
             Authorizations.Add(new global::Tripo.EndPointAuthorization
             {
                 Type = "Http",
+                SchemeId = "HttpBearer",
                 Location = "Header",
                 Name = "Bearer",
                 Value = apiKey,
