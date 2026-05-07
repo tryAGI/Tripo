@@ -142,6 +142,7 @@ namespace Tripo
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskResponse))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.GetBalanceResponse))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.GetBalanceResponse2))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.OneOf<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9>?), TypeInfoPropertyName = "CreateTaskRequestVariant9_a22926bdf90af489")]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.List<global::Tripo.CreateTaskRequestVariant3File>))]
     public sealed partial class SourceGenerationContext : global::System.Text.Json.Serialization.JsonSerializerContext
     {
