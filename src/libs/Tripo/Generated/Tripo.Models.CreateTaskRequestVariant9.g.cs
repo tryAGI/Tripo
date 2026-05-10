@@ -134,5 +134,6 @@ namespace Tripo
         public CreateTaskRequestVariant9()
         {
         }
+
     }
 }

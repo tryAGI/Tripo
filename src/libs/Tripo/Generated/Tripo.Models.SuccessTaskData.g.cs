@@ -42,5 +42,6 @@ namespace Tripo
         public SuccessTaskData()
         {
         }
+
     }
 }

@@ -70,5 +70,6 @@ namespace Tripo
         public CreateTaskRequestVariant7()
         {
         }
+
     }
 }
