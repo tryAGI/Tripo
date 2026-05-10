@@ -40,5 +40,6 @@ namespace Tripo
         public UploadFileResponseData()
         {
         }
+
     }
 }
