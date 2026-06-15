@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/cli/">
+    <Project Path="src/cli/Tripo.CLI/Tripo.CLI.csproj" />
+  </Folder>
   <Folder Name="/libs/">
     <File Path="src/libs/Directory.Build.props" />
     <Project Path="src/libs/Tripo/Tripo.csproj" />

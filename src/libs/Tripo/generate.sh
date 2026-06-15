@@ -14,3 +14,21 @@ autosdk generate openapi.yaml \
   --output Generated \
   --exclude-deprecated-operations \
   --security-scheme Http:Header:Bearer
+
+rm -rf ../../cli/Tripo.CLI
+
+autosdk cli-project openapi.yaml \
+  --output ../../cli/Tripo.CLI \
+  --sdk-project ../../libs/Tripo/Tripo.csproj \
+  --targetFramework net10.0 \
+  --namespace Tripo \
+  --clientClassName TripoClient \
+  --package-id Tripo.CLI \
+  --tool-command-name tripo \
+  --user-secrets-id Tripo.CLI \
+  --api-key-env-var TRIPO_API_KEY \
+  --base-url-env-var TRIPO_BASE_URL \
+  --cli-credential-file \
+  --cli-keep-api-group \
+  --exclude-deprecated-operations \
+  --security-scheme Http:Header:Bearer

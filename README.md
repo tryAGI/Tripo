@@ -40,6 +40,13 @@ Console.WriteLine($"BaseModel: {taskResponse.Data.Output.BaseModel}");
 ```
 ![Result](assets/rendered_image.webp)
 
+### CLI
+
+```bash
+dotnet tool install --global Tripo.CLI --prerelease
+tripo api --help
+```
+
 ## Support
 
 Priority place for bugs: https://github.com/tryAGI/Tripo/issues  
