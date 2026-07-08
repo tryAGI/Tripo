@@ -6,11 +6,9 @@ install_autosdk_cli() {
     dotnet tool install --global autosdk.cli --prerelease
 }
 
-# OpenAPI spec: locally maintained from https://platform.tripo3d.ai/docs/schema (no public spec download)
+# OpenAPI spec: locally maintained from https://developers.tripo3d.ai/en/docs (no public unauthenticated spec download)
 install_autosdk_cli
 rm -rf Generated
-# https://platform.tripo3d.ai/docs/schema
-# curl -o openapi.yaml https://raw.githubusercontent.com/api/openapi.json
 autosdk generate openapi.yaml \
   --namespace Tripo \
   --clientClassName TripoClient \

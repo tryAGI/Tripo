@@ -1,505 +1,1612 @@
-openapi: '3.2.0'
+openapi: 3.2.0
 info:
-  title: Tripo 3D Generation
-  description: use tripo to generate 3d models
-  version: 1.0.0
+  title: Tripo API
+  description: Tripo API V3 for AI 3D generation, image generation, model processing, animation, files, tasks, and account
+    usage. Locally maintained from https://developers.tripo3d.ai/en/docs because Tripo does not publish an unauthenticated
+    OpenAPI schema.
+  version: 3.0.0
 servers:
-  - url: https://api.tripo3d.ai/v2/openapi
+- url: https://openapi.tripo3d.ai/v3
+security:
+- Bearer: []
 paths:
-  '/task/{task_id}':
-    get:
-      summary: use the task_id created by createTask to get the status of a task
-      operationId: getTask
-      parameters:
-        - name: task_id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: succeed
-          content:
-            application/json:
-              schema:
-                required:
-                  - code
-                  - data
-                type: object
-                properties:
-                  code:
-                    enum:
-                      - 0
-                    type: integer
-                  data:
-                    $ref: '#/components/schemas/Task'
-        '400':
-          description: failed
-          content:
-            application/json:
-              schema:
-                required:
-                  - code
-                  - message
-                  - suggestion
-                type: object
-                properties:
-                  code:
-                    enum:
-                      - 2000
-                      - 2001
-                    type: integer
-                  message:
-                    type: string
-                  suggestion:
-                    type: string
-  /upload:
+  /generation/text-to-model:
     post:
-      summary: upload a file
-      operationId: uploadFile
+      summary: Generate a 3D model from a text prompt
+      operationId: textToModel
+      tags:
+      - ThreeDGeneration
       requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              required:
-                - file
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-            encoding:
-              profileImage:
-                contentType: 'image/png, image/jpeg'
-      responses:
-        '200':
-          description: succeed
-          content:
-            application/json:
-              schema:
-                required:
-                  - code
-                  - data
-                type: object
-                properties:
-                  code:
-                    enum:
-                      - 0
-                    type: integer
-                  data:
-                    required:
-                      - image_token
-                    type: object
-                    properties:
-                      image_token:
-                        type: string
-        '400':
-          description: failed
-          content:
-            application/json:
-              schema:
-                required:
-                  - code
-                  - message
-                  - suggestion
-                type: object
-                properties:
-                  code:
-                    enum:
-                      - 2000
-                      - 2002
-                      - 2004
-                    type: integer
-                  message:
-                    type: string
-                  suggestion:
-                    type: string
-  /task:
-    post:
-      summary: create a task
-      operationId: createTask
-      requestBody:
+        required: true
         content:
           application/json:
             schema:
-              oneOf:
-                - required:
-                    - type
-                    - prompt
-                  type: object
-                  properties:
-                    type:
-                      enum:
-                        - text_to_model
-                      type: string
-                    prompt:
-                      maxLength: 1024
-                      type: string
-                    negative_prompt:
-                      maxLength: 1024
-                      type: string
-                    model_version:
-                      enum:
-                        - default
-                        - v1.3-20240522
-                        - v1.4-20240625
-                        - v2.0-20240919
-                      type: string
-                    face_limit:
-                      type: integer
-                    texture:
-                      type: boolean
-                    pbr:
-                      type: boolean
-                - required:
-                    - type
-                    - file
-                  type: object
-                  properties:
-                    type:
-                      enum:
-                        - image_to_model
-                      type: string
-                    file:
-                      required:
-                        - type
-                        - file_token
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                        file_token:
-                          type: string
-                    model_version:
-                      enum:
-                        - default
-                        - v1.3-20240522
-                        - v1.4-20240625
-                        - v2.0-20240919
-                      type: string
-                    face_limit:
-                      type: integer
-                    texture:
-                      type: boolean
-                    pbr:
-                      type: boolean
-                - required:
-                    - type
-                    - files
-                    - mode
-                  type: object
-                  properties:
-                    type:
-                      enum:
-                        - multiview_to_model
-                      type: string
-                    files:
-                      type: array
-                      items:
-                        required:
-                          - type
-                          - file_token
-                        type: object
-                        properties:
-                          type:
-                            type: string
-                          file_token:
-                            type: string
-                    mode:
-                      enum:
-                        - LEFT
-                        - RIGHT
-                      type: string
-                    model_version:
-                      enum:
-                        - default
-                        - v1.4-20240625
-                      type: string
-                    orthographic_projection:
-                      type: boolean
-                - required:
-                    - type
-                    - draft_model_task_id
-                  type: object
-                  properties:
-                    type:
-                      enum:
-                        - refine_model
-                      type: string
-                    draft_model_task_id:
-                      type: string
-                - required:
-                    - type
-                    - original_model_task_id
-                  type: object
-                  properties:
-                    type:
-                      enum:
-                        - animate_prerigcheck
-                      type: string
-                    original_model_task_id:
-                      type: string
-                - required:
-                    - type
-                    - original_model_task_id
-                  type: object
-                  properties:
-                    type:
-                      enum:
-                        - animate_rig
-                      type: string
-                    original_model_task_id:
-                      type: string
-                    out_format:
-                      type: string
-                - required:
-                    - type
-                    - original_model_task_id
-                    - animation
-                  type: object
-                  properties:
-                    type:
-                      enum:
-                        - animate_retarget
-                      type: string
-                    original_model_task_id:
-                      type: string
-                    out_format:
-                      type: string
-                    animation:
-                      enum:
-                        - preset:walk
-                        - preset:run
-                        - preset:dive
-                      type: string
-                - required:
-                    - type
-                    - style
-                    - original_model_task_id
-                  type: object
-                  properties:
-                    type:
-                      enum:
-                        - stylize_model
-                      type: string
-                    style:
-                      enum:
-                        - lego
-                        - voxel
-                        - voronoi
-                        - minecraft
-                      type: string
-                    original_model_task_id:
-                      type: string
-                    block_size:
-                      type: integer
-                - required:
-                    - type
-                    - format
-                    - original_model_task_id
-                  type: object
-                  properties:
-                    type:
-                      enum:
-                        - convert_model
-                      type: string
-                    format:
-                      enum:
-                        - GLTF
-                        - USDZ
-                        - FBX
-                        - OBJ
-                        - STL
-                      type: string
-                    original_model_task_id:
-                      type: string
-                    quad:
-                      type: boolean
-                    force_symmetry:
-                      type: boolean
-                    face_limit:
-                      type: integer
-                    flatten_bottom:
-                      type: boolean
-                    flatten_bottom_threshold:
-                      type: number
-                    texture_size:
-                      type: integer
-                    texture_format:
-                      enum:
-                        - BMP
-                        - DPX
-                        - HDR
-                        - JPEG
-                        - OPEN_EXR
-                        - PNG
-                        - TARGA
-                        - TIFF
-                        - WEBP
-                      type: string
-                    pivot_to_center_bottom:
-                      type: boolean
+              $ref: '#/components/schemas/TextToModelRequest'
       responses:
         '200':
-          description: succeed
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessTask'
-        '400':
-          description: failed
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
           content:
             application/json:
               schema:
-                required:
-                  - code
-                  - message
-                  - suggestion
-                type: object
-                properties:
-                  code:
-                    enum:
-                      - 2000
-                      - 2002
-                      - 2003
-                      - 2004
-                      - 2006
-                      - 2007
-                      - 2008
-                      - 2010
-                    type: integer
-                  message:
-                    type: string
-                  suggestion:
-                    type: string
-  /user/balance:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generation/image-to-model:
+    post:
+      summary: Generate a 3D model from an image
+      operationId: imageToModel
+      tags:
+      - ThreeDGeneration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageToModelRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generation/multiview-to-model:
+    post:
+      summary: Generate a 3D model from multiview images
+      operationId: multiviewToModel
+      tags:
+      - ThreeDGeneration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultiviewToModelRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generation/image-to-splat:
+    post:
+      summary: Generate a 3D Gaussian Splat from a single image
+      operationId: imageToSplat
+      tags:
+      - ThreeDGeneration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageToSplatRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generation/text-to-image:
+    post:
+      summary: Generate an image from a text prompt
+      operationId: textToImage
+      tags:
+      - Image Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToImageRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generation/image-to-image:
+    post:
+      summary: Generate or edit an image from reference images
+      operationId: imageToImage
+      tags:
+      - Image Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageToImageRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generation/image-to-multiview:
+    post:
+      summary: Generate multiview images from a single image
+      operationId: imageToMultiview
+      tags:
+      - Image Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageToMultiviewRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generation/edit-multiview:
+    post:
+      summary: Edit multiview images
+      operationId: editMultiview
+      tags:
+      - Image Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditMultiviewRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /models/import:
+    post:
+      summary: Import an external 3D model file
+      operationId: importModel
+      tags:
+      - Models
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportModelRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /models/refine:
+    post:
+      summary: Refine a draft model
+      operationId: refineModel
+      tags:
+      - Models
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefineModelRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /models/texture:
+    post:
+      summary: Regenerate texture maps for an existing model
+      operationId: textureModel
+      tags:
+      - Models
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextureModelRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /models/stylize:
+    post:
+      summary: Stylize an existing model
+      operationId: stylizeModel
+      tags:
+      - Models
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StylizeModelRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /models/convert:
+    post:
+      summary: Convert a 3D model to another format
+      operationId: convertModel
+      tags:
+      - Models
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertModelRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /animations/rig-check:
+    post:
+      summary: Check whether a model is riggable
+      operationId: rigCheck
+      tags:
+      - Animation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RigCheckRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /animations/rig:
+    post:
+      summary: Rig a 3D model
+      operationId: rigModel
+      tags:
+      - Animation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RigModelRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /animations/retarget:
+    post:
+      summary: Apply preset animations to a rigged 3D model
+      operationId: retargetAnimation
+      tags:
+      - Animation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetargetAnimationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /mesh/segment:
+    post:
+      summary: Perform semantic segmentation on a 3D model
+      operationId: segmentMesh
+      tags:
+      - Mesh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SegmentMeshRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /mesh/smartsegment:
+    post:
+      summary: Run the end-to-end smart segmentation pipeline
+      operationId: smartSegmentMesh
+      tags:
+      - Mesh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmartSegmentMeshRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /mesh/complete:
+    post:
+      summary: Complete selected mesh parts
+      operationId: completeMesh
+      tags:
+      - Mesh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteMeshRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /mesh/decimate:
+    post:
+      summary: Decimate or retopologize a 3D model
+      operationId: decimateMesh
+      tags:
+      - Mesh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecimateMeshRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskCreatedResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /tasks/{task_id}:
     get:
-      summary: get user balance
-      operationId: getBalance
+      summary: Query the status and result of a single task
+      operationId: getTask
+      tags:
+      - Tasks
       responses:
         '200':
-          description: succeed
+          description: OK
           content:
             application/json:
               schema:
-                required:
-                  - code
-                  - data
-                type: object
-                properties:
-                  code:
-                    enum:
-                      - 0
-                    type: integer
-                  data:
-                    $ref: '#/components/schemas/Balance'
-        '500':
-          description: failed
+                $ref: '#/components/schemas/TaskResponse'
+        default:
+          description: Error
           content:
             application/json:
               schema:
-                required:
-                  - code
-                  - message
-                  - suggestion
-                type: object
-                properties:
-                  code:
-                    enum:
-                      - 1001
-                    type: integer
-                  message:
-                    type: string
-                  suggestion:
-                    type: string
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Unique task identifier.
+  /tasks/list:
+    post:
+      summary: Batch query multiple tasks
+      operationId: listTasks
+      tags:
+      - Tasks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskListRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskListResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /files:
+    post:
+      summary: Upload a file and obtain a file_token
+      operationId: uploadFile
+      tags:
+      - Files
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadFileRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /files/upload-credentials:
+    post:
+      summary: Get direct upload credentials for large file uploads
+      operationId: getUploadCredentials
+      tags:
+      - Files
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadCredentialsResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /files/presign:
+    post:
+      summary: Get a presigned upload URL for direct file upload
+      operationId: presignFileUpload
+      tags:
+      - Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresignFileUploadRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresignFileUploadResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /account/balance:
+    get:
+      summary: Query the current account credit balance
+      operationId: getBalance
+      tags:
+      - Account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /account/usage:
+    get:
+      summary: Query account credit usage details
+      operationId: getUsage
+      tags:
+      - Account
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageResponse'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
   schemas:
-    Task:
+    TextToModelRequest:
+      type: object
+      properties:
+        prompt:
+          type: string
+          description: Text prompt, up to 1024 characters.
+          maxLength: 1024
+        negative_prompt:
+          type: string
+          description: Negative prompt, up to 255 characters.
+          maxLength: 255
+        image_seed:
+          type: integer
+          description: Random seed for the text-to-image stage.
+        model:
+          type: string
+          description: AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
+        model_seed:
+          type: integer
+          description: Random seed for geometry generation.
+        face_limit:
+          type: integer
+          description: Maximum polycount for the output.
+        texture:
+          type: boolean
+          description: Enable texture maps.
+        pbr:
+          type: boolean
+          description: Enable PBR materials. When enabled, texture is forced to true.
+        texture_seed:
+          type: integer
+          description: Random seed for texture generation.
+        texture_quality:
+          type: string
+          description: Texture quality, such as standard, detailed, or extreme. Extreme can produce 8K textures where supported.
+        geometry_quality:
+          type: string
+          description: Geometry quality, such as standard or detailed.
+        auto_size:
+          type: boolean
+          description: Automatically scale the model to real-world dimensions in meters.
+        quad:
+          type: boolean
+          description: Output a quad mesh where supported.
+        smart_low_poly:
+          type: boolean
+          description: Generate a low-poly model with hand-crafted topology style where supported.
+        generate_parts:
+          type: boolean
+          description: Generate editable segmented parts where supported.
+        compress:
+          type: string
+          description: Compression type, such as geometry for meshopt compression.
+        export_uv:
+          type: boolean
+          description: Control UV unwrapping where supported.
       required:
-        - task_id
-        - type
-        - status
-        - input
-        - output
-        - progress
-        - create_time
+      - prompt
+      additionalProperties: false
+    ImageToModelRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Image source. Accepts a file token, URL, or task ID.
+        enable_image_autofix:
+          type: boolean
+          description: Automatically improve low-quality input images.
+        texture_alignment:
+          type: string
+          description: Texture alignment priority, such as original_image or geometry.
+        orientation:
+          type: string
+          description: Model orientation, such as default or align_image.
+        model:
+          type: string
+          description: AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
+        model_seed:
+          type: integer
+          description: Random seed for geometry generation.
+        face_limit:
+          type: integer
+          description: Maximum polycount for the output.
+        texture:
+          type: boolean
+          description: Enable texture maps.
+        pbr:
+          type: boolean
+          description: Enable PBR materials. When enabled, texture is forced to true.
+        texture_seed:
+          type: integer
+          description: Random seed for texture generation.
+        texture_quality:
+          type: string
+          description: Texture quality, such as standard, detailed, or extreme. Extreme can produce 8K textures where supported.
+        geometry_quality:
+          type: string
+          description: Geometry quality, such as standard or detailed.
+        auto_size:
+          type: boolean
+          description: Automatically scale the model to real-world dimensions in meters.
+        quad:
+          type: boolean
+          description: Output a quad mesh where supported.
+        smart_low_poly:
+          type: boolean
+          description: Generate a low-poly model with hand-crafted topology style where supported.
+        generate_parts:
+          type: boolean
+          description: Generate editable segmented parts where supported.
+        compress:
+          type: string
+          description: Compression type, such as geometry for meshopt compression.
+        export_uv:
+          type: boolean
+          description: Control UV unwrapping where supported.
+      required:
+      - input
+      additionalProperties: false
+    MultiviewToModelRequest:
+      type: object
+      properties:
+        inputs:
+          type: array
+          items:
+            oneOf:
+            - type: string
+            - $ref: '#/components/schemas/MultiviewViewInput'
+            - $ref: '#/components/schemas/TaskReuseInput'
+          description: Multiview images. Use either view-key objects, a four item positional array, or a single task_id object.
+        original_task_id:
+          type: string
+          description: Task ID from previous multiview generation. Mutually exclusive with inputs.
+        texture_alignment:
+          type: string
+          description: Texture alignment priority, such as original_image or geometry.
+        orientation:
+          type: string
+          description: Model orientation, such as default or align_image.
+        model:
+          type: string
+          description: AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
+        model_seed:
+          type: integer
+          description: Random seed for geometry generation.
+        face_limit:
+          type: integer
+          description: Maximum polycount for the output.
+        texture:
+          type: boolean
+          description: Enable texture maps.
+        pbr:
+          type: boolean
+          description: Enable PBR materials. When enabled, texture is forced to true.
+        texture_seed:
+          type: integer
+          description: Random seed for texture generation.
+        texture_quality:
+          type: string
+          description: Texture quality, such as standard, detailed, or extreme. Extreme can produce 8K textures where supported.
+        geometry_quality:
+          type: string
+          description: Geometry quality, such as standard or detailed.
+        auto_size:
+          type: boolean
+          description: Automatically scale the model to real-world dimensions in meters.
+        quad:
+          type: boolean
+          description: Output a quad mesh where supported.
+        smart_low_poly:
+          type: boolean
+          description: Generate a low-poly model with hand-crafted topology style where supported.
+        generate_parts:
+          type: boolean
+          description: Generate editable segmented parts where supported.
+        compress:
+          type: string
+          description: Compression type, such as geometry for meshopt compression.
+        export_uv:
+          type: boolean
+          description: Control UV unwrapping where supported.
+      required:
+      - inputs
+      additionalProperties: false
+    InputSourceObject:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Public URL input.
+        file_token:
+          type: string
+          description: Uploaded file token.
+        object:
+          type: object
+          description: Provider-specific object storage reference.
+          additionalProperties: true
+      additionalProperties: false
+    MultiviewViewInput:
+      type: object
+      description: One multiview image keyed by view name.
+      properties:
+        front:
+          oneOf:
+          - type: string
+          - $ref: '#/components/schemas/InputSourceObject'
+        left:
+          oneOf:
+          - type: string
+          - $ref: '#/components/schemas/InputSourceObject'
+        back:
+          oneOf:
+          - type: string
+          - $ref: '#/components/schemas/InputSourceObject'
+        right:
+          oneOf:
+          - type: string
+          - $ref: '#/components/schemas/InputSourceObject'
+      additionalProperties: false
+    TaskReuseInput:
       type: object
       properties:
         task_id:
           type: string
+          description: Task ID from a prior multiview image task.
+      required:
+      - task_id
+      additionalProperties: false
+    ImageToSplatRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Source image for Gaussian Splat generation. Accepts a file_token or public image URL.
+        model_seed:
+          type: integer
+          description: Random seed for Gaussian Splat generation.
+      required:
+      - input
+      additionalProperties: false
+    TextToImageRequest:
+      type: object
+      properties:
+        prompt:
+          type: string
+          description: Text prompt, up to 1024 characters.
+          maxLength: 1024
+        model:
+          type: string
+          description: Image model, for example seedream_v5, seedream_v4, gemini-2.5-flash, gemini-3-pro, gemini-3.1-flash,
+            chat_image_1, chat_image_1.5, or chat_image_2.
+        template:
+          type: string
+          description: Template name, such as asset_extraction, character_completion, t_pose, head_extraction, 3d_enhance,
+            variants, print_clay, or figure.
+        t_pose:
+          type: boolean
+          description: Convert to T-pose.
+        sketch_to_render:
+          type: boolean
+          description: Convert a sketch to a rendered image.
+      required:
+      - prompt
+      additionalProperties: false
+    ImageToImageRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Reference image. Supports file_token, image URL, or task_id.
+        inputs:
+          type: array
+          items:
+            type: string
+          description: List of multiple reference images.
+        prompt:
+          type: string
+          description: Image editing instruction. Required when template is not specified.
+        model:
+          type: string
+          description: Image model, for example seedream_v5, gemini-2.5-flash, gemini-3-pro, gemini-3.1-flash, chat_image_1,
+            chat_image_1.5, or chat_image_2.
+        template:
+          type: string
+          description: Template name, such as asset_extraction, character_completion, t_pose, head_extraction, 3d_enhance,
+            variants, print_clay, or figure.
+        t_pose:
+          type: boolean
+          description: Convert to T-pose.
+        sketch_to_render:
+          type: boolean
+          description: Convert a sketch to a rendered image.
+      required:
+      - input
+      additionalProperties: false
+    ImageToMultiviewRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Source image. Supports file_token or image URL.
+      required:
+      - input
+      additionalProperties: false
+    EditMultiviewRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Source image. Supports file_token or image URL.
+      required:
+      - input
+      additionalProperties: false
+    ImportModelRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Model file source. Accepts file_token or URL. Supported formats include GLB, GLTF, FBX, OBJ, and STL.
+      required:
+      - input
+      additionalProperties: false
+    RefineModelRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Draft task_id to refine.
+        model:
+          type: string
+          description: AI model version.
+      required:
+      - input
+      additionalProperties: false
+    TextureModelRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Model source. Accepts task_id, file_token, or URL.
+        model:
+          type: string
+          description: AI model version.
+        texture_seed:
+          type: integer
+          description: Random seed for texture generation.
+        texture_quality:
+          type: string
+          description: Texture quality, such as standard, detailed, or extreme.
+        pbr:
+          type: boolean
+          description: Enable PBR materials.
+      required:
+      - input
+      additionalProperties: false
+    StylizeModelRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Model source. Accepts task_id or file_token.
+        style:
+          type: string
+          description: Style type, such as lego, voxel, voronoi, or minecraft.
+        block_size:
+          type: integer
+          description: Grid size, range 32-128. Only valid when style is minecraft.
+      required:
+      - input
+      - style
+      additionalProperties: false
+    ConvertModelRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Model source. Accepts task_id or file_token.
+        format:
+          type: string
+          description: Target format, such as GLTF, USDZ, FBX, OBJ, STL, or 3MF.
+        quad:
+          type: boolean
+          description: Quad remeshing.
+        force_symmetry:
+          type: boolean
+          description: Force symmetry. Only valid when quad is true.
+        face_limit:
+          type: integer
+          description: Maximum polycount. If omitted, the original face count is preserved.
+        flatten_bottom:
+          type: boolean
+          description: Flatten bottom.
+        flatten_bottom_threshold:
+          type: number
+          description: Flattening depth threshold.
+        texture_size:
+          type: integer
+          description: Diffuse texture size in pixels.
+        texture_format:
+          type: string
+          description: Texture format, such as BMP, DPX, HDR, JPEG, PNG, TARGA, TIFF, or WEBP.
+        bake:
+          type: boolean
+          description: Bake advanced materials into base textures.
+        pack_uv:
+          type: boolean
+          description: Pack all UVs into a unified layout.
+        export_vertex_colors:
+          type: boolean
+          description: Include vertex colors. Only valid for OBJ and GLTF formats.
+        pivot_to_center_bottom:
+          type: boolean
+          description: Move the pivot to the bottom center.
+        scale_factor:
+          type: number
+          description: Scale factor.
+        with_animation:
+          type: boolean
+          description: Include skeleton and animation data.
+        animate_in_place:
+          type: boolean
+          description: In-place animation.
+        part_names:
+          type: array
+          items:
+            type: string
+          description: Names of parts to export, from mesh/segment data.
+        export_orientation:
+          type: string
+          description: Export orientation, such as -x, -y, or +y.
+        fbx_preset:
+          type: string
+          description: FBX preset for compatibility, such as blender, 3dsmax, or mixamo.
+      required:
+      - input
+      - format
+      additionalProperties: false
+    RigCheckRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Model source. Accepts task_id, file_token, or a publicly accessible URL to a GLB model file.
+      required:
+      - input
+      additionalProperties: false
+    RigModelRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Model source. Accepts task_id or file_token.
+        model:
+          type: string
+          description: Auto rigging model version, such as rig-v2.0 or rig-v1.0.
+        rig_type:
+          type: string
+          description: Rig type, such as biped, quadruped, hexapod, octopod, avian, serpentine, or aquatic.
+        spec:
+          type: string
+          description: Rigging specification, such as tripo or mixamo.
+        out_format:
+          type: string
+          description: Output format, such as glb or fbx.
+      required:
+      - input
+      additionalProperties: false
+    RetargetAnimationRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: task_id of the rigged model.
+        animation:
+          type: string
+          description: Single preset animation identifier. Mutually exclusive with animations.
+        animations:
+          type: array
+          items:
+            type: string
+          description: List of multiple preset animation identifiers. Mutually exclusive with animation.
+        out_format:
+          type: string
+          description: Output format, such as glb or fbx.
+        bake_animation:
+          type: boolean
+          description: Bake the animation into the model. Only effective for glb output.
+        export_with_geometry:
+          type: boolean
+          description: Export with geometry included.
+        animate_in_place:
+          type: boolean
+          description: Play the animation in place without displacement.
+      required:
+      - input
+      additionalProperties: false
+    SegmentMeshRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Model source. Accepts task_id, file_token, or URL.
+        model:
+          type: string
+          description: Segmentation model version, such as v1.0-20250506 or v2.0-20260430.
+        segmentation_granularity:
+          type: string
+          description: v2 only. Granularity, such as simple, balanced, or detailed.
+        split_by_connectivity:
+          type: boolean
+          description: v2 only. Whether to split by connected components.
+        ref_image:
+          type: string
+          description: v2 only. Reference image as file_token or URL.
+      required:
+      - input
+      additionalProperties: false
+    SmartSegmentMeshRequest:
+      type: object
+      properties:
+        seg_type:
+          type: string
+          description: 'Segmentation type: image or model.'
+        input:
+          type: string
+          description: 'Input source: file_token or public URL.'
+        granularity:
+          type: string
+          description: 'Segmentation granularity: coarse, medium, or fine.'
+        hint:
+          type: string
+          description: Optional hint to help identify parts to segment.
+        transform:
+          type: array
+          items:
+            type: number
+          description: Required when seg_type=model. Column-major 4x4 transform matrix with 16 floats.
+      required:
+      - seg_type
+      - input
+      additionalProperties: false
+    CompleteMeshRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: task_id of a mesh/segment task.
+        model:
+          type: string
+          description: Completion model version.
+        part_names:
+          type: array
+          items:
+            type: string
+          description: List of part names to complete. If omitted, all parts are completed.
+      required:
+      - input
+      additionalProperties: false
+    DecimateMeshRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: Model source. Accepts task_id or file_token.
+        model:
+          type: string
+          description: Decimation model version.
+        face_limit:
+          type: integer
+          description: Target polycount, in the range 1000-20000.
+        quad:
+          type: boolean
+          description: Output a quad mesh.
+        part_names:
+          type: array
+          items:
+            type: string
+          description: List of part names to decimate.
+        bake:
+          type: boolean
+          description: Bake textures onto the low-poly model.
+      required:
+      - input
+      additionalProperties: false
+    TaskListRequest:
+      type: object
+      properties:
+        task_ids:
+          type: array
+          items:
+            type: string
+          description: List of task IDs to query.
+      required:
+      - task_ids
+      additionalProperties: false
+    UploadFileRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          description: File data. Images support JPEG/PNG, up to 20 MB. Models support GLB/GLTF/FBX/OBJ/STL, up to 150 MB.
+          format: binary
+      required:
+      - file
+      additionalProperties: false
+    PresignFileUploadRequest:
+      type: object
+      properties:
+        format:
+          type: string
+          description: File extension without a leading dot, such as glb, fbx, png, jpg, or webp.
+      required:
+      - format
+      additionalProperties: false
+    TaskCreatedData:
+      type: object
+      properties:
+        task_id:
+          type: string
+          description: Unique task identifier used to query progress and results.
         type:
           type: string
+          description: Task type.
         status:
-          enum:
-            - queued
-            - running
-            - success
-            - failed
-            - cancelled
-            - unknown
-            - banned
-            - expired
           type: string
+          description: Task status.
+      required:
+      - task_id
+      additionalProperties: false
+    TaskCreatedResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 indicates success.
+        data:
+          $ref: '#/components/schemas/TaskCreatedData'
+      required:
+      - code
+      - data
+      additionalProperties: false
+    Task:
+      type: object
+      properties:
+        task_id:
+          type: string
+          description: Unique task identifier.
+        type:
+          type: string
+          description: Task type.
+        status:
+          type: string
+          description: Task status, such as queued, running, success, failed, cancelled, banned, or expired.
+        progress:
+          type: integer
+          description: Task progress, in the range 0-100.
         input:
           type: object
+          description: Task input parameters.
+          additionalProperties: true
         output:
-          type: object
-          properties:
-            model:
-              type: string
-            base_model:
-              type: string
-            pbr_model:
-              type: string
-            rendered_image:
-              type: string
-        progress:
-          maximum: 100
-          minimum: 0
-          type: integer
-        create_time:
-          type: integer
-    SuccessTask:
+          $ref: '#/components/schemas/TaskOutput'
+        credits_consumed:
+          type: number
+          description: Credits consumed.
+        created_at:
+          type: string
+          description: Creation time in ISO 8601 format.
+          format: date-time
+        completed_at:
+          type: string
+          description: Completion time in ISO 8601 format.
+          format: date-time
+        error:
+          $ref: '#/components/schemas/TaskError'
       required:
-        - code
-        - data
+      - task_id
+      - status
+      additionalProperties: false
+    TaskOutput:
+      type: object
+      properties:
+        model_url:
+          type: string
+          description: Signed 3D model download URL.
+        model_urls:
+          type: array
+          items:
+            type: string
+          description: Signed 3D model download URLs.
+        rendered_image_url:
+          type: string
+          description: Rendered preview image URL.
+        image_url:
+          type: string
+          description: Generated image URL.
+        image_urls:
+          type: array
+          items:
+            type: string
+          description: Generated image URLs.
+        front_view_url:
+          type: string
+          description: Front-view image URL.
+        left_view_url:
+          type: string
+          description: Left-view image URL.
+        back_view_url:
+          type: string
+          description: Back-view image URL.
+        right_view_url:
+          type: string
+          description: Right-view image URL.
+        splat_url:
+          type: string
+          description: Generated Gaussian Splat file URL.
+        mask_url:
+          type: string
+          description: PNG semantic mask URL.
+        seg_model_url:
+          type: string
+          description: Segmented GLB model URL.
+        seg_task_id:
+          type: string
+          description: Internal mesh segmentation sub-task ID.
+        model_task_id:
+          type: string
+          description: Internal model generation/import sub-task ID.
+        prompt:
+          type: string
+          description: Generated prompt or labels.
+        riggable:
+          type: boolean
+          description: Whether the model is riggable.
+        rig_type:
+          type: string
+          description: Recommended rig type.
+      additionalProperties: true
+    TaskError:
       type: object
       properties:
         code:
-          enum:
-            - 0
-          type: integer
-        data:
-          required:
-            - task_id
-          type: object
-          properties:
-            task_id:
-              type: string
-              description: used for getTask
-    Balance:
-      required:
-        - code
-        - data
+          type: string
+          description: Task error code.
+        message:
+          type: string
+          description: Task error message.
+      additionalProperties: false
+    TaskResponse:
       type: object
       properties:
         code:
-          enum:
-            - 0
           type: integer
+          description: Status code. 0 indicates success.
         data:
-          required:
-            - balance
-            - frozen
-          type: object
-          properties:
-            balance:
-              type: number
-            frozen:
-              type: number
-  securitySchemes:
-    bearer:
-      type: http
-      scheme: bearer
-security:
-  - bearer: [ ]
+          $ref: '#/components/schemas/Task'
+      required:
+      - code
+      - data
+      additionalProperties: false
+    TaskListResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 indicates success.
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+          description: Task list.
+      required:
+      - code
+      - data
+      additionalProperties: false
+    FileData:
+      type: object
+      properties:
+        file_token:
+          type: string
+          description: Unique file identifier used for subsequent API calls.
+      required:
+      - file_token
+      additionalProperties: false
+    FileResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 indicates success.
+        data:
+          $ref: '#/components/schemas/FileData'
+      required:
+      - code
+      - data
+      additionalProperties: false
+    UploadCredentialsData:
+      type: object
+      properties:
+        file_token:
+          type: string
+          description: Unique file identifier.
+        upload_url:
+          type: string
+          description: Presigned upload URL. The client uploads the file directly with PUT.
+        expires_at:
+          type: string
+          description: Credential expiration time in ISO 8601 format.
+          format: date-time
+      required:
+      - file_token
+      - upload_url
+      - expires_at
+      additionalProperties: false
+    UploadCredentialsResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 indicates success.
+        data:
+          $ref: '#/components/schemas/UploadCredentialsData'
+      required:
+      - code
+      - data
+      additionalProperties: false
+    PresignFileUploadData:
+      type: object
+      properties:
+        presigned_url:
+          type: string
+          description: Presigned PUT URL valid for 30 minutes.
+        file_token:
+          type: string
+          description: File reference token.
+        expires_in:
+          type: integer
+          description: Presigned URL validity in seconds.
+      required:
+      - presigned_url
+      - file_token
+      - expires_in
+      additionalProperties: false
+    PresignFileUploadResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 indicates success.
+        data:
+          $ref: '#/components/schemas/PresignFileUploadData'
+      required:
+      - code
+      - data
+      additionalProperties: false
+    BalanceData:
+      type: object
+      properties:
+        balance:
+          type: number
+          description: Available credit balance.
+        frozen:
+          type: number
+          description: Frozen credits reserved for in-progress tasks.
+      required:
+      - balance
+      - frozen
+      additionalProperties: false
+    BalanceResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 indicates success.
+        data:
+          $ref: '#/components/schemas/BalanceData'
+      required:
+      - code
+      - data
+      additionalProperties: false
+    UsageItem:
+      type: object
+      properties:
+        task_id:
+          type: string
+          description: Unique task identifier.
+        type:
+          type: string
+          description: Task type.
+        credits_consumed:
+          type: number
+          description: Credits consumed.
+        created_at:
+          type: string
+          description: Creation time in ISO 8601 format.
+          format: date-time
+      required:
+      - task_id
+      - type
+      - credits_consumed
+      - created_at
+      additionalProperties: false
+    UsageResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 indicates success.
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UsageItem'
+          description: Usage details list.
+      required:
+      - code
+      - data
+      additionalProperties: false
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code.
+        message:
+          type: string
+          description: Error description.
+        suggestion:
+          type: string
+          description: Suggested fix.
+        request_id:
+          type: string
+          description: Unique request identifier for troubleshooting.
+      required:
+      - code
+      - message
+      additionalProperties: false

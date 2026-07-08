@@ -15,10 +15,11 @@ public partial class Tests
     {
         using var api = GetAuthenticatedClient();
 
-        SuccessTask response = await api.CreateTaskAsync(new CreateTaskRequestVariant1
+        TaskCreatedResponse response = await api.ThreeDGeneration.TextToModelAsync(new TextToModelRequest
         {
-            Type = CreateTaskRequestVariant1Type.TextToModel,
-            Prompt = "Generate some girl face",
+            Prompt = "Generate a stylized explorer character",
+            Model = "tripo-v3.1",
+            Texture = true,
         });
         
         Console.WriteLine($"Code: {response.Code}");
@@ -26,13 +27,11 @@ public partial class Tests
 
         await Task.Delay(TimeSpan.FromMinutes(1));
         
-        GetTaskResponse taskResponse = await api.GetTaskAsync(response.Data.TaskId);
+        TaskResponse taskResponse = await api.Tasks.GetTaskAsync(response.Data.TaskId);
         
         Console.WriteLine($"Code: {taskResponse.Code}");
         Console.WriteLine($"Status: {taskResponse.Data.Status}");
-        Console.WriteLine($"RenderedImage: {taskResponse.Data.Output.RenderedImage}");;
-        Console.WriteLine($"Model: {taskResponse.Data.Output.Model}");
-        Console.WriteLine($"PbrModel: {taskResponse.Data.Output.PbrModel}");
-        Console.WriteLine($"BaseModel: {taskResponse.Data.Output.BaseModel}");
+        Console.WriteLine($"RenderedImage: {taskResponse.Data.Output?.RenderedImageUrl}");
+        Console.WriteLine($"Model: {taskResponse.Data.Output?.ModelUrl}");
     }
 }

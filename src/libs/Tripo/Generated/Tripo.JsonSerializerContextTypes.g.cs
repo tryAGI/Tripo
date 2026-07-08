@@ -28,7 +28,7 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.Task? Type0 { get; set; }
+        public global::Tripo.TextToModelRequest? Type0 { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -36,203 +36,247 @@ namespace Tripo
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.TaskStatus? Type2 { get; set; }
+        public int? Type2 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public object? Type3 { get; set; }
+        public bool? Type3 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.TaskOutput? Type4 { get; set; }
+        public global::Tripo.ImageToModelRequest? Type4 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public int? Type5 { get; set; }
+        public global::Tripo.MultiviewToModelRequest? Type5 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.SuccessTask? Type6 { get; set; }
+        public global::System.Collections.Generic.IList<global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>>? Type6 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.SuccessTaskData? Type7 { get; set; }
+        public global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>? Type7 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.Balance? Type8 { get; set; }
+        public global::Tripo.MultiviewViewInput? Type8 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.BalanceData? Type9 { get; set; }
+        public global::Tripo.TaskReuseInput? Type9 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public double? Type10 { get; set; }
+        public global::Tripo.InputSourceObject? Type10 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.UploadFileRequest? Type11 { get; set; }
+        public object? Type11 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public byte[]? Type12 { get; set; }
+        public global::Tripo.OneOf<string, global::Tripo.InputSourceObject>? Type12 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant1? Type13 { get; set; }
+        public global::Tripo.ImageToSplatRequest? Type13 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant1Type? Type14 { get; set; }
+        public global::Tripo.TextToImageRequest? Type14 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant1ModelVersion? Type15 { get; set; }
+        public global::Tripo.ImageToImageRequest? Type15 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public bool? Type16 { get; set; }
+        public global::System.Collections.Generic.IList<string>? Type16 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant2? Type17 { get; set; }
+        public global::Tripo.ImageToMultiviewRequest? Type17 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant2Type? Type18 { get; set; }
+        public global::Tripo.EditMultiviewRequest? Type18 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant2File? Type19 { get; set; }
+        public global::Tripo.ImportModelRequest? Type19 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant2ModelVersion? Type20 { get; set; }
+        public global::Tripo.RefineModelRequest? Type20 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant3? Type21 { get; set; }
+        public global::Tripo.TextureModelRequest? Type21 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant3Type? Type22 { get; set; }
+        public global::Tripo.StylizeModelRequest? Type22 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::System.Collections.Generic.IList<global::Tripo.CreateTaskRequestVariant3File>? Type23 { get; set; }
+        public global::Tripo.ConvertModelRequest? Type23 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant3File? Type24 { get; set; }
+        public double? Type24 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant3Mode? Type25 { get; set; }
+        public global::Tripo.RigCheckRequest? Type25 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant3ModelVersion? Type26 { get; set; }
+        public global::Tripo.RigModelRequest? Type26 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant4? Type27 { get; set; }
+        public global::Tripo.RetargetAnimationRequest? Type27 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant4Type? Type28 { get; set; }
+        public global::Tripo.SegmentMeshRequest? Type28 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant5? Type29 { get; set; }
+        public global::Tripo.SmartSegmentMeshRequest? Type29 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant5Type? Type30 { get; set; }
+        public global::System.Collections.Generic.IList<double>? Type30 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant6? Type31 { get; set; }
+        public global::Tripo.CompleteMeshRequest? Type31 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant6Type? Type32 { get; set; }
+        public global::Tripo.DecimateMeshRequest? Type32 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant7? Type33 { get; set; }
+        public global::Tripo.TaskListRequest? Type33 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant7Type? Type34 { get; set; }
+        public global::Tripo.UploadFileRequest? Type34 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant7Animation? Type35 { get; set; }
+        public byte[]? Type35 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant8? Type36 { get; set; }
+        public global::Tripo.PresignFileUploadRequest? Type36 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant8Type? Type37 { get; set; }
+        public global::Tripo.TaskCreatedData? Type37 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant8Style? Type38 { get; set; }
+        public global::Tripo.TaskCreatedResponse? Type38 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant9? Type39 { get; set; }
+        public global::Tripo.Task? Type39 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant9Type? Type40 { get; set; }
+        public global::Tripo.TaskOutput? Type40 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant9Format? Type41 { get; set; }
+        public global::System.DateTime? Type41 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskRequestVariant9TextureFormat? Type42 { get; set; }
+        public global::Tripo.TaskError? Type42 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.GetTaskResponse? Type43 { get; set; }
+        public global::Tripo.TaskResponse? Type43 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.GetTaskResponse2? Type44 { get; set; }
+        public global::Tripo.TaskListResponse? Type44 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.UploadFileResponse? Type45 { get; set; }
+        public global::System.Collections.Generic.IList<global::Tripo.Task>? Type45 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.UploadFileResponseData? Type46 { get; set; }
+        public global::Tripo.FileData? Type46 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.UploadFileResponse2? Type47 { get; set; }
+        public global::Tripo.FileResponse? Type47 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.CreateTaskResponse? Type48 { get; set; }
+        public global::Tripo.UploadCredentialsData? Type48 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.GetBalanceResponse? Type49 { get; set; }
+        public global::Tripo.UploadCredentialsResponse? Type49 { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public global::Tripo.GetBalanceResponse2? Type50 { get; set; }
+        public global::Tripo.PresignFileUploadData? Type50 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::Tripo.PresignFileUploadResponse? Type51 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::Tripo.BalanceData? Type52 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::Tripo.BalanceResponse? Type53 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::Tripo.UsageItem? Type54 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::Tripo.UsageResponse? Type55 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::System.Collections.Generic.IList<global::Tripo.UsageItem>? Type56 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::Tripo.ErrorResponse? Type57 { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public global::System.Collections.Generic.List<global::Tripo.CreateTaskRequestVariant3File>? ListType0 { get; set; }
+        public global::System.Collections.Generic.List<global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>>? ListType0 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::System.Collections.Generic.List<string>? ListType1 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::System.Collections.Generic.List<double>? ListType2 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::System.Collections.Generic.List<global::Tripo.Task>? ListType3 { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public global::System.Collections.Generic.List<global::Tripo.UsageItem>? ListType4 { get; set; }
     }
 }

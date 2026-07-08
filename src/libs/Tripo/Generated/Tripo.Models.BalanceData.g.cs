@@ -9,14 +9,14 @@ namespace Tripo
     public sealed partial class BalanceData
     {
         /// <summary>
-        /// 
+        /// Available credit balance.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("balance")]
         [global::System.Text.Json.Serialization.JsonRequired]
         public required double Balance { get; set; }
 
         /// <summary>
-        /// 
+        /// Frozen credits reserved for in-progress tasks.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("frozen")]
         [global::System.Text.Json.Serialization.JsonRequired]
@@ -31,8 +31,12 @@ namespace Tripo
         /// <summary>
         /// Initializes a new instance of the <see cref="BalanceData" /> class.
         /// </summary>
-        /// <param name="balance"></param>
-        /// <param name="frozen"></param>
+        /// <param name="balance">
+        /// Available credit balance.
+        /// </param>
+        /// <param name="frozen">
+        /// Frozen credits reserved for in-progress tasks.
+        /// </param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif

@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// 
+    /// Task input parameters.
     /// </summary>
     public sealed partial class TaskInput
     {

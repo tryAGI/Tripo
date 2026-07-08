@@ -13,137 +13,82 @@ namespace Tripo
         DefaultIgnoreCondition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
         Converters = new global::System.Type[]
         {
-            typeof(global::Tripo.JsonConverters.TaskStatusJsonConverter),
+            typeof(global::Tripo.JsonConverters.OneOfJsonConverter<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>),
 
-            typeof(global::Tripo.JsonConverters.TaskStatusNullableJsonConverter),
+            typeof(global::Tripo.JsonConverters.OneOfJsonConverter<string, global::Tripo.InputSourceObject>),
 
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant1TypeJsonConverter),
+            typeof(global::Tripo.JsonConverters.OneOfJsonConverter<string, global::Tripo.InputSourceObject>),
 
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant1TypeNullableJsonConverter),
+            typeof(global::Tripo.JsonConverters.OneOfJsonConverter<string, global::Tripo.InputSourceObject>),
 
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant1ModelVersionJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant1ModelVersionNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant2TypeJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant2TypeNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant2ModelVersionJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant2ModelVersionNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant3TypeJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant3TypeNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant3ModeJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant3ModeNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant3ModelVersionJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant3ModelVersionNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant4TypeJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant4TypeNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant5TypeJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant5TypeNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant6TypeJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant6TypeNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant7TypeJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant7TypeNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant7AnimationJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant7AnimationNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant8TypeJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant8TypeNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant8StyleJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant8StyleNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant9TypeJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant9TypeNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant9FormatJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant9FormatNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant9TextureFormatJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.CreateTaskRequestVariant9TextureFormatNullableJsonConverter),
-
-            typeof(global::Tripo.JsonConverters.OneOfJsonConverter<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9>),
+            typeof(global::Tripo.JsonConverters.OneOfJsonConverter<string, global::Tripo.InputSourceObject>),
 
             typeof(global::Tripo.JsonConverters.UnixTimestampJsonConverter),
         })]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.JsonSerializerContextTypes))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.Task))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TextToModelRequest))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(string))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TaskStatus), TypeInfoPropertyName = "TaskStatus2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(object))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TaskOutput))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(int))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.SuccessTask))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.SuccessTaskData))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.Balance))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.BalanceData))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(bool))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.ImageToModelRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.MultiviewToModelRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.IList<global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>>))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>), TypeInfoPropertyName = "OneOfStringMultiviewViewInputTaskReuseInput2")]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.MultiviewViewInput))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TaskReuseInput))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.InputSourceObject))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(object))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.OneOf<string, global::Tripo.InputSourceObject>), TypeInfoPropertyName = "OneOfStringInputSourceObject2")]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.ImageToSplatRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TextToImageRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.ImageToImageRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.IList<string>))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.ImageToMultiviewRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.EditMultiviewRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.ImportModelRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.RefineModelRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TextureModelRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.StylizeModelRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.ConvertModelRequest))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(double))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.RigCheckRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.RigModelRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.RetargetAnimationRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.SegmentMeshRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.SmartSegmentMeshRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.IList<double>))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CompleteMeshRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.DecimateMeshRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TaskListRequest))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.UploadFileRequest))]
     [global::System.Text.Json.Serialization.JsonSerializable(typeof(byte[]))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.OneOf<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9>), TypeInfoPropertyName = "CreateTaskRequestVariant9_60225df588eab470")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant1))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant1Type), TypeInfoPropertyName = "CreateTaskRequestVariant1Type2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant1ModelVersion), TypeInfoPropertyName = "CreateTaskRequestVariant1ModelVersion2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(bool))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant2))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant2Type), TypeInfoPropertyName = "CreateTaskRequestVariant2Type2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant2File))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant2ModelVersion), TypeInfoPropertyName = "CreateTaskRequestVariant2ModelVersion2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant3))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant3Type), TypeInfoPropertyName = "CreateTaskRequestVariant3Type2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.IList<global::Tripo.CreateTaskRequestVariant3File>))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant3File))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant3Mode), TypeInfoPropertyName = "CreateTaskRequestVariant3Mode2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant3ModelVersion), TypeInfoPropertyName = "CreateTaskRequestVariant3ModelVersion2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant4))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant4Type), TypeInfoPropertyName = "CreateTaskRequestVariant4Type2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant5))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant5Type), TypeInfoPropertyName = "CreateTaskRequestVariant5Type2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant6))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant6Type), TypeInfoPropertyName = "CreateTaskRequestVariant6Type2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant7))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant7Type), TypeInfoPropertyName = "CreateTaskRequestVariant7Type2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant7Animation), TypeInfoPropertyName = "CreateTaskRequestVariant7Animation2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant8))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant8Type), TypeInfoPropertyName = "CreateTaskRequestVariant8Type2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant8Style), TypeInfoPropertyName = "CreateTaskRequestVariant8Style2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant9))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant9Type), TypeInfoPropertyName = "CreateTaskRequestVariant9Type2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant9Format), TypeInfoPropertyName = "CreateTaskRequestVariant9Format2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskRequestVariant9TextureFormat), TypeInfoPropertyName = "CreateTaskRequestVariant9TextureFormat2")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.GetTaskResponse))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.GetTaskResponse2))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.UploadFileResponse))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.UploadFileResponseData))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.UploadFileResponse2))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.CreateTaskResponse))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.GetBalanceResponse))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.GetBalanceResponse2))]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.OneOf<global::Tripo.CreateTaskRequestVariant1, global::Tripo.CreateTaskRequestVariant2, global::Tripo.CreateTaskRequestVariant3, global::Tripo.CreateTaskRequestVariant4, global::Tripo.CreateTaskRequestVariant5, global::Tripo.CreateTaskRequestVariant6, global::Tripo.CreateTaskRequestVariant7, global::Tripo.CreateTaskRequestVariant8, global::Tripo.CreateTaskRequestVariant9>?), TypeInfoPropertyName = "CreateTaskRequestVariant9_a22926bdf90af489")]
-    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.List<global::Tripo.CreateTaskRequestVariant3File>))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.PresignFileUploadRequest))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TaskCreatedData))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TaskCreatedResponse))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.Task))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TaskOutput))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.DateTime))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TaskError))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TaskResponse))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.TaskListResponse))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.IList<global::Tripo.Task>))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.FileData))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.FileResponse))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.UploadCredentialsData))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.UploadCredentialsResponse))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.PresignFileUploadData))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.PresignFileUploadResponse))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.BalanceData))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.BalanceResponse))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.UsageItem))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.UsageResponse))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.IList<global::Tripo.UsageItem>))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::Tripo.ErrorResponse))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.List<global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>>))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.List<string>))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.List<double>))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.List<global::Tripo.Task>))]
+    [global::System.Text.Json.Serialization.JsonSerializable(typeof(global::System.Collections.Generic.List<global::Tripo.UsageItem>))]
     public sealed partial class SourceGenerationContext : global::System.Text.Json.Serialization.JsonSerializerContext
     {
     }

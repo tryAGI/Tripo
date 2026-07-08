@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// use tripo to generate 3d models<br/>
+    /// Tripo API V3 for AI 3D generation, image generation, model processing, animation, files, tasks, and account usage. Locally maintained from https://developers.tripo3d.ai/en/docs because Tripo does not publish an unauthenticated OpenAPI schema.<br/>
     /// If no httpClient is provided, a new one will be created.<br/>
     /// If no baseUri is provided, the default baseUri from OpenAPI spec will be used.
     /// </summary>
@@ -44,6 +44,46 @@ namespace Tripo
         /// </summary>
         global::System.Text.Json.Serialization.JsonSerializerContext JsonSerializerContext { get; set; }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public AccountClient Account { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public AnimationClient Animation { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public FilesClient Files { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ImageGenerationClient ImageGeneration { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public MeshClient Mesh { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ModelsClient Models { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public TasksClient Tasks { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ThreeDGenerationClient ThreeDGeneration { get; }
 
     }
 }
