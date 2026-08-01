@@ -56,6 +56,40 @@ endpoints on November 1, 2026, both at 00:00 UTC.
 See Tripo's [V2 to V3 migration guide](https://developers.tripo3d.ai/en/docs/migration-v2-to-v3) for the complete
 endpoint and payload mapping.
 
+### Webhooks
+
+Webhook requests include a `Tripo-Webhook-Signature` header. Verify it against the exact raw request body before
+deserializing the JSON:
+
+```csharp
+using var buffer = new MemoryStream();
+await httpContext.Request.Body.CopyToAsync(buffer);
+byte[] payload = buffer.ToArray();
+string signature = httpContext.Request.Headers["Tripo-Webhook-Signature"].ToString();
+
+if (!TripoWebhookSignature.Verify(payload, signature, webhookSecret))
+{
+    httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+    return;
+}
+
+// The webhook event payload is under the JSON "data" property.
+```
+
+The verifier uses HMAC-SHA256, a constant-time comparison, and a five-minute timestamp tolerance by default. Configure
+the webhook URL and obtain its `whsec_...` signing secret in the Tripo developer console.
+
+### Authenticated V3 smoke test
+
+Create an ignored `.env` file containing `TRIPO_API_KEY=...`, then run:
+
+```bash
+./scripts/test-v3-smoke.sh
+```
+
+The explicitly gated test checks account balance, file upload, and a low-cost untextured model generation. It reports
+the balance difference and task-reported credit usage when complete.
+
 ### CLI
 
 ```bash
