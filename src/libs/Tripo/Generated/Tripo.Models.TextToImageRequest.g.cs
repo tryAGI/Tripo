@@ -9,20 +9,56 @@ namespace Tripo
     public sealed partial class TextToImageRequest
     {
         /// <summary>
-        /// Text prompt, up to 1024 characters.
+        /// Text prompt, up to 1800 characters.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("prompt")]
         [global::System.Text.Json.Serialization.JsonRequired]
         public required string Prompt { get; set; }
 
         /// <summary>
-        /// Image model, for example seedream_v5, seedream_v4, gemini-2.5-flash, gemini-3-pro, gemini-3.1-flash, chat_image_1, chat_image_1.5, or chat_image_2.
+        /// Optional negative prompt.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("negative_prompt")]
+        public string? NegativePrompt { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("style_image")]
+        public global::Tripo.InputSourceObject? StyleImage { get; set; }
+
+        /// <summary>
+        /// Image model alias. Supported values include seedream_v5, seedream_v4, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v4.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("model")]
         public string? Model { get; set; }
 
         /// <summary>
-        /// Template name, such as asset_extraction, character_completion, t_pose, head_extraction, 3d_enhance, variants, print_clay, or figure.
+        /// Output image size. Supported values depend on the selected model.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("size")]
+        public string? Size { get; set; }
+
+        /// <summary>
+        /// Output aspect ratio. Supported only by banana-family models.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("aspect_ratio")]
+        public string? AspectRatio { get; set; }
+
+        /// <summary>
+        /// Output image format, png or jpeg.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("output_format")]
+        public string? OutputFormat { get; set; }
+
+        /// <summary>
+        /// Add an AI-generated content watermark where supported.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("watermark")]
+        public bool? Watermark { get; set; }
+
+        /// <summary>
+        /// Template name, such as asset_extraction, character_completion, t_pose, variants, or figure.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("template")]
         public string? Template { get; set; }
@@ -49,13 +85,29 @@ namespace Tripo
         /// Initializes a new instance of the <see cref="TextToImageRequest" /> class.
         /// </summary>
         /// <param name="prompt">
-        /// Text prompt, up to 1024 characters.
+        /// Text prompt, up to 1800 characters.
         /// </param>
+        /// <param name="negativePrompt">
+        /// Optional negative prompt.
+        /// </param>
+        /// <param name="styleImage"></param>
         /// <param name="model">
-        /// Image model, for example seedream_v5, seedream_v4, gemini-2.5-flash, gemini-3-pro, gemini-3.1-flash, chat_image_1, chat_image_1.5, or chat_image_2.
+        /// Image model alias. Supported values include seedream_v5, seedream_v4, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v4.
+        /// </param>
+        /// <param name="size">
+        /// Output image size. Supported values depend on the selected model.
+        /// </param>
+        /// <param name="aspectRatio">
+        /// Output aspect ratio. Supported only by banana-family models.
+        /// </param>
+        /// <param name="outputFormat">
+        /// Output image format, png or jpeg.
+        /// </param>
+        /// <param name="watermark">
+        /// Add an AI-generated content watermark where supported.
         /// </param>
         /// <param name="template">
-        /// Template name, such as asset_extraction, character_completion, t_pose, head_extraction, 3d_enhance, variants, print_clay, or figure.
+        /// Template name, such as asset_extraction, character_completion, t_pose, variants, or figure.
         /// </param>
         /// <param name="tPose">
         /// Convert to T-pose.
@@ -68,13 +120,25 @@ namespace Tripo
 #endif
         public TextToImageRequest(
             string prompt,
+            string? negativePrompt,
+            global::Tripo.InputSourceObject? styleImage,
             string? model,
+            string? size,
+            string? aspectRatio,
+            string? outputFormat,
+            bool? watermark,
             string? template,
             bool? tPose,
             bool? sketchToRender)
         {
             this.Prompt = prompt ?? throw new global::System.ArgumentNullException(nameof(prompt));
+            this.NegativePrompt = negativePrompt;
+            this.StyleImage = styleImage;
             this.Model = model;
+            this.Size = size;
+            this.AspectRatio = aspectRatio;
+            this.OutputFormat = outputFormat;
+            this.Watermark = watermark;
             this.Template = template;
             this.TPose = tPose;
             this.SketchToRender = sketchToRender;

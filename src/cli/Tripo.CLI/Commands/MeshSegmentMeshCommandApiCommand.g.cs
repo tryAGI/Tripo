@@ -7,11 +7,10 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class MeshSegmentMeshCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"Model source. Accepts task_id, file_token, or URL.",
-        Required = true,
     };
 
     private static Option<string?> Model { get; } = new(
@@ -34,6 +33,12 @@ internal static partial class MeshSegmentMeshCommandApiCommand
         name: @"--ref-image")
     {
         Description = @"v2 only. Reference image as file_token or URL.",
+    };
+
+    private static Option<string?> OriginalModelTaskId { get; } = new(
+        name: @"--original-model-task-id")
+    {
+        Description = @"V2-compatible source model task ID.",
     };
       private static Option<string?> RequestInput { get; } = new(@"--request-input")
       {
@@ -80,6 +85,7 @@ internal static partial class MeshSegmentMeshCommandApiCommand
                         command.Options.Add(SegmentationGranularity);
                         command.Options.Add(SplitByConnectivity);
                         command.Options.Add(RefImage);
+                        command.Options.Add(OriginalModelTaskId);
           command.Options.Add(RequestInput);
           command.Options.Add(RequestJson);
           command.Options.Add(RequestFile);
@@ -105,11 +111,12 @@ internal static partial class MeshSegmentMeshCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
                         var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
                         var segmentationGranularity = CliRuntime.WasSpecified(parseResult, SegmentationGranularity) ? parseResult.GetValue(SegmentationGranularity) : (__requestBase is { } __SegmentationGranularityBaseValue ? __SegmentationGranularityBaseValue.SegmentationGranularity : default);
                         var splitByConnectivity = CliRuntime.WasSpecified(parseResult, SplitByConnectivity) ? parseResult.GetValue(SplitByConnectivity) : (__requestBase is { } __SplitByConnectivityBaseValue ? __SplitByConnectivityBaseValue.SplitByConnectivity : default);
                         var refImage = CliRuntime.WasSpecified(parseResult, RefImage) ? parseResult.GetValue(RefImage) : (__requestBase is { } __RefImageBaseValue ? __RefImageBaseValue.RefImage : default);
+                        var originalModelTaskId = CliRuntime.WasSpecified(parseResult, OriginalModelTaskId) ? parseResult.GetValue(OriginalModelTaskId) : (__requestBase is { } __OriginalModelTaskIdBaseValue ? __OriginalModelTaskIdBaseValue.OriginalModelTaskId : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
@@ -119,6 +126,7 @@ internal static partial class MeshSegmentMeshCommandApiCommand
                                     segmentationGranularity: segmentationGranularity,
                                     splitByConnectivity: splitByConnectivity,
                                     refImage: refImage,
+                                    originalModelTaskId: originalModelTaskId,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

@@ -12,11 +12,16 @@ namespace Tripo
         /// Model source. Accepts task_id or file_token.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("input")]
-        [global::System.Text.Json.Serialization.JsonRequired]
-        public required string Input { get; set; }
+        public string? Input { get; set; }
 
         /// <summary>
-        /// Auto rigging model version, such as rig-v2.0 or rig-v1.0.
+        /// V2-compatible source model task ID.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("original_model_task_id")]
+        public string? OriginalModelTaskId { get; set; }
+
+        /// <summary>
+        /// Auto rigging model version, v1.0-20240301 or v2.5-20260210.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("model")]
         public string? Model { get; set; }
@@ -51,8 +56,11 @@ namespace Tripo
         /// <param name="input">
         /// Model source. Accepts task_id or file_token.
         /// </param>
+        /// <param name="originalModelTaskId">
+        /// V2-compatible source model task ID.
+        /// </param>
         /// <param name="model">
-        /// Auto rigging model version, such as rig-v2.0 or rig-v1.0.
+        /// Auto rigging model version, v1.0-20240301 or v2.5-20260210.
         /// </param>
         /// <param name="rigType">
         /// Rig type, such as biped, quadruped, hexapod, octopod, avian, serpentine, or aquatic.
@@ -67,13 +75,15 @@ namespace Tripo
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public RigModelRequest(
-            string input,
+            string? input,
+            string? originalModelTaskId,
             string? model,
             string? rigType,
             string? spec,
             string? outFormat)
         {
-            this.Input = input ?? throw new global::System.ArgumentNullException(nameof(input));
+            this.Input = input;
+            this.OriginalModelTaskId = originalModelTaskId;
             this.Model = model;
             this.RigType = rigType;
             this.Spec = spec;

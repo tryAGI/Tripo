@@ -29,8 +29,8 @@ namespace Tripo
         /// <summary>
         /// Generated image URL.
         /// </summary>
-        [global::System.Text.Json.Serialization.JsonPropertyName("image_url")]
-        public string? ImageUrl { get; set; }
+        [global::System.Text.Json.Serialization.JsonPropertyName("generated_image_url")]
+        public string? GeneratedImageUrl { get; set; }
 
         /// <summary>
         /// Generated image URLs.
@@ -61,6 +61,30 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("right_view_url")]
         public string? RightViewUrl { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("generate_multiview_image")]
+        public global::Tripo.MultiviewImages? GenerateMultiviewImage { get; set; }
+
+        /// <summary>
+        /// Rendered preview video URL.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("rendered_video_url")]
+        public string? RenderedVideoUrl { get; set; }
+
+        /// <summary>
+        /// Rendered image sequence URL.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("rendered_sequence_url")]
+        public string? RenderedSequenceUrl { get; set; }
+
+        /// <summary>
+        /// Multiview base-color image URL.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("multiview_basecolor_url")]
+        public string? MultiviewBasecolorUrl { get; set; }
 
         /// <summary>
         /// Generated Gaussian Splat file URL.
@@ -111,6 +135,12 @@ namespace Tripo
         public string? RigType { get; set; }
 
         /// <summary>
+        /// Generated image size.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("size")]
+        public string? Size { get; set; }
+
+        /// <summary>
         /// Additional properties that are not explicitly defined in the schema
         /// </summary>
         [global::System.Text.Json.Serialization.JsonExtensionData]
@@ -128,7 +158,7 @@ namespace Tripo
         /// <param name="renderedImageUrl">
         /// Rendered preview image URL.
         /// </param>
-        /// <param name="imageUrl">
+        /// <param name="generatedImageUrl">
         /// Generated image URL.
         /// </param>
         /// <param name="imageUrls">
@@ -145,6 +175,16 @@ namespace Tripo
         /// </param>
         /// <param name="rightViewUrl">
         /// Right-view image URL.
+        /// </param>
+        /// <param name="generateMultiviewImage"></param>
+        /// <param name="renderedVideoUrl">
+        /// Rendered preview video URL.
+        /// </param>
+        /// <param name="renderedSequenceUrl">
+        /// Rendered image sequence URL.
+        /// </param>
+        /// <param name="multiviewBasecolorUrl">
+        /// Multiview base-color image URL.
         /// </param>
         /// <param name="splatUrl">
         /// Generated Gaussian Splat file URL.
@@ -170,6 +210,9 @@ namespace Tripo
         /// <param name="rigType">
         /// Recommended rig type.
         /// </param>
+        /// <param name="size">
+        /// Generated image size.
+        /// </param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
@@ -177,12 +220,16 @@ namespace Tripo
             string? modelUrl,
             global::System.Collections.Generic.IList<string>? modelUrls,
             string? renderedImageUrl,
-            string? imageUrl,
+            string? generatedImageUrl,
             global::System.Collections.Generic.IList<string>? imageUrls,
             string? frontViewUrl,
             string? leftViewUrl,
             string? backViewUrl,
             string? rightViewUrl,
+            global::Tripo.MultiviewImages? generateMultiviewImage,
+            string? renderedVideoUrl,
+            string? renderedSequenceUrl,
+            string? multiviewBasecolorUrl,
             string? splatUrl,
             string? maskUrl,
             string? segModelUrl,
@@ -190,17 +237,22 @@ namespace Tripo
             string? modelTaskId,
             string? prompt,
             bool? riggable,
-            string? rigType)
+            string? rigType,
+            string? size)
         {
             this.ModelUrl = modelUrl;
             this.ModelUrls = modelUrls;
             this.RenderedImageUrl = renderedImageUrl;
-            this.ImageUrl = imageUrl;
+            this.GeneratedImageUrl = generatedImageUrl;
             this.ImageUrls = imageUrls;
             this.FrontViewUrl = frontViewUrl;
             this.LeftViewUrl = leftViewUrl;
             this.BackViewUrl = backViewUrl;
             this.RightViewUrl = rightViewUrl;
+            this.GenerateMultiviewImage = generateMultiviewImage;
+            this.RenderedVideoUrl = renderedVideoUrl;
+            this.RenderedSequenceUrl = renderedSequenceUrl;
+            this.MultiviewBasecolorUrl = multiviewBasecolorUrl;
             this.SplatUrl = splatUrl;
             this.MaskUrl = maskUrl;
             this.SegModelUrl = segModelUrl;
@@ -209,6 +261,7 @@ namespace Tripo
             this.Prompt = prompt;
             this.Riggable = riggable;
             this.RigType = rigType;
+            this.Size = size;
         }
 
         /// <summary>

@@ -16,6 +16,12 @@ namespace Tripo
         public required int Code { get; set; }
 
         /// <summary>
+        /// Response status, normally error.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("status")]
+        public string? Status { get; set; }
+
+        /// <summary>
         /// Error description.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("message")]
@@ -49,6 +55,9 @@ namespace Tripo
         /// <param name="message">
         /// Error description.
         /// </param>
+        /// <param name="status">
+        /// Response status, normally error.
+        /// </param>
         /// <param name="suggestion">
         /// Suggested fix.
         /// </param>
@@ -61,10 +70,12 @@ namespace Tripo
         public ErrorResponse(
             int code,
             string message,
+            string? status,
             string? suggestion,
             string? requestId)
         {
             this.Code = code;
+            this.Status = status;
             this.Message = message ?? throw new global::System.ArgumentNullException(nameof(message));
             this.Suggestion = suggestion;
             this.RequestId = requestId;

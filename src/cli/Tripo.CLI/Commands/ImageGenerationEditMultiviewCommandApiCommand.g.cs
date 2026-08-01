@@ -7,12 +7,40 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class ImageGenerationEditMultiviewCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
-        Description = @"Source image. Supports file_token or image URL.",
+        Description = @"Source multiview image, file token, URL, or task ID.",
+    };
+
+    private static Option<string?> OriginalTaskId { get; } = new(
+        name: @"--original-task-id")
+    {
+        Description = @"Legacy task ID from a successful image-to-multiview task.",
+    };
+
+    private static Option<global::System.Collections.Generic.IList<global::Tripo.MultiviewEditPrompt>> Prompts { get; } = new(
+        name: @"--prompts")
+    {
+        Description = @"One to four per-view edit instructions.",
         Required = true,
     };
+      private static Option<string?> RequestInput { get; } = new(@"--request-input")
+      {
+          Description = "Load request JSON from a file path, '-' for stdin, or an inline JSON object/array string.",
+      };
+
+      private static Option<string?> RequestJson { get; } = new(@"--request-json")
+      {
+          Description = "Request body as JSON.",
+          Hidden = true,
+      };
+
+      private static Option<string?> RequestFile { get; } = new(@"--request-file")
+      {
+          Description = "Path to a JSON request file, or '-' for stdin.",
+          Hidden = true,
+      };
 
                     private static string FormatResponse(ParseResult parseResult, global::Tripo.TaskCreatedResponse value, global::System.Text.Json.Serialization.JsonSerializerContext context, bool truncateLongStrings)
                     {
@@ -38,17 +66,43 @@ internal static partial class ImageGenerationEditMultiviewCommandApiCommand
     {
         var command = new Command(@"edit-multiview", @"Edit multiview images");
                         command.Options.Add(InputOption);
-
+                        command.Options.Add(OriginalTaskId);
+                        command.Options.Add(Prompts);
+          command.Options.Add(RequestInput);
+          command.Options.Add(RequestJson);
+          command.Options.Add(RequestFile);
+          command.Validators.Add(result =>
+          {
+              var hasInput = result.GetResult(RequestInput) is not null;
+              var hasRequestJson = result.GetResult(RequestJson) is not null;
+              var hasRequestFile = result.GetResult(RequestFile) is not null;
+              var specifiedCount = (hasInput ? 1 : 0) + (hasRequestJson ? 1 : 0) + (hasRequestFile ? 1 : 0);
+              if (specifiedCount > 1)
+              {
+                  result.AddError(@"Specify at most one of --request-input, --request-json, or --request-file.");
+              }
+          });
 
         command.SetAction(async (ParseResult parseResult, CancellationToken cancellationToken) =>
             await CliRuntime.RunAsync(async () =>
             {
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var __requestBase = await CliRuntime.ReadRequestOrDefaultAsync<global::Tripo.EditMultiviewRequest>(
+                            parseResult,
+                            RequestInput,
+                            RequestJson,
+                            RequestFile,
+                            global::Tripo.SourceGenerationContext.Default,
+                            cancellationToken).ConfigureAwait(false);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
+                        var originalTaskId = CliRuntime.WasSpecified(parseResult, OriginalTaskId) ? parseResult.GetValue(OriginalTaskId) : (__requestBase is { } __OriginalTaskIdBaseValue ? __OriginalTaskIdBaseValue.OriginalTaskId : default);
+                        var prompts = parseResult.GetRequiredValue(Prompts);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
                                 var response = await client.ImageGeneration.EditMultiviewAsync(
                                     input: input,
+                                    originalTaskId: originalTaskId,
+                                    prompts: prompts,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

@@ -49,16 +49,20 @@ namespace Tripo
         /// <param name="bake">
         /// Bake textures onto the low-poly model.
         /// </param>
+        /// <param name="originalModelTaskId">
+        /// V2-compatible source model task ID.
+        /// </param>
         /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::System.InvalidOperationException"></exception>
         global::System.Threading.Tasks.Task<global::Tripo.TaskCreatedResponse> DecimateMeshAsync(
-            string input,
+            string? input = default,
             string? model = default,
             int? faceLimit = default,
             bool? quad = default,
             global::System.Collections.Generic.IList<string>? partNames = default,
             bool? bake = default,
+            string? originalModelTaskId = default,
             global::Tripo.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default);
     }

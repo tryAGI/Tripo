@@ -7,11 +7,10 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class ImageGenerationImageToImageCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"Reference image. Supports file_token, image URL, or task_id.",
-        Required = true,
     };
 
     private static Option<global::System.Collections.Generic.IList<string>?> Inputs { get; } = new(
@@ -29,8 +28,30 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
     private static Option<string?> Model { get; } = new(
         name: @"--model")
     {
-        Description = @"Image model, for example seedream_v5, gemini-2.5-flash, gemini-3-pro, gemini-3.1-flash, chat_image_1, chat_image_1.5, or chat_image_2.",
+        Description = @"Image model alias. Supported values include seedream_v5, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v5.",
     };
+
+    private static Option<string?> Size { get; } = new(
+        name: @"--size")
+    {
+        Description = @"Output image size. Supported values depend on the selected model.",
+    };
+
+    private static Option<string?> AspectRatio { get; } = new(
+        name: @"--aspect-ratio")
+    {
+        Description = @"Output aspect ratio. Supported only by banana-family models.",
+    };
+
+    private static Option<string?> OutputFormat { get; } = new(
+        name: @"--output-format")
+    {
+        Description = @"Output image format, png or jpeg.",
+    };
+
+    private static Option<bool?> Watermark { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--watermark",
+        description: @"Add an AI-generated content watermark where supported.");
 
     private static Option<string?> Template { get; } = new(
         name: @"--template")
@@ -89,6 +110,10 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
                         command.Options.Add(Inputs);
                         command.Options.Add(Prompt);
                         command.Options.Add(Model);
+                        command.Options.Add(Size);
+                        command.Options.Add(AspectRatio);
+                        command.Options.Add(OutputFormat);
+                        command.Options.Add(Watermark);
                         command.Options.Add(Template);
                         command.Options.Add(TPose);
                         command.Options.Add(SketchToRender);
@@ -117,10 +142,14 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
                         var inputs = CliRuntime.WasSpecified(parseResult, Inputs) ? parseResult.GetValue(Inputs) : (__requestBase is { } __InputsBaseValue ? __InputsBaseValue.Inputs : default);
                         var prompt = CliRuntime.WasSpecified(parseResult, Prompt) ? parseResult.GetValue(Prompt) : (__requestBase is { } __PromptBaseValue ? __PromptBaseValue.Prompt : default);
                         var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
+                        var size = CliRuntime.WasSpecified(parseResult, Size) ? parseResult.GetValue(Size) : (__requestBase is { } __SizeBaseValue ? __SizeBaseValue.Size : default);
+                        var aspectRatio = CliRuntime.WasSpecified(parseResult, AspectRatio) ? parseResult.GetValue(AspectRatio) : (__requestBase is { } __AspectRatioBaseValue ? __AspectRatioBaseValue.AspectRatio : default);
+                        var outputFormat = CliRuntime.WasSpecified(parseResult, OutputFormat) ? parseResult.GetValue(OutputFormat) : (__requestBase is { } __OutputFormatBaseValue ? __OutputFormatBaseValue.OutputFormat : default);
+                        var watermark = CliRuntime.WasSpecified(parseResult, Watermark) ? parseResult.GetValue(Watermark) : (__requestBase is { } __WatermarkBaseValue ? __WatermarkBaseValue.Watermark : default);
                         var template = CliRuntime.WasSpecified(parseResult, Template) ? parseResult.GetValue(Template) : (__requestBase is { } __TemplateBaseValue ? __TemplateBaseValue.Template : default);
                         var tPose = CliRuntime.WasSpecified(parseResult, TPose) ? parseResult.GetValue(TPose) : (__requestBase is { } __TPoseBaseValue ? __TPoseBaseValue.TPose : default);
                         var sketchToRender = CliRuntime.WasSpecified(parseResult, SketchToRender) ? parseResult.GetValue(SketchToRender) : (__requestBase is { } __SketchToRenderBaseValue ? __SketchToRenderBaseValue.SketchToRender : default);
@@ -132,6 +161,10 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
                                     inputs: inputs,
                                     prompt: prompt,
                                     model: model,
+                                    size: size,
+                                    aspectRatio: aspectRatio,
+                                    outputFormat: outputFormat,
+                                    watermark: watermark,
                                     template: template,
                                     tPose: tPose,
                                     sketchToRender: sketchToRender,

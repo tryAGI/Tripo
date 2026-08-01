@@ -474,8 +474,11 @@ namespace Tripo
         /// <param name="input">
         /// Model source. Accepts task_id or file_token.
         /// </param>
+        /// <param name="originalModelTaskId">
+        /// V2-compatible source model task ID.
+        /// </param>
         /// <param name="model">
-        /// Auto rigging model version, such as rig-v2.0 or rig-v1.0.
+        /// Auto rigging model version, v1.0-20240301 or v2.5-20260210.
         /// </param>
         /// <param name="rigType">
         /// Rig type, such as biped, quadruped, hexapod, octopod, avian, serpentine, or aquatic.
@@ -490,7 +493,8 @@ namespace Tripo
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::System.InvalidOperationException"></exception>
         public async global::System.Threading.Tasks.Task<global::Tripo.TaskCreatedResponse> RigModelAsync(
-            string input,
+            string? input = default,
+            string? originalModelTaskId = default,
             string? model = default,
             string? rigType = default,
             string? spec = default,
@@ -501,6 +505,7 @@ namespace Tripo
             var __request = new global::Tripo.RigModelRequest
             {
                 Input = input,
+                OriginalModelTaskId = originalModelTaskId,
                 Model = model,
                 RigType = rigType,
                 Spec = spec,

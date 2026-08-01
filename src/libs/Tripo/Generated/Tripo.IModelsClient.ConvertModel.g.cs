@@ -34,6 +34,9 @@ namespace Tripo
         /// <param name="input">
         /// Model source. Accepts task_id or file_token.
         /// </param>
+        /// <param name="originalModelTaskId">
+        /// V2-compatible source model task ID.
+        /// </param>
         /// <param name="format">
         /// Target format, such as GLTF, USDZ, FBX, OBJ, STL, or 3MF.
         /// </param>
@@ -79,6 +82,9 @@ namespace Tripo
         /// <param name="animateInPlace">
         /// In-place animation.
         /// </param>
+        /// <param name="assembleAnimation">
+        /// Assemble multiple animations in the exported model.
+        /// </param>
         /// <param name="partNames">
         /// Names of parts to export, from mesh/segment data.
         /// </param>
@@ -92,8 +98,9 @@ namespace Tripo
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::System.InvalidOperationException"></exception>
         global::System.Threading.Tasks.Task<global::Tripo.TaskCreatedResponse> ConvertModelAsync(
-            string input,
             string format,
+            string? input = default,
+            string? originalModelTaskId = default,
             bool? quad = default,
             bool? forceSymmetry = default,
             int? faceLimit = default,
@@ -108,6 +115,7 @@ namespace Tripo
             double? scaleFactor = default,
             bool? withAnimation = default,
             bool? animateInPlace = default,
+            bool? assembleAnimation = default,
             global::System.Collections.Generic.IList<string>? partNames = default,
             string? exportOrientation = default,
             string? fbxPreset = default,

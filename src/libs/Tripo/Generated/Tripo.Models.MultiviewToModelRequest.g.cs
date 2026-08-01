@@ -12,14 +12,19 @@ namespace Tripo
         /// Multiview images. Use either view-key objects, a four item positional array, or a single task_id object.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("inputs")]
-        [global::System.Text.Json.Serialization.JsonRequired]
-        public required global::System.Collections.Generic.IList<global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>> Inputs { get; set; }
+        public global::System.Collections.Generic.IList<global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>>? Inputs { get; set; }
 
         /// <summary>
-        /// Task ID from previous multiview generation. Mutually exclusive with inputs.
+        /// Task ID from previous multiview generation. Mutually exclusive with inputs. This is the V3 name for V2's original_task_id field.
         /// </summary>
-        [global::System.Text.Json.Serialization.JsonPropertyName("original_task_id")]
-        public string? OriginalTaskId { get; set; }
+        [global::System.Text.Json.Serialization.JsonPropertyName("original_model_task_id")]
+        public string? OriginalModelTaskId { get; set; }
+
+        /// <summary>
+        /// Legacy four-slot input array in front, left, back, right order. Use empty objects for omitted views.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("files")]
+        public global::System.Collections.Generic.IList<global::Tripo.InputSourceObject>? Files { get; set; }
 
         /// <summary>
         /// Texture alignment priority, such as original_image or geometry.
@@ -34,10 +39,11 @@ namespace Tripo
         public string? Orientation { get; set; }
 
         /// <summary>
-        /// AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
+        /// Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("model")]
-        public string? Model { get; set; }
+        [global::System.Text.Json.Serialization.JsonRequired]
+        public required string Model { get; set; }
 
         /// <summary>
         /// Random seed for geometry generation.
@@ -118,6 +124,18 @@ namespace Tripo
         public bool? ExportUv { get; set; }
 
         /// <summary>
+        /// Include generated multiview images in the task output.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("return_multiview")]
+        public bool? ReturnMultiview { get; set; }
+
+        /// <summary>
+        /// Treat the supplied views as orthographic projections.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("orthographic_projection")]
+        public bool? OrthographicProjection { get; set; }
+
+        /// <summary>
         /// Additional properties that are not explicitly defined in the schema
         /// </summary>
         [global::System.Text.Json.Serialization.JsonExtensionData]
@@ -126,20 +144,23 @@ namespace Tripo
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiviewToModelRequest" /> class.
         /// </summary>
+        /// <param name="model">
+        /// Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.
+        /// </param>
         /// <param name="inputs">
         /// Multiview images. Use either view-key objects, a four item positional array, or a single task_id object.
         /// </param>
-        /// <param name="originalTaskId">
-        /// Task ID from previous multiview generation. Mutually exclusive with inputs.
+        /// <param name="originalModelTaskId">
+        /// Task ID from previous multiview generation. Mutually exclusive with inputs. This is the V3 name for V2's original_task_id field.
+        /// </param>
+        /// <param name="files">
+        /// Legacy four-slot input array in front, left, back, right order. Use empty objects for omitted views.
         /// </param>
         /// <param name="textureAlignment">
         /// Texture alignment priority, such as original_image or geometry.
         /// </param>
         /// <param name="orientation">
         /// Model orientation, such as default or align_image.
-        /// </param>
-        /// <param name="model">
-        /// AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
         /// </param>
         /// <param name="modelSeed">
         /// Random seed for geometry generation.
@@ -180,15 +201,22 @@ namespace Tripo
         /// <param name="exportUv">
         /// Control UV unwrapping where supported.
         /// </param>
+        /// <param name="returnMultiview">
+        /// Include generated multiview images in the task output.
+        /// </param>
+        /// <param name="orthographicProjection">
+        /// Treat the supplied views as orthographic projections.
+        /// </param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public MultiviewToModelRequest(
-            global::System.Collections.Generic.IList<global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>> inputs,
-            string? originalTaskId,
+            string model,
+            global::System.Collections.Generic.IList<global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>>? inputs,
+            string? originalModelTaskId,
+            global::System.Collections.Generic.IList<global::Tripo.InputSourceObject>? files,
             string? textureAlignment,
             string? orientation,
-            string? model,
             int? modelSeed,
             int? faceLimit,
             bool? texture,
@@ -201,13 +229,16 @@ namespace Tripo
             bool? smartLowPoly,
             bool? generateParts,
             string? compress,
-            bool? exportUv)
+            bool? exportUv,
+            bool? returnMultiview,
+            bool? orthographicProjection)
         {
-            this.Inputs = inputs ?? throw new global::System.ArgumentNullException(nameof(inputs));
-            this.OriginalTaskId = originalTaskId;
+            this.Inputs = inputs;
+            this.OriginalModelTaskId = originalModelTaskId;
+            this.Files = files;
             this.TextureAlignment = textureAlignment;
             this.Orientation = orientation;
-            this.Model = model;
+            this.Model = model ?? throw new global::System.ArgumentNullException(nameof(model));
             this.ModelSeed = modelSeed;
             this.FaceLimit = faceLimit;
             this.Texture = texture;
@@ -221,6 +252,8 @@ namespace Tripo
             this.GenerateParts = generateParts;
             this.Compress = compress;
             this.ExportUv = exportUv;
+            this.ReturnMultiview = returnMultiview;
+            this.OrthographicProjection = orthographicProjection;
         }
 
         /// <summary>

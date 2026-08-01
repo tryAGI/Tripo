@@ -2,7 +2,7 @@
 
 namespace Tripo
 {
-    public sealed partial class TaskError
+    public sealed partial class TaskListData
     {
         /// <summary>
         /// Serializes the current instance to a JSON string using the provided JsonSerializerContext.
@@ -47,20 +47,20 @@ namespace Tripo
         /// <summary>
         /// Deserializes a JSON string using the provided JsonSerializerContext.
         /// </summary>
-        public static global::Tripo.TaskError? FromJson(
+        public static global::Tripo.TaskListData? FromJson(
             string json,
             global::System.Text.Json.Serialization.JsonSerializerContext jsonSerializerContext)
         {
             return global::System.Text.Json.JsonSerializer.Deserialize(
                 json,
-                typeof(global::Tripo.TaskError),
-                jsonSerializerContext) as global::Tripo.TaskError;
+                typeof(global::Tripo.TaskListData),
+                jsonSerializerContext) as global::Tripo.TaskListData;
         }
 
         /// <summary>
         /// Deserializes a JSON string using the generated default JsonSerializerContext.
         /// </summary>
-        public static global::Tripo.TaskError? FromJson(
+        public static global::Tripo.TaskListData? FromJson(
             string json)
         {
             return FromJson(
@@ -75,7 +75,7 @@ namespace Tripo
         [global::System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("JSON serialization and deserialization might require types that cannot be statically analyzed. Use the overload that takes a JsonTypeInfo or JsonSerializerContext, or make sure all of the required types are preserved.")]
         [global::System.Diagnostics.CodeAnalysis.RequiresDynamicCode("JSON serialization and deserialization might require types that cannot be statically analyzed and might need runtime code generation. Use System.Text.Json source generation for native AOT applications.")]
 #endif
-        public static global::Tripo.TaskError? FromJson(
+        public static global::Tripo.TaskListData? FromJson(
             string json,
             global::System.Text.Json.JsonSerializerOptions? jsonSerializerOptions = null)
         {
@@ -86,7 +86,7 @@ namespace Tripo
                     global::Tripo.SourceGenerationContext.Default);
             }
 
-            return global::System.Text.Json.JsonSerializer.Deserialize<global::Tripo.TaskError>(
+            return global::System.Text.Json.JsonSerializer.Deserialize<global::Tripo.TaskListData>(
                 json,
                 jsonSerializerOptions);
         }
@@ -94,20 +94,20 @@ namespace Tripo
         /// <summary>
         /// Deserializes a JSON stream using the provided JsonSerializerContext.
         /// </summary>
-        public static async global::System.Threading.Tasks.ValueTask<global::Tripo.TaskError?> FromJsonStreamAsync(
+        public static async global::System.Threading.Tasks.ValueTask<global::Tripo.TaskListData?> FromJsonStreamAsync(
             global::System.IO.Stream jsonStream,
             global::System.Text.Json.Serialization.JsonSerializerContext jsonSerializerContext)
         {
             return (await global::System.Text.Json.JsonSerializer.DeserializeAsync(
                 jsonStream,
-                typeof(global::Tripo.TaskError),
-                jsonSerializerContext).ConfigureAwait(false)) as global::Tripo.TaskError;
+                typeof(global::Tripo.TaskListData),
+                jsonSerializerContext).ConfigureAwait(false)) as global::Tripo.TaskListData;
         }
 
         /// <summary>
         /// Deserializes a JSON stream using the generated default JsonSerializerContext.
         /// </summary>
-        public static global::System.Threading.Tasks.ValueTask<global::Tripo.TaskError?> FromJsonStreamAsync(
+        public static global::System.Threading.Tasks.ValueTask<global::Tripo.TaskListData?> FromJsonStreamAsync(
             global::System.IO.Stream jsonStream)
         {
             return FromJsonStreamAsync(
@@ -122,7 +122,7 @@ namespace Tripo
         [global::System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("JSON serialization and deserialization might require types that cannot be statically analyzed. Use the overload that takes a JsonTypeInfo or JsonSerializerContext, or make sure all of the required types are preserved.")]
         [global::System.Diagnostics.CodeAnalysis.RequiresDynamicCode("JSON serialization and deserialization might require types that cannot be statically analyzed and might need runtime code generation. Use System.Text.Json source generation for native AOT applications.")]
 #endif
-        public static global::System.Threading.Tasks.ValueTask<global::Tripo.TaskError?> FromJsonStreamAsync(
+        public static global::System.Threading.Tasks.ValueTask<global::Tripo.TaskListData?> FromJsonStreamAsync(
             global::System.IO.Stream jsonStream,
             global::System.Text.Json.JsonSerializerOptions? jsonSerializerOptions = null)
         {
@@ -133,7 +133,7 @@ namespace Tripo
                     global::Tripo.SourceGenerationContext.Default);
             }
 
-            return global::System.Text.Json.JsonSerializer.DeserializeAsync<global::Tripo.TaskError?>(
+            return global::System.Text.Json.JsonSerializer.DeserializeAsync<global::Tripo.TaskListData?>(
                 jsonStream,
                 jsonSerializerOptions);
         }

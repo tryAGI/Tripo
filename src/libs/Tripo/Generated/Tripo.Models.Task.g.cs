@@ -22,7 +22,7 @@ namespace Tripo
         public string? Type { get; set; }
 
         /// <summary>
-        /// Task status, such as queued, running, success, failed, cancelled, banned, or expired.
+        /// Task status, one of queued, running, success, failed, or cancelled. Moderation rejections and queue expiration are reported as failed with error_code 2008 and 2018 respectively.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("status")]
         [global::System.Text.Json.Serialization.JsonRequired]
@@ -65,10 +65,16 @@ namespace Tripo
         public global::System.DateTime? CompletedAt { get; set; }
 
         /// <summary>
-        /// 
+        /// Standardized task failure code. Present when status is failed.
         /// </summary>
-        [global::System.Text.Json.Serialization.JsonPropertyName("error")]
-        public global::Tripo.TaskError? Error { get; set; }
+        [global::System.Text.Json.Serialization.JsonPropertyName("error_code")]
+        public int? ErrorCode { get; set; }
+
+        /// <summary>
+        /// Human-readable task failure description. Present when status is failed.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("error_message")]
+        public string? ErrorMessage { get; set; }
 
         /// <summary>
         /// Additional properties that are not explicitly defined in the schema
@@ -83,7 +89,7 @@ namespace Tripo
         /// Unique task identifier.
         /// </param>
         /// <param name="status">
-        /// Task status, such as queued, running, success, failed, cancelled, banned, or expired.
+        /// Task status, one of queued, running, success, failed, or cancelled. Moderation rejections and queue expiration are reported as failed with error_code 2008 and 2018 respectively.
         /// </param>
         /// <param name="type">
         /// Task type.
@@ -104,7 +110,12 @@ namespace Tripo
         /// <param name="completedAt">
         /// Completion time in ISO 8601 format.
         /// </param>
-        /// <param name="error"></param>
+        /// <param name="errorCode">
+        /// Standardized task failure code. Present when status is failed.
+        /// </param>
+        /// <param name="errorMessage">
+        /// Human-readable task failure description. Present when status is failed.
+        /// </param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
@@ -118,7 +129,8 @@ namespace Tripo
             double? creditsConsumed,
             global::System.DateTime? createdAt,
             global::System.DateTime? completedAt,
-            global::Tripo.TaskError? error)
+            int? errorCode,
+            string? errorMessage)
         {
             this.TaskId = taskId ?? throw new global::System.ArgumentNullException(nameof(taskId));
             this.Type = type;
@@ -129,7 +141,8 @@ namespace Tripo
             this.CreditsConsumed = creditsConsumed;
             this.CreatedAt = createdAt;
             this.CompletedAt = completedAt;
-            this.Error = error;
+            this.ErrorCode = errorCode;
+            this.ErrorMessage = errorMessage;
         }
 
         /// <summary>

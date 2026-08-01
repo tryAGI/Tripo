@@ -16,11 +16,17 @@ namespace Tripo
         public required int Code { get; set; }
 
         /// <summary>
-        /// Task list.
+        /// Response status, success or error.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("status")]
+        public string? Status { get; set; }
+
+        /// <summary>
+        /// 
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("data")]
         [global::System.Text.Json.Serialization.JsonRequired]
-        public required global::System.Collections.Generic.IList<global::Tripo.Task> Data { get; set; }
+        public required global::Tripo.TaskListData Data { get; set; }
 
         /// <summary>
         /// Additional properties that are not explicitly defined in the schema
@@ -34,17 +40,20 @@ namespace Tripo
         /// <param name="code">
         /// Status code. 0 indicates success.
         /// </param>
-        /// <param name="data">
-        /// Task list.
+        /// <param name="data"></param>
+        /// <param name="status">
+        /// Response status, success or error.
         /// </param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public TaskListResponse(
             int code,
-            global::System.Collections.Generic.IList<global::Tripo.Task> data)
+            global::Tripo.TaskListData data,
+            string? status)
         {
             this.Code = code;
+            this.Status = status;
             this.Data = data ?? throw new global::System.ArgumentNullException(nameof(data));
         }
 

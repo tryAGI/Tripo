@@ -7,9 +7,9 @@ This example assumes `using Tripo;` is in scope and `apiKey` contains your Tripo
 ```csharp
 using var api = new TripoClient(apiKey);
 
-GetBalanceResponse response = await api.GetBalanceAsync();
+BalanceResponse response = await api.Account.GetBalanceAsync();
 
 Console.WriteLine($"Code: {response.Code}");
-Console.WriteLine($"Balance: {response.Data.Data.Balance}");
-Console.WriteLine($"Frozen: {response.Data.Data.Frozen}");
+Console.WriteLine($"Balance: {response.Data.Balance}");
+Console.WriteLine($"Frozen: {response.Data.Frozen}");
 ```

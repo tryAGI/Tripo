@@ -26,10 +26,14 @@ namespace Tripo
             {                s_GetUsageSecurityRequirement0,
             };
         partial void PrepareGetUsageArguments(
-            global::System.Net.Http.HttpClient httpClient);
+            global::System.Net.Http.HttpClient httpClient,
+            ref int? limit,
+            ref int? offset);
         partial void PrepareGetUsageRequest(
             global::System.Net.Http.HttpClient httpClient,
-            global::System.Net.Http.HttpRequestMessage httpRequestMessage);
+            global::System.Net.Http.HttpRequestMessage httpRequestMessage,
+            int? limit,
+            int? offset);
         partial void ProcessGetUsageResponse(
             global::System.Net.Http.HttpClient httpClient,
             global::System.Net.Http.HttpResponseMessage httpResponseMessage);
@@ -42,14 +46,24 @@ namespace Tripo
         /// <summary>
         /// Query account credit usage details
         /// </summary>
+        /// <param name="limit">
+        /// Default Value: 50
+        /// </param>
+        /// <param name="offset">
+        /// Default Value: 0
+        /// </param>
         /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::Tripo.ApiException"></exception>
         public async global::System.Threading.Tasks.Task<global::Tripo.UsageResponse> GetUsageAsync(
+            int? limit = default,
+            int? offset = default,
             global::Tripo.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
             var __response = await GetUsageAsResponseAsync(
+                limit: limit,
+                offset: offset,
                 requestOptions: requestOptions,
                 cancellationToken: cancellationToken
             ).ConfigureAwait(false);
@@ -59,17 +73,27 @@ namespace Tripo
         /// <summary>
         /// Query account credit usage details
         /// </summary>
+        /// <param name="limit">
+        /// Default Value: 50
+        /// </param>
+        /// <param name="offset">
+        /// Default Value: 0
+        /// </param>
         /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::Tripo.ApiException"></exception>
         public async global::System.Threading.Tasks.Task<global::Tripo.AutoSDKHttpResponse<global::Tripo.UsageResponse>> GetUsageAsResponseAsync(
+            int? limit = default,
+            int? offset = default,
             global::Tripo.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
             PrepareArguments(
                 client: HttpClient);
             PrepareGetUsageArguments(
-                httpClient: HttpClient);
+                httpClient: HttpClient,
+                limit: ref limit,
+                offset: ref offset);
 
 
             var __authorizations = global::Tripo.EndPointSecurityResolver.ResolveAuthorizations(
@@ -97,6 +121,10 @@ namespace Tripo
                             var __pathBuilder = new global::Tripo.PathBuilder(
                                 path: "/account/usage",
                                 baseUri: HttpClient.BaseAddress);
+                            __pathBuilder
+                                .AddOptionalParameter("limit", limit?.ToString())
+                                .AddOptionalParameter("offset", offset?.ToString())
+                                ;
                             var __path = __pathBuilder.ToString();
                 __path = global::Tripo.AutoSDKRequestOptionsSupport.AppendQueryParameters(
                     path: __path,
@@ -136,7 +164,9 @@ namespace Tripo
                     request: __httpRequest);
                 PrepareGetUsageRequest(
                     httpClient: HttpClient,
-                    httpRequestMessage: __httpRequest);
+                    httpRequestMessage: __httpRequest,
+                    limit: limit,
+                    offset: offset);
 
                 return __httpRequest;
             }

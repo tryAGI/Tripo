@@ -7,11 +7,16 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class ModelsRefineModelCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"Draft task_id to refine.",
-        Required = true,
+    };
+
+    private static Option<string?> DraftModelTaskId { get; } = new(
+        name: @"--draft-model-task-id")
+    {
+        Description = @"V2-compatible draft task ID. Replaces the retired rough_model_task_id alias.",
     };
 
     private static Option<string?> Model { get; } = new(
@@ -60,6 +65,7 @@ internal static partial class ModelsRefineModelCommandApiCommand
     {
         var command = new Command(@"refine-model", @"Refine a draft model");
                         command.Options.Add(InputOption);
+                        command.Options.Add(DraftModelTaskId);
                         command.Options.Add(Model);
           command.Options.Add(RequestInput);
           command.Options.Add(RequestJson);
@@ -86,13 +92,15 @@ internal static partial class ModelsRefineModelCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
+                        var draftModelTaskId = CliRuntime.WasSpecified(parseResult, DraftModelTaskId) ? parseResult.GetValue(DraftModelTaskId) : (__requestBase is { } __DraftModelTaskIdBaseValue ? __DraftModelTaskIdBaseValue.DraftModelTaskId : default);
                         var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
                                 var response = await client.Models.RefineModelAsync(
                                     input: input,
+                                    draftModelTaskId: draftModelTaskId,
                                     model: model,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 

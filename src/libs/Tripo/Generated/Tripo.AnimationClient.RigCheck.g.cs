@@ -474,17 +474,22 @@ namespace Tripo
         /// <param name="input">
         /// Model source. Accepts task_id, file_token, or a publicly accessible URL to a GLB model file.
         /// </param>
+        /// <param name="originalModelTaskId">
+        /// V2-compatible source model task ID.
+        /// </param>
         /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::System.InvalidOperationException"></exception>
         public async global::System.Threading.Tasks.Task<global::Tripo.TaskCreatedResponse> RigCheckAsync(
-            string input,
+            string? input = default,
+            string? originalModelTaskId = default,
             global::Tripo.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
             var __request = new global::Tripo.RigCheckRequest
             {
                 Input = input,
+                OriginalModelTaskId = originalModelTaskId,
             };
 
             return await RigCheckAsync(

@@ -472,13 +472,29 @@ namespace Tripo
         /// Generate an image from a text prompt
         /// </summary>
         /// <param name="prompt">
-        /// Text prompt, up to 1024 characters.
+        /// Text prompt, up to 1800 characters.
         /// </param>
+        /// <param name="negativePrompt">
+        /// Optional negative prompt.
+        /// </param>
+        /// <param name="styleImage"></param>
         /// <param name="model">
-        /// Image model, for example seedream_v5, seedream_v4, gemini-2.5-flash, gemini-3-pro, gemini-3.1-flash, chat_image_1, chat_image_1.5, or chat_image_2.
+        /// Image model alias. Supported values include seedream_v5, seedream_v4, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v4.
+        /// </param>
+        /// <param name="size">
+        /// Output image size. Supported values depend on the selected model.
+        /// </param>
+        /// <param name="aspectRatio">
+        /// Output aspect ratio. Supported only by banana-family models.
+        /// </param>
+        /// <param name="outputFormat">
+        /// Output image format, png or jpeg.
+        /// </param>
+        /// <param name="watermark">
+        /// Add an AI-generated content watermark where supported.
         /// </param>
         /// <param name="template">
-        /// Template name, such as asset_extraction, character_completion, t_pose, head_extraction, 3d_enhance, variants, print_clay, or figure.
+        /// Template name, such as asset_extraction, character_completion, t_pose, variants, or figure.
         /// </param>
         /// <param name="tPose">
         /// Convert to T-pose.
@@ -491,7 +507,13 @@ namespace Tripo
         /// <exception cref="global::System.InvalidOperationException"></exception>
         public async global::System.Threading.Tasks.Task<global::Tripo.TaskCreatedResponse> TextToImageAsync(
             string prompt,
+            string? negativePrompt = default,
+            global::Tripo.InputSourceObject? styleImage = default,
             string? model = default,
+            string? size = default,
+            string? aspectRatio = default,
+            string? outputFormat = default,
+            bool? watermark = default,
             string? template = default,
             bool? tPose = default,
             bool? sketchToRender = default,
@@ -501,7 +523,13 @@ namespace Tripo
             var __request = new global::Tripo.TextToImageRequest
             {
                 Prompt = prompt,
+                NegativePrompt = negativePrompt,
+                StyleImage = styleImage,
                 Model = model,
+                Size = size,
+                AspectRatio = aspectRatio,
+                OutputFormat = outputFormat,
+                Watermark = watermark,
                 Template = template,
                 TPose = tPose,
                 SketchToRender = sketchToRender,

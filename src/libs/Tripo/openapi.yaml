@@ -655,6 +655,22 @@ paths:
       operationId: getUsage
       tags:
       - Account
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 50
+          minimum: 1
+          maximum: 200
+        description: Maximum number of usage rows to return.
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
+          minimum: 0
+        description: Number of usage rows to skip.
       responses:
         '200':
           description: OK
@@ -690,7 +706,8 @@ components:
           description: Random seed for the text-to-image stage.
         model:
           type: string
-          description: AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
+          description: Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123,
+            and P1-20260311.
         model_seed:
           type: integer
           description: Random seed for geometry generation.
@@ -730,8 +747,23 @@ components:
         export_uv:
           type: boolean
           description: Control UV unwrapping where supported.
+        return_multiview:
+          type: boolean
+          description: Include generated multiview images in the task output.
+        render_sequence:
+          type: boolean
+          description: Generate a rendered image sequence.
+        render_video:
+          type: boolean
+          description: Generate a rendered preview video.
+        check_printable:
+          type: boolean
+          description: Check whether the generated model is suitable for 3D printing. Requires account entitlement.
+        style_image:
+          $ref: '#/components/schemas/InputSourceObject'
       required:
       - prompt
+      - model
       additionalProperties: false
     ImageToModelRequest:
       type: object
@@ -739,6 +771,8 @@ components:
         input:
           type: string
           description: Image source. Accepts a file token, URL, or task ID.
+        file:
+          $ref: '#/components/schemas/InputSourceObject'
         enable_image_autofix:
           type: boolean
           description: Automatically improve low-quality input images.
@@ -750,7 +784,8 @@ components:
           description: Model orientation, such as default or align_image.
         model:
           type: string
-          description: AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
+          description: Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123,
+            and P1-20260311.
         model_seed:
           type: integer
           description: Random seed for geometry generation.
@@ -790,8 +825,17 @@ components:
         export_uv:
           type: boolean
           description: Control UV unwrapping where supported.
+        return_multiview:
+          type: boolean
+          description: Include generated multiview images in the task output.
+        check_printable:
+          type: boolean
+          description: Check whether the generated model is suitable for 3D printing. Requires account entitlement.
+        mode:
+          type: string
+          description: Provider-specific image-to-model processing mode.
       required:
-      - input
+      - model
       additionalProperties: false
     MultiviewToModelRequest:
       type: object
@@ -804,9 +848,15 @@ components:
             - $ref: '#/components/schemas/MultiviewViewInput'
             - $ref: '#/components/schemas/TaskReuseInput'
           description: Multiview images. Use either view-key objects, a four item positional array, or a single task_id object.
-        original_task_id:
+        original_model_task_id:
           type: string
-          description: Task ID from previous multiview generation. Mutually exclusive with inputs.
+          description: Task ID from previous multiview generation. Mutually exclusive with inputs. This is the V3 name
+            for V2's original_task_id field.
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/InputSourceObject'
+          description: Legacy four-slot input array in front, left, back, right order. Use empty objects for omitted views.
         texture_alignment:
           type: string
           description: Texture alignment priority, such as original_image or geometry.
@@ -815,7 +865,8 @@ components:
           description: Model orientation, such as default or align_image.
         model:
           type: string
-          description: AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
+          description: Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123,
+            and P1-20260311.
         model_seed:
           type: integer
           description: Random seed for geometry generation.
@@ -855,12 +906,21 @@ components:
         export_uv:
           type: boolean
           description: Control UV unwrapping where supported.
+        return_multiview:
+          type: boolean
+          description: Include generated multiview images in the task output.
+        orthographic_projection:
+          type: boolean
+          description: Treat the supplied views as orthographic projections.
       required:
-      - inputs
+      - model
       additionalProperties: false
     InputSourceObject:
       type: object
       properties:
+        type:
+          type: string
+          description: File extension such as png, jpeg, webp, glb, or fbx.
         url:
           type: string
           description: Public URL input.
@@ -919,16 +979,32 @@ components:
       properties:
         prompt:
           type: string
-          description: Text prompt, up to 1024 characters.
-          maxLength: 1024
+          description: Text prompt, up to 1800 characters.
+          maxLength: 1800
+        negative_prompt:
+          type: string
+          description: Optional negative prompt.
+        style_image:
+          $ref: '#/components/schemas/InputSourceObject'
         model:
           type: string
-          description: Image model, for example seedream_v5, seedream_v4, gemini-2.5-flash, gemini-3-pro, gemini-3.1-flash,
-            chat_image_1, chat_image_1.5, or chat_image_2.
+          description: Image model alias. Supported values include seedream_v5, seedream_v4, banana, banana_pro, banana2,
+            chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v4.
+        size:
+          type: string
+          description: Output image size. Supported values depend on the selected model.
+        aspect_ratio:
+          type: string
+          description: Output aspect ratio. Supported only by banana-family models.
+        output_format:
+          type: string
+          description: Output image format, png or jpeg.
+        watermark:
+          type: boolean
+          description: Add an AI-generated content watermark where supported.
         template:
           type: string
-          description: Template name, such as asset_extraction, character_completion, t_pose, head_extraction, 3d_enhance,
-            variants, print_clay, or figure.
+          description: Template name, such as asset_extraction, character_completion, t_pose, variants, or figure.
         t_pose:
           type: boolean
           description: Convert to T-pose.
@@ -952,10 +1028,23 @@ components:
         prompt:
           type: string
           description: Image editing instruction. Required when template is not specified.
+          maxLength: 1800
         model:
           type: string
-          description: Image model, for example seedream_v5, gemini-2.5-flash, gemini-3-pro, gemini-3.1-flash, chat_image_1,
-            chat_image_1.5, or chat_image_2.
+          description: Image model alias. Supported values include seedream_v5, banana, banana_pro, banana2, chat_image_1,
+            chat_image_1.5, and chat_image_2. Defaults to seedream_v5.
+        size:
+          type: string
+          description: Output image size. Supported values depend on the selected model.
+        aspect_ratio:
+          type: string
+          description: Output aspect ratio. Supported only by banana-family models.
+        output_format:
+          type: string
+          description: Output image format, png or jpeg.
+        watermark:
+          type: boolean
+          description: Add an AI-generated content watermark where supported.
         template:
           type: string
           description: Template name, such as asset_extraction, character_completion, t_pose, head_extraction, 3d_enhance,
@@ -966,8 +1055,6 @@ components:
         sketch_to_render:
           type: boolean
           description: Convert a sketch to a rendered image.
-      required:
-      - input
       additionalProperties: false
     ImageToMultiviewRequest:
       type: object
@@ -983,9 +1070,33 @@ components:
       properties:
         input:
           type: string
-          description: Source image. Supports file_token or image URL.
+          description: Source multiview image, file token, URL, or task ID.
+        original_task_id:
+          type: string
+          description: Legacy task ID from a successful image-to-multiview task.
+        prompts:
+          type: array
+          minItems: 1
+          maxItems: 4
+          items:
+            $ref: '#/components/schemas/MultiviewEditPrompt'
+          description: One to four per-view edit instructions.
       required:
-      - input
+      - prompts
+      additionalProperties: false
+    MultiviewEditPrompt:
+      type: object
+      properties:
+        view:
+          type: string
+          description: Target view, one of front, left, back, or right.
+        prompt:
+          type: string
+          description: Edit instruction, up to 1024 characters.
+          maxLength: 1024
+      required:
+      - view
+      - prompt
       additionalProperties: false
     ImportModelRequest:
       type: object
@@ -993,8 +1104,8 @@ components:
         input:
           type: string
           description: Model file source. Accepts file_token or URL. Supported formats include GLB, GLTF, FBX, OBJ, and STL.
-      required:
-      - input
+        file:
+          $ref: '#/components/schemas/InputSourceObject'
       additionalProperties: false
     RefineModelRequest:
       type: object
@@ -1002,11 +1113,12 @@ components:
         input:
           type: string
           description: Draft task_id to refine.
+        draft_model_task_id:
+          type: string
+          description: V2-compatible draft task ID. Replaces the retired rough_model_task_id alias.
         model:
           type: string
           description: AI model version.
-      required:
-      - input
       additionalProperties: false
     TextureModelRequest:
       type: object
@@ -1016,7 +1128,15 @@ components:
           description: Model source. Accepts task_id, file_token, or URL.
         model:
           type: string
-          description: AI model version.
+          description: Texture model version, v3.0-20250812 or v2.5-20250123. Defaults to v3.0-20250812.
+        original_model_task_id:
+          type: string
+          description: V2-compatible source model task ID.
+        texture_prompt:
+          $ref: '#/components/schemas/TexturePrompt'
+        texture:
+          type: boolean
+          description: Enable texture maps.
         texture_seed:
           type: integer
           description: Random seed for texture generation.
@@ -1026,8 +1146,41 @@ components:
         pbr:
           type: boolean
           description: Enable PBR materials.
-      required:
-      - input
+        texture_alignment:
+          type: string
+          description: Texture alignment priority, original_image or geometry.
+        part_names:
+          type: array
+          items:
+            type: string
+          description: Names of segmented parts to texture.
+        compress:
+          type: string
+          description: Compression type, such as geometry.
+        bake:
+          type: boolean
+          description: Bake advanced material effects into base textures.
+        return_multiview:
+          type: boolean
+          description: Include generated multiview images in the task output.
+      additionalProperties: false
+    TexturePrompt:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Text describing the desired texture.
+        style_image:
+          $ref: '#/components/schemas/InputSourceObject'
+        image:
+          $ref: '#/components/schemas/InputSourceObject'
+        images:
+          type: array
+          minItems: 4
+          maxItems: 4
+          items:
+            $ref: '#/components/schemas/InputSourceObject'
+          description: Four reference images in front, left, back, right order.
       additionalProperties: false
     StylizeModelRequest:
       type: object
@@ -1035,14 +1188,22 @@ components:
         input:
           type: string
           description: Model source. Accepts task_id or file_token.
+        original_model_task_id:
+          type: string
+          description: V2-compatible source model task ID.
         style:
           type: string
-          description: Style type, such as lego, voxel, voronoi, or minecraft.
+          description: Style type, one of lego, voxel, voronoi, minecraft, keyring, fridge_magnet, or keycap.
         block_size:
           type: integer
           description: Grid size, range 32-128. Only valid when style is minecraft.
+        vxc:
+          type: boolean
+          description: Enable VXC processing. Requires account entitlement.
+        render_image:
+          type: boolean
+          description: Generate a rendered preview image.
       required:
-      - input
       - style
       additionalProperties: false
     ConvertModelRequest:
@@ -1051,6 +1212,9 @@ components:
         input:
           type: string
           description: Model source. Accepts task_id or file_token.
+        original_model_task_id:
+          type: string
+          description: V2-compatible source model task ID.
         format:
           type: string
           description: Target format, such as GLTF, USDZ, FBX, OBJ, STL, or 3MF.
@@ -1096,6 +1260,9 @@ components:
         animate_in_place:
           type: boolean
           description: In-place animation.
+        assemble_animation:
+          type: boolean
+          description: Assemble multiple animations in the exported model.
         part_names:
           type: array
           items:
@@ -1108,7 +1275,6 @@ components:
           type: string
           description: FBX preset for compatibility, such as blender, 3dsmax, or mixamo.
       required:
-      - input
       - format
       additionalProperties: false
     RigCheckRequest:
@@ -1117,8 +1283,9 @@ components:
         input:
           type: string
           description: Model source. Accepts task_id, file_token, or a publicly accessible URL to a GLB model file.
-      required:
-      - input
+        original_model_task_id:
+          type: string
+          description: V2-compatible source model task ID.
       additionalProperties: false
     RigModelRequest:
       type: object
@@ -1126,9 +1293,12 @@ components:
         input:
           type: string
           description: Model source. Accepts task_id or file_token.
+        original_model_task_id:
+          type: string
+          description: V2-compatible source model task ID.
         model:
           type: string
-          description: Auto rigging model version, such as rig-v2.0 or rig-v1.0.
+          description: Auto rigging model version, v1.0-20240301 or v2.5-20260210.
         rig_type:
           type: string
           description: Rig type, such as biped, quadruped, hexapod, octopod, avian, serpentine, or aquatic.
@@ -1138,8 +1308,6 @@ components:
         out_format:
           type: string
           description: Output format, such as glb or fbx.
-      required:
-      - input
       additionalProperties: false
     RetargetAnimationRequest:
       type: object
@@ -1147,6 +1315,9 @@ components:
         input:
           type: string
           description: task_id of the rigged model.
+        original_model_task_id:
+          type: string
+          description: V2-compatible source rig task ID.
         animation:
           type: string
           description: Single preset animation identifier. Mutually exclusive with animations.
@@ -1167,8 +1338,9 @@ components:
         animate_in_place:
           type: boolean
           description: Play the animation in place without displacement.
-      required:
-      - input
+        render_video:
+          type: boolean
+          description: Generate a rendered animation preview video.
       additionalProperties: false
     SegmentMeshRequest:
       type: object
@@ -1188,8 +1360,9 @@ components:
         ref_image:
           type: string
           description: v2 only. Reference image as file_token or URL.
-      required:
-      - input
+        original_model_task_id:
+          type: string
+          description: V2-compatible source model task ID.
       additionalProperties: false
     SmartSegmentMeshRequest:
       type: object
@@ -1229,8 +1402,12 @@ components:
           items:
             type: string
           description: List of part names to complete. If omitted, all parts are completed.
-      required:
-      - input
+        original_model_task_id:
+          type: string
+          description: V2-compatible source segmentation task ID.
+        completion_mode:
+          type: string
+          description: Completion mode, ai_completion or quick_cap.
       additionalProperties: false
     DecimateMeshRequest:
       type: object
@@ -1255,14 +1432,16 @@ components:
         bake:
           type: boolean
           description: Bake textures onto the low-poly model.
-      required:
-      - input
+        original_model_task_id:
+          type: string
+          description: V2-compatible source model task ID.
       additionalProperties: false
     TaskListRequest:
       type: object
       properties:
         task_ids:
           type: array
+          maxItems: 100
           items:
             type: string
           description: List of task IDs to query.
@@ -1309,6 +1488,9 @@ components:
         code:
           type: integer
           description: Status code. 0 indicates success.
+        status:
+          type: string
+          description: Response status, success or error.
         data:
           $ref: '#/components/schemas/TaskCreatedData'
       required:
@@ -1326,7 +1508,8 @@ components:
           description: Task type.
         status:
           type: string
-          description: Task status, such as queued, running, success, failed, cancelled, banned, or expired.
+          description: Task status, one of queued, running, success, failed, or cancelled. Moderation rejections and queue
+            expiration are reported as failed with error_code 2008 and 2018 respectively.
         progress:
           type: integer
           description: Task progress, in the range 0-100.
@@ -1347,8 +1530,12 @@ components:
           type: string
           description: Completion time in ISO 8601 format.
           format: date-time
-        error:
-          $ref: '#/components/schemas/TaskError'
+        error_code:
+          type: integer
+          description: Standardized task failure code. Present when status is failed.
+        error_message:
+          type: string
+          description: Human-readable task failure description. Present when status is failed.
       required:
       - task_id
       - status
@@ -1367,7 +1554,7 @@ components:
         rendered_image_url:
           type: string
           description: Rendered preview image URL.
-        image_url:
+        generated_image_url:
           type: string
           description: Generated image URL.
         image_urls:
@@ -1387,6 +1574,17 @@ components:
         right_view_url:
           type: string
           description: Right-view image URL.
+        generate_multiview_image:
+          $ref: '#/components/schemas/MultiviewImages'
+        rendered_video_url:
+          type: string
+          description: Rendered preview video URL.
+        rendered_sequence_url:
+          type: string
+          description: Rendered image sequence URL.
+        multiview_basecolor_url:
+          type: string
+          description: Multiview base-color image URL.
         splat_url:
           type: string
           description: Generated Gaussian Splat file URL.
@@ -1411,16 +1609,25 @@ components:
         rig_type:
           type: string
           description: Recommended rig type.
+        size:
+          type: string
+          description: Generated image size.
       additionalProperties: true
-    TaskError:
+    MultiviewImages:
       type: object
       properties:
-        code:
+        front_view_url:
           type: string
-          description: Task error code.
-        message:
+          description: Front-view image URL.
+        left_view_url:
           type: string
-          description: Task error message.
+          description: Left-view image URL.
+        back_view_url:
+          type: string
+          description: Back-view image URL.
+        right_view_url:
+          type: string
+          description: Right-view image URL.
       additionalProperties: false
     TaskResponse:
       type: object
@@ -1428,6 +1635,9 @@ components:
         code:
           type: integer
           description: Status code. 0 indicates success.
+        status:
+          type: string
+          description: Response status, success or error.
         data:
           $ref: '#/components/schemas/Task'
       required:
@@ -1440,14 +1650,31 @@ components:
         code:
           type: integer
           description: Status code. 0 indicates success.
+        status:
+          type: string
+          description: Response status, success or error.
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Task'
-          description: Task list.
+          $ref: '#/components/schemas/TaskListData'
       required:
       - code
       - data
+      additionalProperties: false
+    TaskListData:
+      type: object
+      properties:
+        tasks:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Task'
+          description: Map of task details keyed by task ID.
+        missed:
+          type: array
+          items:
+            type: string
+          description: Task IDs that were not found.
+      required:
+      - tasks
+      - missed
       additionalProperties: false
     FileData:
       type: object
@@ -1464,6 +1691,9 @@ components:
         code:
           type: integer
           description: Status code. 0 indicates success.
+        status:
+          type: string
+          description: Response status, success or error.
         data:
           $ref: '#/components/schemas/FileData'
       required:
@@ -1494,6 +1724,9 @@ components:
         code:
           type: integer
           description: Status code. 0 indicates success.
+        status:
+          type: string
+          description: Response status, success or error.
         data:
           $ref: '#/components/schemas/UploadCredentialsData'
       required:
@@ -1523,6 +1756,9 @@ components:
         code:
           type: integer
           description: Status code. 0 indicates success.
+        status:
+          type: string
+          description: Response status, success or error.
         data:
           $ref: '#/components/schemas/PresignFileUploadData'
       required:
@@ -1548,6 +1784,9 @@ components:
         code:
           type: integer
           description: Status code. 0 indicates success.
+        status:
+          type: string
+          description: Response status, success or error.
         data:
           $ref: '#/components/schemas/BalanceData'
       required:
@@ -1563,6 +1802,9 @@ components:
         type:
           type: string
           description: Task type.
+        status:
+          type: string
+          description: Task status.
         credits_consumed:
           type: number
           description: Credits consumed.
@@ -1582,6 +1824,9 @@ components:
         code:
           type: integer
           description: Status code. 0 indicates success.
+        status:
+          type: string
+          description: Response status, success or error.
         data:
           type: array
           items:
@@ -1597,6 +1842,9 @@ components:
         code:
           type: integer
           description: Error code.
+        status:
+          type: string
+          description: Response status, normally error.
         message:
           type: string
           description: Error description.

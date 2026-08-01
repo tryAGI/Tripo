@@ -7,18 +7,33 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class ModelsTextureModelCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"Model source. Accepts task_id, file_token, or URL.",
-        Required = true,
     };
 
     private static Option<string?> Model { get; } = new(
         name: @"--model")
     {
-        Description = @"AI model version.",
+        Description = @"Texture model version, v3.0-20250812 or v2.5-20250123. Defaults to v3.0-20250812.",
     };
+
+    private static Option<string?> OriginalModelTaskId { get; } = new(
+        name: @"--original-model-task-id")
+    {
+        Description = @"V2-compatible source model task ID.",
+    };
+
+    private static Option<global::Tripo.TexturePrompt?> TexturePrompt { get; } = new(
+        name: @"--texture-prompt")
+    {
+        Description = @"",
+    };
+
+    private static Option<bool?> Texture { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--texture",
+        description: @"Enable texture maps.");
 
     private static Option<int?> TextureSeed { get; } = new(
         name: @"--texture-seed")
@@ -35,6 +50,32 @@ internal static partial class ModelsTextureModelCommandApiCommand
     private static Option<bool?> Pbr { get; } = CliRuntime.CreateNullableBoolOption(
         name: @"--pbr",
         description: @"Enable PBR materials.");
+
+    private static Option<string?> TextureAlignment { get; } = new(
+        name: @"--texture-alignment")
+    {
+        Description = @"Texture alignment priority, original_image or geometry.",
+    };
+
+    private static Option<global::System.Collections.Generic.IList<string>?> PartNames { get; } = new(
+        name: @"--part-names")
+    {
+        Description = @"Names of segmented parts to texture.",
+    };
+
+    private static Option<string?> Compress { get; } = new(
+        name: @"--compress")
+    {
+        Description = @"Compression type, such as geometry.",
+    };
+
+    private static Option<bool?> Bake { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--bake",
+        description: @"Bake advanced material effects into base textures.");
+
+    private static Option<bool?> ReturnMultiview { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--return-multiview",
+        description: @"Include generated multiview images in the task output.");
       private static Option<string?> RequestInput { get; } = new(@"--request-input")
       {
           Description = "Load request JSON from a file path, '-' for stdin, or an inline JSON object/array string.",
@@ -77,9 +118,17 @@ internal static partial class ModelsTextureModelCommandApiCommand
         var command = new Command(@"texture-model", @"Regenerate texture maps for an existing model");
                         command.Options.Add(InputOption);
                         command.Options.Add(Model);
+                        command.Options.Add(OriginalModelTaskId);
+                        command.Options.Add(TexturePrompt);
+                        command.Options.Add(Texture);
                         command.Options.Add(TextureSeed);
                         command.Options.Add(TextureQuality);
                         command.Options.Add(Pbr);
+                        command.Options.Add(TextureAlignment);
+                        command.Options.Add(PartNames);
+                        command.Options.Add(Compress);
+                        command.Options.Add(Bake);
+                        command.Options.Add(ReturnMultiview);
           command.Options.Add(RequestInput);
           command.Options.Add(RequestJson);
           command.Options.Add(RequestFile);
@@ -105,20 +154,36 @@ internal static partial class ModelsTextureModelCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
                         var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
+                        var originalModelTaskId = CliRuntime.WasSpecified(parseResult, OriginalModelTaskId) ? parseResult.GetValue(OriginalModelTaskId) : (__requestBase is { } __OriginalModelTaskIdBaseValue ? __OriginalModelTaskIdBaseValue.OriginalModelTaskId : default);
+                        var texturePrompt = CliRuntime.WasSpecified(parseResult, TexturePrompt) ? parseResult.GetValue(TexturePrompt) : (__requestBase is { } __TexturePromptBaseValue ? __TexturePromptBaseValue.TexturePrompt : default);
+                        var texture = CliRuntime.WasSpecified(parseResult, Texture) ? parseResult.GetValue(Texture) : (__requestBase is { } __TextureBaseValue ? __TextureBaseValue.Texture : default);
                         var textureSeed = CliRuntime.WasSpecified(parseResult, TextureSeed) ? parseResult.GetValue(TextureSeed) : (__requestBase is { } __TextureSeedBaseValue ? __TextureSeedBaseValue.TextureSeed : default);
                         var textureQuality = CliRuntime.WasSpecified(parseResult, TextureQuality) ? parseResult.GetValue(TextureQuality) : (__requestBase is { } __TextureQualityBaseValue ? __TextureQualityBaseValue.TextureQuality : default);
                         var pbr = CliRuntime.WasSpecified(parseResult, Pbr) ? parseResult.GetValue(Pbr) : (__requestBase is { } __PbrBaseValue ? __PbrBaseValue.Pbr : default);
+                        var textureAlignment = CliRuntime.WasSpecified(parseResult, TextureAlignment) ? parseResult.GetValue(TextureAlignment) : (__requestBase is { } __TextureAlignmentBaseValue ? __TextureAlignmentBaseValue.TextureAlignment : default);
+                        var partNames = CliRuntime.WasSpecified(parseResult, PartNames) ? parseResult.GetValue(PartNames) : (__requestBase is { } __PartNamesBaseValue ? __PartNamesBaseValue.PartNames : default);
+                        var compress = CliRuntime.WasSpecified(parseResult, Compress) ? parseResult.GetValue(Compress) : (__requestBase is { } __CompressBaseValue ? __CompressBaseValue.Compress : default);
+                        var bake = CliRuntime.WasSpecified(parseResult, Bake) ? parseResult.GetValue(Bake) : (__requestBase is { } __BakeBaseValue ? __BakeBaseValue.Bake : default);
+                        var returnMultiview = CliRuntime.WasSpecified(parseResult, ReturnMultiview) ? parseResult.GetValue(ReturnMultiview) : (__requestBase is { } __ReturnMultiviewBaseValue ? __ReturnMultiviewBaseValue.ReturnMultiview : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
                                 var response = await client.Models.TextureModelAsync(
                                     input: input,
                                     model: model,
+                                    originalModelTaskId: originalModelTaskId,
+                                    texturePrompt: texturePrompt,
+                                    texture: texture,
                                     textureSeed: textureSeed,
                                     textureQuality: textureQuality,
                                     pbr: pbr,
+                                    textureAlignment: textureAlignment,
+                                    partNames: partNames,
+                                    compress: compress,
+                                    bake: bake,
+                                    returnMultiview: returnMultiview,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

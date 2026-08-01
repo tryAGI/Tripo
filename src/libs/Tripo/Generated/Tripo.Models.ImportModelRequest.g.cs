@@ -12,8 +12,13 @@ namespace Tripo
         /// Model file source. Accepts file_token or URL. Supported formats include GLB, GLTF, FBX, OBJ, and STL.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("input")]
-        [global::System.Text.Json.Serialization.JsonRequired]
-        public required string Input { get; set; }
+        public string? Input { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("file")]
+        public global::Tripo.InputSourceObject? File { get; set; }
 
         /// <summary>
         /// Additional properties that are not explicitly defined in the schema
@@ -27,13 +32,16 @@ namespace Tripo
         /// <param name="input">
         /// Model file source. Accepts file_token or URL. Supported formats include GLB, GLTF, FBX, OBJ, and STL.
         /// </param>
+        /// <param name="file"></param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public ImportModelRequest(
-            string input)
+            string? input,
+            global::Tripo.InputSourceObject? file)
         {
-            this.Input = input ?? throw new global::System.ArgumentNullException(nameof(input));
+            this.Input = input;
+            this.File = file;
         }
 
         /// <summary>

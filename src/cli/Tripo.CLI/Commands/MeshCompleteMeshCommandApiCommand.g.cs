@@ -7,11 +7,10 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class MeshCompleteMeshCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"task_id of a mesh/segment task.",
-        Required = true,
     };
 
     private static Option<string?> Model { get; } = new(
@@ -24,6 +23,18 @@ internal static partial class MeshCompleteMeshCommandApiCommand
         name: @"--part-names")
     {
         Description = @"List of part names to complete. If omitted, all parts are completed.",
+    };
+
+    private static Option<string?> OriginalModelTaskId { get; } = new(
+        name: @"--original-model-task-id")
+    {
+        Description = @"V2-compatible source segmentation task ID.",
+    };
+
+    private static Option<string?> CompletionMode { get; } = new(
+        name: @"--completion-mode")
+    {
+        Description = @"Completion mode, ai_completion or quick_cap.",
     };
       private static Option<string?> RequestInput { get; } = new(@"--request-input")
       {
@@ -68,6 +79,8 @@ internal static partial class MeshCompleteMeshCommandApiCommand
                         command.Options.Add(InputOption);
                         command.Options.Add(Model);
                         command.Options.Add(PartNames);
+                        command.Options.Add(OriginalModelTaskId);
+                        command.Options.Add(CompletionMode);
           command.Options.Add(RequestInput);
           command.Options.Add(RequestJson);
           command.Options.Add(RequestFile);
@@ -93,9 +106,11 @@ internal static partial class MeshCompleteMeshCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
                         var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
                         var partNames = CliRuntime.WasSpecified(parseResult, PartNames) ? parseResult.GetValue(PartNames) : (__requestBase is { } __PartNamesBaseValue ? __PartNamesBaseValue.PartNames : default);
+                        var originalModelTaskId = CliRuntime.WasSpecified(parseResult, OriginalModelTaskId) ? parseResult.GetValue(OriginalModelTaskId) : (__requestBase is { } __OriginalModelTaskIdBaseValue ? __OriginalModelTaskIdBaseValue.OriginalModelTaskId : default);
+                        var completionMode = CliRuntime.WasSpecified(parseResult, CompletionMode) ? parseResult.GetValue(CompletionMode) : (__requestBase is { } __CompletionModeBaseValue ? __CompletionModeBaseValue.CompletionMode : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
@@ -103,6 +118,8 @@ internal static partial class MeshCompleteMeshCommandApiCommand
                                     input: input,
                                     model: model,
                                     partNames: partNames,
+                                    originalModelTaskId: originalModelTaskId,
+                                    completionMode: completionMode,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

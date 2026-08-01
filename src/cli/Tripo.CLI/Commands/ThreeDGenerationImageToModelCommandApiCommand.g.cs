@@ -7,11 +7,10 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class ThreeDGenerationImageToModelCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"Image source. Accepts a file token, URL, or task ID.",
-        Required = true,
     };
 
     private static Option<bool?> EnableImageAutofix { get; } = CliRuntime.CreateNullableBoolOption(
@@ -30,10 +29,11 @@ internal static partial class ThreeDGenerationImageToModelCommandApiCommand
         Description = @"Model orientation, such as default or align_image.",
     };
 
-    private static Option<string?> Model { get; } = new(
+    private static Option<string> Model { get; } = new(
         name: @"--model")
     {
-        Description = @"AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.",
+        Description = @"Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.",
+        Required = true,
     };
 
     private static Option<int?> ModelSeed { get; } = new(
@@ -99,6 +99,21 @@ internal static partial class ThreeDGenerationImageToModelCommandApiCommand
     private static Option<bool?> ExportUv { get; } = CliRuntime.CreateNullableBoolOption(
         name: @"--export-uv",
         description: @"Control UV unwrapping where supported.");
+
+    private static Option<bool?> ReturnMultiview { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--return-multiview",
+        description: @"Include generated multiview images in the task output.");
+
+    private static Option<bool?> CheckPrintable { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--check-printable",
+        description: @"Check whether the generated model is suitable for 3D printing. Requires account entitlement.");
+
+    private static Option<string?> Mode { get; } = new(
+        name: @"--mode")
+    {
+        Description = @"Provider-specific image-to-model processing mode.",
+    };
+    private static readonly InputSourceObjectOptionSet FileOptions = InputSourceObjectOptionSet.Create(@"file");
       private static Option<string?> RequestInput { get; } = new(@"--request-input")
       {
           Description = "Load request JSON from a file path, '-' for stdin, or an inline JSON object/array string.",
@@ -157,6 +172,11 @@ internal static partial class ThreeDGenerationImageToModelCommandApiCommand
                         command.Options.Add(GenerateParts);
                         command.Options.Add(Compress);
                         command.Options.Add(ExportUv);
+                        command.Options.Add(ReturnMultiview);
+                        command.Options.Add(CheckPrintable);
+                        command.Options.Add(Mode);                        command.Options.Add(FileOptions.Type);
+                        command.Options.Add(FileOptions.Url);
+                        command.Options.Add(FileOptions.FileToken);
           command.Options.Add(RequestInput);
           command.Options.Add(RequestJson);
           command.Options.Add(RequestFile);
@@ -182,11 +202,11 @@ internal static partial class ThreeDGenerationImageToModelCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
                         var enableImageAutofix = CliRuntime.WasSpecified(parseResult, EnableImageAutofix) ? parseResult.GetValue(EnableImageAutofix) : (__requestBase is { } __EnableImageAutofixBaseValue ? __EnableImageAutofixBaseValue.EnableImageAutofix : default);
                         var textureAlignment = CliRuntime.WasSpecified(parseResult, TextureAlignment) ? parseResult.GetValue(TextureAlignment) : (__requestBase is { } __TextureAlignmentBaseValue ? __TextureAlignmentBaseValue.TextureAlignment : default);
                         var orientation = CliRuntime.WasSpecified(parseResult, Orientation) ? parseResult.GetValue(Orientation) : (__requestBase is { } __OrientationBaseValue ? __OrientationBaseValue.Orientation : default);
-                        var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
+                        var model = parseResult.GetRequiredValue(Model);
                         var modelSeed = CliRuntime.WasSpecified(parseResult, ModelSeed) ? parseResult.GetValue(ModelSeed) : (__requestBase is { } __ModelSeedBaseValue ? __ModelSeedBaseValue.ModelSeed : default);
                         var faceLimit = CliRuntime.WasSpecified(parseResult, FaceLimit) ? parseResult.GetValue(FaceLimit) : (__requestBase is { } __FaceLimitBaseValue ? __FaceLimitBaseValue.FaceLimit : default);
                         var texture = CliRuntime.WasSpecified(parseResult, Texture) ? parseResult.GetValue(Texture) : (__requestBase is { } __TextureBaseValue ? __TextureBaseValue.Texture : default);
@@ -200,6 +220,24 @@ internal static partial class ThreeDGenerationImageToModelCommandApiCommand
                         var generateParts = CliRuntime.WasSpecified(parseResult, GenerateParts) ? parseResult.GetValue(GenerateParts) : (__requestBase is { } __GeneratePartsBaseValue ? __GeneratePartsBaseValue.GenerateParts : default);
                         var compress = CliRuntime.WasSpecified(parseResult, Compress) ? parseResult.GetValue(Compress) : (__requestBase is { } __CompressBaseValue ? __CompressBaseValue.Compress : default);
                         var exportUv = CliRuntime.WasSpecified(parseResult, ExportUv) ? parseResult.GetValue(ExportUv) : (__requestBase is { } __ExportUvBaseValue ? __ExportUvBaseValue.ExportUv : default);
+                        var returnMultiview = CliRuntime.WasSpecified(parseResult, ReturnMultiview) ? parseResult.GetValue(ReturnMultiview) : (__requestBase is { } __ReturnMultiviewBaseValue ? __ReturnMultiviewBaseValue.ReturnMultiview : default);
+                        var checkPrintable = CliRuntime.WasSpecified(parseResult, CheckPrintable) ? parseResult.GetValue(CheckPrintable) : (__requestBase is { } __CheckPrintableBaseValue ? __CheckPrintableBaseValue.CheckPrintable : default);
+                        var mode = CliRuntime.WasSpecified(parseResult, Mode) ? parseResult.GetValue(Mode) : (__requestBase is { } __ModeBaseValue ? __ModeBaseValue.Mode : default);
+
+                        var __FileBase = __requestBase is { } __FileBaseValue ? __FileBaseValue.File : default;                        var fileType = CliRuntime.WasSpecified(parseResult, FileOptions.Type) ? parseResult.GetValue(FileOptions.Type) : (__FileBase is { } __FiletypeBaseValue ? __FiletypeBaseValue.Type : default);
+                        var fileUrl = CliRuntime.WasSpecified(parseResult, FileOptions.Url) ? parseResult.GetValue(FileOptions.Url) : (__FileBase is { } __FileurlBaseValue ? __FileurlBaseValue.Url : default);
+                        var fileFileToken = CliRuntime.WasSpecified(parseResult, FileOptions.FileToken) ? parseResult.GetValue(FileOptions.FileToken) : (__FileBase is { } __FilefileTokenBaseValue ? __FilefileTokenBaseValue.FileToken : default);
+                        var __FileSpecified = CliRuntime.WasSpecified(parseResult, FileOptions.Type) || CliRuntime.WasSpecified(parseResult, FileOptions.Url) || CliRuntime.WasSpecified(parseResult, FileOptions.FileToken);
+                        var file =
+                            __FileSpecified || __FileBase is not null
+                                ? new global::Tripo.InputSourceObject
+                                {
+	                                Type = fileType,
+                                Url = fileUrl,
+                                FileToken = fileFileToken,
+
+                                }
+                                : __FileBase;
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
@@ -222,6 +260,10 @@ internal static partial class ThreeDGenerationImageToModelCommandApiCommand
                                     generateParts: generateParts,
                                     compress: compress,
                                     exportUv: exportUv,
+                                    returnMultiview: returnMultiview,
+                                    checkPrintable: checkPrintable,
+                                    mode: mode,
+                                    file: file,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

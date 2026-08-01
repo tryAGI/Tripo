@@ -34,6 +34,9 @@ namespace Tripo
         /// <param name="input">
         /// Draft task_id to refine.
         /// </param>
+        /// <param name="draftModelTaskId">
+        /// V2-compatible draft task ID. Replaces the retired rough_model_task_id alias.
+        /// </param>
         /// <param name="model">
         /// AI model version.
         /// </param>
@@ -41,7 +44,8 @@ namespace Tripo
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::System.InvalidOperationException"></exception>
         global::System.Threading.Tasks.Task<global::Tripo.TaskCreatedResponse> RefineModelAsync(
-            string input,
+            string? input = default,
+            string? draftModelTaskId = default,
             string? model = default,
             global::Tripo.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default);

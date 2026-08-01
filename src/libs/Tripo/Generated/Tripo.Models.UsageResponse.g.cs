@@ -16,6 +16,12 @@ namespace Tripo
         public required int Code { get; set; }
 
         /// <summary>
+        /// Response status, success or error.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("status")]
+        public string? Status { get; set; }
+
+        /// <summary>
         /// Usage details list.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("data")]
@@ -37,14 +43,19 @@ namespace Tripo
         /// <param name="data">
         /// Usage details list.
         /// </param>
+        /// <param name="status">
+        /// Response status, success or error.
+        /// </param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public UsageResponse(
             int code,
-            global::System.Collections.Generic.IList<global::Tripo.UsageItem> data)
+            global::System.Collections.Generic.IList<global::Tripo.UsageItem> data,
+            string? status)
         {
             this.Code = code;
+            this.Status = status;
             this.Data = data ?? throw new global::System.ArgumentNullException(nameof(data));
         }
 

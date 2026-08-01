@@ -7,17 +7,22 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class ThreeDGenerationMultiviewToModelCommandApiCommand
 {
-    private static Option<global::System.Collections.Generic.IList<global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>>> Inputs { get; } = new(
+    private static Option<global::System.Collections.Generic.IList<global::Tripo.OneOf<string, global::Tripo.MultiviewViewInput, global::Tripo.TaskReuseInput>>?> Inputs { get; } = new(
         name: @"--inputs")
     {
         Description = @"Multiview images. Use either view-key objects, a four item positional array, or a single task_id object.",
-        Required = true,
     };
 
-    private static Option<string?> OriginalTaskId { get; } = new(
-        name: @"--original-task-id")
+    private static Option<string?> OriginalModelTaskId { get; } = new(
+        name: @"--original-model-task-id")
     {
-        Description = @"Task ID from previous multiview generation. Mutually exclusive with inputs.",
+        Description = @"Task ID from previous multiview generation. Mutually exclusive with inputs. This is the V3 name for V2's original_task_id field.",
+    };
+
+    private static Option<global::System.Collections.Generic.IList<global::Tripo.InputSourceObject>?> Files { get; } = new(
+        name: @"--files")
+    {
+        Description = @"Legacy four-slot input array in front, left, back, right order. Use empty objects for omitted views.",
     };
 
     private static Option<string?> TextureAlignment { get; } = new(
@@ -32,10 +37,11 @@ internal static partial class ThreeDGenerationMultiviewToModelCommandApiCommand
         Description = @"Model orientation, such as default or align_image.",
     };
 
-    private static Option<string?> Model { get; } = new(
+    private static Option<string> Model { get; } = new(
         name: @"--model")
     {
-        Description = @"AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.",
+        Description = @"Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.",
+        Required = true,
     };
 
     private static Option<int?> ModelSeed { get; } = new(
@@ -101,6 +107,14 @@ internal static partial class ThreeDGenerationMultiviewToModelCommandApiCommand
     private static Option<bool?> ExportUv { get; } = CliRuntime.CreateNullableBoolOption(
         name: @"--export-uv",
         description: @"Control UV unwrapping where supported.");
+
+    private static Option<bool?> ReturnMultiview { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--return-multiview",
+        description: @"Include generated multiview images in the task output.");
+
+    private static Option<bool?> OrthographicProjection { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--orthographic-projection",
+        description: @"Treat the supplied views as orthographic projections.");
       private static Option<string?> Input { get; } = new(@"--input")
       {
           Description = "Load request JSON from a file path, '-' for stdin, or an inline JSON object/array string.",
@@ -142,7 +156,8 @@ internal static partial class ThreeDGenerationMultiviewToModelCommandApiCommand
     {
         var command = new Command(@"multiview-to-model", @"Generate a 3D model from multiview images");
                         command.Options.Add(Inputs);
-                        command.Options.Add(OriginalTaskId);
+                        command.Options.Add(OriginalModelTaskId);
+                        command.Options.Add(Files);
                         command.Options.Add(TextureAlignment);
                         command.Options.Add(Orientation);
                         command.Options.Add(Model);
@@ -159,6 +174,8 @@ internal static partial class ThreeDGenerationMultiviewToModelCommandApiCommand
                         command.Options.Add(GenerateParts);
                         command.Options.Add(Compress);
                         command.Options.Add(ExportUv);
+                        command.Options.Add(ReturnMultiview);
+                        command.Options.Add(OrthographicProjection);
           command.Options.Add(Input);
           command.Options.Add(RequestJson);
           command.Options.Add(RequestFile);
@@ -184,11 +201,12 @@ internal static partial class ThreeDGenerationMultiviewToModelCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var inputs = parseResult.GetRequiredValue(Inputs);
-                        var originalTaskId = CliRuntime.WasSpecified(parseResult, OriginalTaskId) ? parseResult.GetValue(OriginalTaskId) : (__requestBase is { } __OriginalTaskIdBaseValue ? __OriginalTaskIdBaseValue.OriginalTaskId : default);
+                        var inputs = CliRuntime.WasSpecified(parseResult, Inputs) ? parseResult.GetValue(Inputs) : (__requestBase is { } __InputsBaseValue ? __InputsBaseValue.Inputs : default);
+                        var originalModelTaskId = CliRuntime.WasSpecified(parseResult, OriginalModelTaskId) ? parseResult.GetValue(OriginalModelTaskId) : (__requestBase is { } __OriginalModelTaskIdBaseValue ? __OriginalModelTaskIdBaseValue.OriginalModelTaskId : default);
+                        var files = CliRuntime.WasSpecified(parseResult, Files) ? parseResult.GetValue(Files) : (__requestBase is { } __FilesBaseValue ? __FilesBaseValue.Files : default);
                         var textureAlignment = CliRuntime.WasSpecified(parseResult, TextureAlignment) ? parseResult.GetValue(TextureAlignment) : (__requestBase is { } __TextureAlignmentBaseValue ? __TextureAlignmentBaseValue.TextureAlignment : default);
                         var orientation = CliRuntime.WasSpecified(parseResult, Orientation) ? parseResult.GetValue(Orientation) : (__requestBase is { } __OrientationBaseValue ? __OrientationBaseValue.Orientation : default);
-                        var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
+                        var model = parseResult.GetRequiredValue(Model);
                         var modelSeed = CliRuntime.WasSpecified(parseResult, ModelSeed) ? parseResult.GetValue(ModelSeed) : (__requestBase is { } __ModelSeedBaseValue ? __ModelSeedBaseValue.ModelSeed : default);
                         var faceLimit = CliRuntime.WasSpecified(parseResult, FaceLimit) ? parseResult.GetValue(FaceLimit) : (__requestBase is { } __FaceLimitBaseValue ? __FaceLimitBaseValue.FaceLimit : default);
                         var texture = CliRuntime.WasSpecified(parseResult, Texture) ? parseResult.GetValue(Texture) : (__requestBase is { } __TextureBaseValue ? __TextureBaseValue.Texture : default);
@@ -202,12 +220,15 @@ internal static partial class ThreeDGenerationMultiviewToModelCommandApiCommand
                         var generateParts = CliRuntime.WasSpecified(parseResult, GenerateParts) ? parseResult.GetValue(GenerateParts) : (__requestBase is { } __GeneratePartsBaseValue ? __GeneratePartsBaseValue.GenerateParts : default);
                         var compress = CliRuntime.WasSpecified(parseResult, Compress) ? parseResult.GetValue(Compress) : (__requestBase is { } __CompressBaseValue ? __CompressBaseValue.Compress : default);
                         var exportUv = CliRuntime.WasSpecified(parseResult, ExportUv) ? parseResult.GetValue(ExportUv) : (__requestBase is { } __ExportUvBaseValue ? __ExportUvBaseValue.ExportUv : default);
+                        var returnMultiview = CliRuntime.WasSpecified(parseResult, ReturnMultiview) ? parseResult.GetValue(ReturnMultiview) : (__requestBase is { } __ReturnMultiviewBaseValue ? __ReturnMultiviewBaseValue.ReturnMultiview : default);
+                        var orthographicProjection = CliRuntime.WasSpecified(parseResult, OrthographicProjection) ? parseResult.GetValue(OrthographicProjection) : (__requestBase is { } __OrthographicProjectionBaseValue ? __OrthographicProjectionBaseValue.OrthographicProjection : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
                                 var response = await client.ThreeDGeneration.MultiviewToModelAsync(
                                     inputs: inputs,
-                                    originalTaskId: originalTaskId,
+                                    originalModelTaskId: originalModelTaskId,
+                                    files: files,
                                     textureAlignment: textureAlignment,
                                     orientation: orientation,
                                     model: model,
@@ -224,6 +245,8 @@ internal static partial class ThreeDGenerationMultiviewToModelCommandApiCommand
                                     generateParts: generateParts,
                                     compress: compress,
                                     exportUv: exportUv,
+                                    returnMultiview: returnMultiview,
+                                    orthographicProjection: orthographicProjection,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

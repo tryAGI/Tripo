@@ -7,17 +7,22 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class AnimationRigModelCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"Model source. Accepts task_id or file_token.",
-        Required = true,
+    };
+
+    private static Option<string?> OriginalModelTaskId { get; } = new(
+        name: @"--original-model-task-id")
+    {
+        Description = @"V2-compatible source model task ID.",
     };
 
     private static Option<string?> Model { get; } = new(
         name: @"--model")
     {
-        Description = @"Auto rigging model version, such as rig-v2.0 or rig-v1.0.",
+        Description = @"Auto rigging model version, v1.0-20240301 or v2.5-20260210.",
     };
 
     private static Option<string?> RigType { get; } = new(
@@ -78,6 +83,7 @@ internal static partial class AnimationRigModelCommandApiCommand
     {
         var command = new Command(@"rig-model", @"Rig a 3D model");
                         command.Options.Add(InputOption);
+                        command.Options.Add(OriginalModelTaskId);
                         command.Options.Add(Model);
                         command.Options.Add(RigType);
                         command.Options.Add(Spec);
@@ -107,7 +113,8 @@ internal static partial class AnimationRigModelCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
+                        var originalModelTaskId = CliRuntime.WasSpecified(parseResult, OriginalModelTaskId) ? parseResult.GetValue(OriginalModelTaskId) : (__requestBase is { } __OriginalModelTaskIdBaseValue ? __OriginalModelTaskIdBaseValue.OriginalModelTaskId : default);
                         var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
                         var rigType = CliRuntime.WasSpecified(parseResult, RigType) ? parseResult.GetValue(RigType) : (__requestBase is { } __RigTypeBaseValue ? __RigTypeBaseValue.RigType : default);
                         var spec = CliRuntime.WasSpecified(parseResult, Spec) ? parseResult.GetValue(Spec) : (__requestBase is { } __SpecBaseValue ? __SpecBaseValue.Spec : default);
@@ -117,6 +124,7 @@ internal static partial class AnimationRigModelCommandApiCommand
 
                                 var response = await client.Animation.RigModelAsync(
                                     input: input,
+                                    originalModelTaskId: originalModelTaskId,
                                     model: model,
                                     rigType: rigType,
                                     spec: spec,

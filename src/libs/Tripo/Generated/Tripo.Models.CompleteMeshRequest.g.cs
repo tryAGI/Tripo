@@ -12,8 +12,7 @@ namespace Tripo
         /// task_id of a mesh/segment task.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("input")]
-        [global::System.Text.Json.Serialization.JsonRequired]
-        public required string Input { get; set; }
+        public string? Input { get; set; }
 
         /// <summary>
         /// Completion model version.
@@ -26,6 +25,18 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("part_names")]
         public global::System.Collections.Generic.IList<string>? PartNames { get; set; }
+
+        /// <summary>
+        /// V2-compatible source segmentation task ID.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("original_model_task_id")]
+        public string? OriginalModelTaskId { get; set; }
+
+        /// <summary>
+        /// Completion mode, ai_completion or quick_cap.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("completion_mode")]
+        public string? CompletionMode { get; set; }
 
         /// <summary>
         /// Additional properties that are not explicitly defined in the schema
@@ -45,17 +56,27 @@ namespace Tripo
         /// <param name="partNames">
         /// List of part names to complete. If omitted, all parts are completed.
         /// </param>
+        /// <param name="originalModelTaskId">
+        /// V2-compatible source segmentation task ID.
+        /// </param>
+        /// <param name="completionMode">
+        /// Completion mode, ai_completion or quick_cap.
+        /// </param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public CompleteMeshRequest(
-            string input,
+            string? input,
             string? model,
-            global::System.Collections.Generic.IList<string>? partNames)
+            global::System.Collections.Generic.IList<string>? partNames,
+            string? originalModelTaskId,
+            string? completionMode)
         {
-            this.Input = input ?? throw new global::System.ArgumentNullException(nameof(input));
+            this.Input = input;
             this.Model = model;
             this.PartNames = partNames;
+            this.OriginalModelTaskId = originalModelTaskId;
+            this.CompletionMode = completionMode;
         }
 
         /// <summary>

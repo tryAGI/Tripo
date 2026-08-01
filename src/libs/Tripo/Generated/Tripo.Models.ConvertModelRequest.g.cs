@@ -12,8 +12,13 @@ namespace Tripo
         /// Model source. Accepts task_id or file_token.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("input")]
-        [global::System.Text.Json.Serialization.JsonRequired]
-        public required string Input { get; set; }
+        public string? Input { get; set; }
+
+        /// <summary>
+        /// V2-compatible source model task ID.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("original_model_task_id")]
+        public string? OriginalModelTaskId { get; set; }
 
         /// <summary>
         /// Target format, such as GLTF, USDZ, FBX, OBJ, STL, or 3MF.
@@ -107,6 +112,12 @@ namespace Tripo
         public bool? AnimateInPlace { get; set; }
 
         /// <summary>
+        /// Assemble multiple animations in the exported model.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("assemble_animation")]
+        public bool? AssembleAnimation { get; set; }
+
+        /// <summary>
         /// Names of parts to export, from mesh/segment data.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("part_names")]
@@ -133,11 +144,14 @@ namespace Tripo
         /// <summary>
         /// Initializes a new instance of the <see cref="ConvertModelRequest" /> class.
         /// </summary>
+        /// <param name="format">
+        /// Target format, such as GLTF, USDZ, FBX, OBJ, STL, or 3MF.
+        /// </param>
         /// <param name="input">
         /// Model source. Accepts task_id or file_token.
         /// </param>
-        /// <param name="format">
-        /// Target format, such as GLTF, USDZ, FBX, OBJ, STL, or 3MF.
+        /// <param name="originalModelTaskId">
+        /// V2-compatible source model task ID.
         /// </param>
         /// <param name="quad">
         /// Quad remeshing.
@@ -181,6 +195,9 @@ namespace Tripo
         /// <param name="animateInPlace">
         /// In-place animation.
         /// </param>
+        /// <param name="assembleAnimation">
+        /// Assemble multiple animations in the exported model.
+        /// </param>
         /// <param name="partNames">
         /// Names of parts to export, from mesh/segment data.
         /// </param>
@@ -194,8 +211,9 @@ namespace Tripo
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public ConvertModelRequest(
-            string input,
             string format,
+            string? input,
+            string? originalModelTaskId,
             bool? quad,
             bool? forceSymmetry,
             int? faceLimit,
@@ -210,11 +228,13 @@ namespace Tripo
             double? scaleFactor,
             bool? withAnimation,
             bool? animateInPlace,
+            bool? assembleAnimation,
             global::System.Collections.Generic.IList<string>? partNames,
             string? exportOrientation,
             string? fbxPreset)
         {
-            this.Input = input ?? throw new global::System.ArgumentNullException(nameof(input));
+            this.Input = input;
+            this.OriginalModelTaskId = originalModelTaskId;
             this.Format = format ?? throw new global::System.ArgumentNullException(nameof(format));
             this.Quad = quad;
             this.ForceSymmetry = forceSymmetry;
@@ -230,6 +250,7 @@ namespace Tripo
             this.ScaleFactor = scaleFactor;
             this.WithAnimation = withAnimation;
             this.AnimateInPlace = animateInPlace;
+            this.AssembleAnimation = assembleAnimation;
             this.PartNames = partNames;
             this.ExportOrientation = exportOrientation;
             this.FbxPreset = fbxPreset;

@@ -12,8 +12,7 @@ namespace Tripo
         /// Model source. Accepts task_id or file_token.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("input")]
-        [global::System.Text.Json.Serialization.JsonRequired]
-        public required string Input { get; set; }
+        public string? Input { get; set; }
 
         /// <summary>
         /// Decimation model version.
@@ -46,6 +45,12 @@ namespace Tripo
         public bool? Bake { get; set; }
 
         /// <summary>
+        /// V2-compatible source model task ID.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("original_model_task_id")]
+        public string? OriginalModelTaskId { get; set; }
+
+        /// <summary>
         /// Additional properties that are not explicitly defined in the schema
         /// </summary>
         [global::System.Text.Json.Serialization.JsonExtensionData]
@@ -72,23 +77,28 @@ namespace Tripo
         /// <param name="bake">
         /// Bake textures onto the low-poly model.
         /// </param>
+        /// <param name="originalModelTaskId">
+        /// V2-compatible source model task ID.
+        /// </param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public DecimateMeshRequest(
-            string input,
+            string? input,
             string? model,
             int? faceLimit,
             bool? quad,
             global::System.Collections.Generic.IList<string>? partNames,
-            bool? bake)
+            bool? bake,
+            string? originalModelTaskId)
         {
-            this.Input = input ?? throw new global::System.ArgumentNullException(nameof(input));
+            this.Input = input;
             this.Model = model;
             this.FaceLimit = faceLimit;
             this.Quad = quad;
             this.PartNames = partNames;
             this.Bake = bake;
+            this.OriginalModelTaskId = originalModelTaskId;
         }
 
         /// <summary>

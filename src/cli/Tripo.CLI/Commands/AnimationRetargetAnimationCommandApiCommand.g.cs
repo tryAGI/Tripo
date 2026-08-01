@@ -7,11 +7,16 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class AnimationRetargetAnimationCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"task_id of the rigged model.",
-        Required = true,
+    };
+
+    private static Option<string?> OriginalModelTaskId { get; } = new(
+        name: @"--original-model-task-id")
+    {
+        Description = @"V2-compatible source rig task ID.",
     };
 
     private static Option<string?> Animation { get; } = new(
@@ -43,6 +48,10 @@ internal static partial class AnimationRetargetAnimationCommandApiCommand
     private static Option<bool?> AnimateInPlace { get; } = CliRuntime.CreateNullableBoolOption(
         name: @"--animate-in-place",
         description: @"Play the animation in place without displacement.");
+
+    private static Option<bool?> RenderVideo { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--render-video",
+        description: @"Generate a rendered animation preview video.");
       private static Option<string?> RequestInput { get; } = new(@"--request-input")
       {
           Description = "Load request JSON from a file path, '-' for stdin, or an inline JSON object/array string.",
@@ -84,12 +93,14 @@ internal static partial class AnimationRetargetAnimationCommandApiCommand
     {
         var command = new Command(@"retarget-animation", @"Apply preset animations to a rigged 3D model");
                         command.Options.Add(InputOption);
+                        command.Options.Add(OriginalModelTaskId);
                         command.Options.Add(Animation);
                         command.Options.Add(Animations);
                         command.Options.Add(OutFormat);
                         command.Options.Add(BakeAnimation);
                         command.Options.Add(ExportWithGeometry);
                         command.Options.Add(AnimateInPlace);
+                        command.Options.Add(RenderVideo);
           command.Options.Add(RequestInput);
           command.Options.Add(RequestJson);
           command.Options.Add(RequestFile);
@@ -115,24 +126,28 @@ internal static partial class AnimationRetargetAnimationCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
+                        var originalModelTaskId = CliRuntime.WasSpecified(parseResult, OriginalModelTaskId) ? parseResult.GetValue(OriginalModelTaskId) : (__requestBase is { } __OriginalModelTaskIdBaseValue ? __OriginalModelTaskIdBaseValue.OriginalModelTaskId : default);
                         var animation = CliRuntime.WasSpecified(parseResult, Animation) ? parseResult.GetValue(Animation) : (__requestBase is { } __AnimationBaseValue ? __AnimationBaseValue.Animation : default);
                         var animations = CliRuntime.WasSpecified(parseResult, Animations) ? parseResult.GetValue(Animations) : (__requestBase is { } __AnimationsBaseValue ? __AnimationsBaseValue.Animations : default);
                         var outFormat = CliRuntime.WasSpecified(parseResult, OutFormat) ? parseResult.GetValue(OutFormat) : (__requestBase is { } __OutFormatBaseValue ? __OutFormatBaseValue.OutFormat : default);
                         var bakeAnimation = CliRuntime.WasSpecified(parseResult, BakeAnimation) ? parseResult.GetValue(BakeAnimation) : (__requestBase is { } __BakeAnimationBaseValue ? __BakeAnimationBaseValue.BakeAnimation : default);
                         var exportWithGeometry = CliRuntime.WasSpecified(parseResult, ExportWithGeometry) ? parseResult.GetValue(ExportWithGeometry) : (__requestBase is { } __ExportWithGeometryBaseValue ? __ExportWithGeometryBaseValue.ExportWithGeometry : default);
                         var animateInPlace = CliRuntime.WasSpecified(parseResult, AnimateInPlace) ? parseResult.GetValue(AnimateInPlace) : (__requestBase is { } __AnimateInPlaceBaseValue ? __AnimateInPlaceBaseValue.AnimateInPlace : default);
+                        var renderVideo = CliRuntime.WasSpecified(parseResult, RenderVideo) ? parseResult.GetValue(RenderVideo) : (__requestBase is { } __RenderVideoBaseValue ? __RenderVideoBaseValue.RenderVideo : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
                                 var response = await client.Animation.RetargetAnimationAsync(
                                     input: input,
+                                    originalModelTaskId: originalModelTaskId,
                                     animation: animation,
                                     animations: animations,
                                     outFormat: outFormat,
                                     bakeAnimation: bakeAnimation,
                                     exportWithGeometry: exportWithGeometry,
                                     animateInPlace: animateInPlace,
+                                    renderVideo: renderVideo,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

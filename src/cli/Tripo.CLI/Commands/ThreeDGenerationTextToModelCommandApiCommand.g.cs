@@ -26,10 +26,11 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
         Description = @"Random seed for the text-to-image stage.",
     };
 
-    private static Option<string?> Model { get; } = new(
+    private static Option<string> Model { get; } = new(
         name: @"--model")
     {
-        Description = @"AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.",
+        Description = @"Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.",
+        Required = true,
     };
 
     private static Option<int?> ModelSeed { get; } = new(
@@ -95,6 +96,23 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
     private static Option<bool?> ExportUv { get; } = CliRuntime.CreateNullableBoolOption(
         name: @"--export-uv",
         description: @"Control UV unwrapping where supported.");
+
+    private static Option<bool?> ReturnMultiview { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--return-multiview",
+        description: @"Include generated multiview images in the task output.");
+
+    private static Option<bool?> RenderSequence { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--render-sequence",
+        description: @"Generate a rendered image sequence.");
+
+    private static Option<bool?> RenderVideo { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--render-video",
+        description: @"Generate a rendered preview video.");
+
+    private static Option<bool?> CheckPrintable { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--check-printable",
+        description: @"Check whether the generated model is suitable for 3D printing. Requires account entitlement.");
+    private static readonly InputSourceObjectOptionSet StyleImageOptions = InputSourceObjectOptionSet.Create(@"style-image");
       private static Option<string?> Input { get; } = new(@"--input")
       {
           Description = "Load request JSON from a file path, '-' for stdin, or an inline JSON object/array string.",
@@ -152,6 +170,12 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
                         command.Options.Add(GenerateParts);
                         command.Options.Add(Compress);
                         command.Options.Add(ExportUv);
+                        command.Options.Add(ReturnMultiview);
+                        command.Options.Add(RenderSequence);
+                        command.Options.Add(RenderVideo);
+                        command.Options.Add(CheckPrintable);                        command.Options.Add(StyleImageOptions.Type);
+                        command.Options.Add(StyleImageOptions.Url);
+                        command.Options.Add(StyleImageOptions.FileToken);
           command.Options.Add(Input);
           command.Options.Add(RequestJson);
           command.Options.Add(RequestFile);
@@ -180,7 +204,7 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
                         var prompt = parseResult.GetRequiredValue(Prompt);
                         var negativePrompt = CliRuntime.WasSpecified(parseResult, NegativePrompt) ? parseResult.GetValue(NegativePrompt) : (__requestBase is { } __NegativePromptBaseValue ? __NegativePromptBaseValue.NegativePrompt : default);
                         var imageSeed = CliRuntime.WasSpecified(parseResult, ImageSeed) ? parseResult.GetValue(ImageSeed) : (__requestBase is { } __ImageSeedBaseValue ? __ImageSeedBaseValue.ImageSeed : default);
-                        var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
+                        var model = parseResult.GetRequiredValue(Model);
                         var modelSeed = CliRuntime.WasSpecified(parseResult, ModelSeed) ? parseResult.GetValue(ModelSeed) : (__requestBase is { } __ModelSeedBaseValue ? __ModelSeedBaseValue.ModelSeed : default);
                         var faceLimit = CliRuntime.WasSpecified(parseResult, FaceLimit) ? parseResult.GetValue(FaceLimit) : (__requestBase is { } __FaceLimitBaseValue ? __FaceLimitBaseValue.FaceLimit : default);
                         var texture = CliRuntime.WasSpecified(parseResult, Texture) ? parseResult.GetValue(Texture) : (__requestBase is { } __TextureBaseValue ? __TextureBaseValue.Texture : default);
@@ -194,6 +218,25 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
                         var generateParts = CliRuntime.WasSpecified(parseResult, GenerateParts) ? parseResult.GetValue(GenerateParts) : (__requestBase is { } __GeneratePartsBaseValue ? __GeneratePartsBaseValue.GenerateParts : default);
                         var compress = CliRuntime.WasSpecified(parseResult, Compress) ? parseResult.GetValue(Compress) : (__requestBase is { } __CompressBaseValue ? __CompressBaseValue.Compress : default);
                         var exportUv = CliRuntime.WasSpecified(parseResult, ExportUv) ? parseResult.GetValue(ExportUv) : (__requestBase is { } __ExportUvBaseValue ? __ExportUvBaseValue.ExportUv : default);
+                        var returnMultiview = CliRuntime.WasSpecified(parseResult, ReturnMultiview) ? parseResult.GetValue(ReturnMultiview) : (__requestBase is { } __ReturnMultiviewBaseValue ? __ReturnMultiviewBaseValue.ReturnMultiview : default);
+                        var renderSequence = CliRuntime.WasSpecified(parseResult, RenderSequence) ? parseResult.GetValue(RenderSequence) : (__requestBase is { } __RenderSequenceBaseValue ? __RenderSequenceBaseValue.RenderSequence : default);
+                        var renderVideo = CliRuntime.WasSpecified(parseResult, RenderVideo) ? parseResult.GetValue(RenderVideo) : (__requestBase is { } __RenderVideoBaseValue ? __RenderVideoBaseValue.RenderVideo : default);
+                        var checkPrintable = CliRuntime.WasSpecified(parseResult, CheckPrintable) ? parseResult.GetValue(CheckPrintable) : (__requestBase is { } __CheckPrintableBaseValue ? __CheckPrintableBaseValue.CheckPrintable : default);
+
+                        var __StyleImageBase = __requestBase is { } __StyleImageBaseValue ? __StyleImageBaseValue.StyleImage : default;                        var styleImageType = CliRuntime.WasSpecified(parseResult, StyleImageOptions.Type) ? parseResult.GetValue(StyleImageOptions.Type) : (__StyleImageBase is { } __StyleImagetypeBaseValue ? __StyleImagetypeBaseValue.Type : default);
+                        var styleImageUrl = CliRuntime.WasSpecified(parseResult, StyleImageOptions.Url) ? parseResult.GetValue(StyleImageOptions.Url) : (__StyleImageBase is { } __StyleImageurlBaseValue ? __StyleImageurlBaseValue.Url : default);
+                        var styleImageFileToken = CliRuntime.WasSpecified(parseResult, StyleImageOptions.FileToken) ? parseResult.GetValue(StyleImageOptions.FileToken) : (__StyleImageBase is { } __StyleImagefileTokenBaseValue ? __StyleImagefileTokenBaseValue.FileToken : default);
+                        var __StyleImageSpecified = CliRuntime.WasSpecified(parseResult, StyleImageOptions.Type) || CliRuntime.WasSpecified(parseResult, StyleImageOptions.Url) || CliRuntime.WasSpecified(parseResult, StyleImageOptions.FileToken);
+                        var styleImage =
+                            __StyleImageSpecified || __StyleImageBase is not null
+                                ? new global::Tripo.InputSourceObject
+                                {
+	                                Type = styleImageType,
+                                Url = styleImageUrl,
+                                FileToken = styleImageFileToken,
+
+                                }
+                                : __StyleImageBase;
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
@@ -215,6 +258,11 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
                                     generateParts: generateParts,
                                     compress: compress,
                                     exportUv: exportUv,
+                                    returnMultiview: returnMultiview,
+                                    renderSequence: renderSequence,
+                                    renderVideo: renderVideo,
+                                    checkPrintable: checkPrintable,
+                                    styleImage: styleImage,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

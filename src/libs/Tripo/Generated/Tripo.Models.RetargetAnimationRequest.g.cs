@@ -12,8 +12,13 @@ namespace Tripo
         /// task_id of the rigged model.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("input")]
-        [global::System.Text.Json.Serialization.JsonRequired]
-        public required string Input { get; set; }
+        public string? Input { get; set; }
+
+        /// <summary>
+        /// V2-compatible source rig task ID.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("original_model_task_id")]
+        public string? OriginalModelTaskId { get; set; }
 
         /// <summary>
         /// Single preset animation identifier. Mutually exclusive with animations.
@@ -52,6 +57,12 @@ namespace Tripo
         public bool? AnimateInPlace { get; set; }
 
         /// <summary>
+        /// Generate a rendered animation preview video.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("render_video")]
+        public bool? RenderVideo { get; set; }
+
+        /// <summary>
         /// Additional properties that are not explicitly defined in the schema
         /// </summary>
         [global::System.Text.Json.Serialization.JsonExtensionData]
@@ -62,6 +73,9 @@ namespace Tripo
         /// </summary>
         /// <param name="input">
         /// task_id of the rigged model.
+        /// </param>
+        /// <param name="originalModelTaskId">
+        /// V2-compatible source rig task ID.
         /// </param>
         /// <param name="animation">
         /// Single preset animation identifier. Mutually exclusive with animations.
@@ -81,25 +95,32 @@ namespace Tripo
         /// <param name="animateInPlace">
         /// Play the animation in place without displacement.
         /// </param>
+        /// <param name="renderVideo">
+        /// Generate a rendered animation preview video.
+        /// </param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public RetargetAnimationRequest(
-            string input,
+            string? input,
+            string? originalModelTaskId,
             string? animation,
             global::System.Collections.Generic.IList<string>? animations,
             string? outFormat,
             bool? bakeAnimation,
             bool? exportWithGeometry,
-            bool? animateInPlace)
+            bool? animateInPlace,
+            bool? renderVideo)
         {
-            this.Input = input ?? throw new global::System.ArgumentNullException(nameof(input));
+            this.Input = input;
+            this.OriginalModelTaskId = originalModelTaskId;
             this.Animation = animation;
             this.Animations = animations;
             this.OutFormat = outFormat;
             this.BakeAnimation = bakeAnimation;
             this.ExportWithGeometry = exportWithGeometry;
             this.AnimateInPlace = animateInPlace;
+            this.RenderVideo = renderVideo;
         }
 
         /// <summary>

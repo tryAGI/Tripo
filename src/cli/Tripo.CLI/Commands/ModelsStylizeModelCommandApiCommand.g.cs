@@ -7,17 +7,22 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class ModelsStylizeModelCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"Model source. Accepts task_id or file_token.",
-        Required = true,
+    };
+
+    private static Option<string?> OriginalModelTaskId { get; } = new(
+        name: @"--original-model-task-id")
+    {
+        Description = @"V2-compatible source model task ID.",
     };
 
     private static Option<string> Style { get; } = new(
         name: @"--style")
     {
-        Description = @"Style type, such as lego, voxel, voronoi, or minecraft.",
+        Description = @"Style type, one of lego, voxel, voronoi, minecraft, keyring, fridge_magnet, or keycap.",
         Required = true,
     };
 
@@ -26,6 +31,14 @@ internal static partial class ModelsStylizeModelCommandApiCommand
     {
         Description = @"Grid size, range 32-128. Only valid when style is minecraft.",
     };
+
+    private static Option<bool?> Vxc { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--vxc",
+        description: @"Enable VXC processing. Requires account entitlement.");
+
+    private static Option<bool?> RenderImage { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--render-image",
+        description: @"Generate a rendered preview image.");
       private static Option<string?> RequestInput { get; } = new(@"--request-input")
       {
           Description = "Load request JSON from a file path, '-' for stdin, or an inline JSON object/array string.",
@@ -67,8 +80,11 @@ internal static partial class ModelsStylizeModelCommandApiCommand
     {
         var command = new Command(@"stylize-model", @"Stylize an existing model");
                         command.Options.Add(InputOption);
+                        command.Options.Add(OriginalModelTaskId);
                         command.Options.Add(Style);
                         command.Options.Add(BlockSize);
+                        command.Options.Add(Vxc);
+                        command.Options.Add(RenderImage);
           command.Options.Add(RequestInput);
           command.Options.Add(RequestJson);
           command.Options.Add(RequestFile);
@@ -94,16 +110,22 @@ internal static partial class ModelsStylizeModelCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
+                        var originalModelTaskId = CliRuntime.WasSpecified(parseResult, OriginalModelTaskId) ? parseResult.GetValue(OriginalModelTaskId) : (__requestBase is { } __OriginalModelTaskIdBaseValue ? __OriginalModelTaskIdBaseValue.OriginalModelTaskId : default);
                         var style = parseResult.GetRequiredValue(Style);
                         var blockSize = CliRuntime.WasSpecified(parseResult, BlockSize) ? parseResult.GetValue(BlockSize) : (__requestBase is { } __BlockSizeBaseValue ? __BlockSizeBaseValue.BlockSize : default);
+                        var vxc = CliRuntime.WasSpecified(parseResult, Vxc) ? parseResult.GetValue(Vxc) : (__requestBase is { } __VxcBaseValue ? __VxcBaseValue.Vxc : default);
+                        var renderImage = CliRuntime.WasSpecified(parseResult, RenderImage) ? parseResult.GetValue(RenderImage) : (__requestBase is { } __RenderImageBaseValue ? __RenderImageBaseValue.RenderImage : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
                                 var response = await client.Models.StylizeModelAsync(
                                     input: input,
+                                    originalModelTaskId: originalModelTaskId,
                                     style: style,
                                     blockSize: blockSize,
+                                    vxc: vxc,
+                                    renderImage: renderImage,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

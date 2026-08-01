@@ -18,7 +18,7 @@ public partial class Tests
         TaskCreatedResponse response = await api.ThreeDGeneration.TextToModelAsync(new TextToModelRequest
         {
             Prompt = "Generate a stylized explorer character",
-            Model = "tripo-v3.1",
+            Model = "v3.1-20260211",
             Texture = true,
         });
         

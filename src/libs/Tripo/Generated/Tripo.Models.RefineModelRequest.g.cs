@@ -12,8 +12,13 @@ namespace Tripo
         /// Draft task_id to refine.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("input")]
-        [global::System.Text.Json.Serialization.JsonRequired]
-        public required string Input { get; set; }
+        public string? Input { get; set; }
+
+        /// <summary>
+        /// V2-compatible draft task ID. Replaces the retired rough_model_task_id alias.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("draft_model_task_id")]
+        public string? DraftModelTaskId { get; set; }
 
         /// <summary>
         /// AI model version.
@@ -33,6 +38,9 @@ namespace Tripo
         /// <param name="input">
         /// Draft task_id to refine.
         /// </param>
+        /// <param name="draftModelTaskId">
+        /// V2-compatible draft task ID. Replaces the retired rough_model_task_id alias.
+        /// </param>
         /// <param name="model">
         /// AI model version.
         /// </param>
@@ -40,10 +48,12 @@ namespace Tripo
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public RefineModelRequest(
-            string input,
+            string? input,
+            string? draftModelTaskId,
             string? model)
         {
-            this.Input = input ?? throw new global::System.ArgumentNullException(nameof(input));
+            this.Input = input;
+            this.DraftModelTaskId = draftModelTaskId;
             this.Model = model;
         }
 

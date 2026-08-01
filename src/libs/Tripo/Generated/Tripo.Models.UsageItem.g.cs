@@ -23,6 +23,12 @@ namespace Tripo
         public required string Type { get; set; }
 
         /// <summary>
+        /// Task status.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("status")]
+        public string? Status { get; set; }
+
+        /// <summary>
         /// Credits consumed.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("credits_consumed")]
@@ -57,6 +63,9 @@ namespace Tripo
         /// <param name="createdAt">
         /// Creation time in ISO 8601 format.
         /// </param>
+        /// <param name="status">
+        /// Task status.
+        /// </param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
@@ -64,10 +73,12 @@ namespace Tripo
             string taskId,
             string type,
             double creditsConsumed,
-            global::System.DateTime createdAt)
+            global::System.DateTime createdAt,
+            string? status)
         {
             this.TaskId = taskId ?? throw new global::System.ArgumentNullException(nameof(taskId));
             this.Type = type ?? throw new global::System.ArgumentNullException(nameof(type));
+            this.Status = status;
             this.CreditsConsumed = creditsConsumed;
             this.CreatedAt = createdAt;
         }

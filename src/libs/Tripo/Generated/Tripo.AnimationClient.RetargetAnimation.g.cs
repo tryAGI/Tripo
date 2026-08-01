@@ -474,6 +474,9 @@ namespace Tripo
         /// <param name="input">
         /// task_id of the rigged model.
         /// </param>
+        /// <param name="originalModelTaskId">
+        /// V2-compatible source rig task ID.
+        /// </param>
         /// <param name="animation">
         /// Single preset animation identifier. Mutually exclusive with animations.
         /// </param>
@@ -492,29 +495,36 @@ namespace Tripo
         /// <param name="animateInPlace">
         /// Play the animation in place without displacement.
         /// </param>
+        /// <param name="renderVideo">
+        /// Generate a rendered animation preview video.
+        /// </param>
         /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::System.InvalidOperationException"></exception>
         public async global::System.Threading.Tasks.Task<global::Tripo.TaskCreatedResponse> RetargetAnimationAsync(
-            string input,
+            string? input = default,
+            string? originalModelTaskId = default,
             string? animation = default,
             global::System.Collections.Generic.IList<string>? animations = default,
             string? outFormat = default,
             bool? bakeAnimation = default,
             bool? exportWithGeometry = default,
             bool? animateInPlace = default,
+            bool? renderVideo = default,
             global::Tripo.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
             var __request = new global::Tripo.RetargetAnimationRequest
             {
                 Input = input,
+                OriginalModelTaskId = originalModelTaskId,
                 Animation = animation,
                 Animations = animations,
                 OutFormat = outFormat,
                 BakeAnimation = bakeAnimation,
                 ExportWithGeometry = exportWithGeometry,
                 AnimateInPlace = animateInPlace,
+                RenderVideo = renderVideo,
             };
 
             return await RetargetAnimationAsync(

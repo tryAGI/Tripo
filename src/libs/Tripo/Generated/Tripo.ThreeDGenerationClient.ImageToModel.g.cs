@@ -474,6 +474,7 @@ namespace Tripo
         /// <param name="input">
         /// Image source. Accepts a file token, URL, or task ID.
         /// </param>
+        /// <param name="file"></param>
         /// <param name="enableImageAutofix">
         /// Automatically improve low-quality input images.
         /// </param>
@@ -484,7 +485,7 @@ namespace Tripo
         /// Model orientation, such as default or align_image.
         /// </param>
         /// <param name="model">
-        /// AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
+        /// Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.
         /// </param>
         /// <param name="modelSeed">
         /// Random seed for geometry generation.
@@ -525,15 +526,25 @@ namespace Tripo
         /// <param name="exportUv">
         /// Control UV unwrapping where supported.
         /// </param>
+        /// <param name="returnMultiview">
+        /// Include generated multiview images in the task output.
+        /// </param>
+        /// <param name="checkPrintable">
+        /// Check whether the generated model is suitable for 3D printing. Requires account entitlement.
+        /// </param>
+        /// <param name="mode">
+        /// Provider-specific image-to-model processing mode.
+        /// </param>
         /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
         /// <param name="cancellationToken">The token to cancel the operation with</param>
         /// <exception cref="global::System.InvalidOperationException"></exception>
         public async global::System.Threading.Tasks.Task<global::Tripo.TaskCreatedResponse> ImageToModelAsync(
-            string input,
+            string model,
+            string? input = default,
+            global::Tripo.InputSourceObject? file = default,
             bool? enableImageAutofix = default,
             string? textureAlignment = default,
             string? orientation = default,
-            string? model = default,
             int? modelSeed = default,
             int? faceLimit = default,
             bool? texture = default,
@@ -547,12 +558,16 @@ namespace Tripo
             bool? generateParts = default,
             string? compress = default,
             bool? exportUv = default,
+            bool? returnMultiview = default,
+            bool? checkPrintable = default,
+            string? mode = default,
             global::Tripo.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
             var __request = new global::Tripo.ImageToModelRequest
             {
                 Input = input,
+                File = file,
                 EnableImageAutofix = enableImageAutofix,
                 TextureAlignment = textureAlignment,
                 Orientation = orientation,
@@ -570,6 +585,9 @@ namespace Tripo
                 GenerateParts = generateParts,
                 Compress = compress,
                 ExportUv = exportUv,
+                ReturnMultiview = returnMultiview,
+                CheckPrintable = checkPrintable,
+                Mode = mode,
             };
 
             return await ImageToModelAsync(

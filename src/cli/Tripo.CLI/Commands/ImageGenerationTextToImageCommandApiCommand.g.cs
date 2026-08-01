@@ -10,20 +10,48 @@ internal static partial class ImageGenerationTextToImageCommandApiCommand
     private static Option<string> Prompt { get; } = new(
         name: @"--prompt")
     {
-        Description = @"Text prompt, up to 1024 characters.",
+        Description = @"Text prompt, up to 1800 characters.",
         Required = true,
+    };
+
+    private static Option<string?> NegativePrompt { get; } = new(
+        name: @"--negative-prompt")
+    {
+        Description = @"Optional negative prompt.",
     };
 
     private static Option<string?> Model { get; } = new(
         name: @"--model")
     {
-        Description = @"Image model, for example seedream_v5, seedream_v4, gemini-2.5-flash, gemini-3-pro, gemini-3.1-flash, chat_image_1, chat_image_1.5, or chat_image_2.",
+        Description = @"Image model alias. Supported values include seedream_v5, seedream_v4, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v4.",
     };
+
+    private static Option<string?> Size { get; } = new(
+        name: @"--size")
+    {
+        Description = @"Output image size. Supported values depend on the selected model.",
+    };
+
+    private static Option<string?> AspectRatio { get; } = new(
+        name: @"--aspect-ratio")
+    {
+        Description = @"Output aspect ratio. Supported only by banana-family models.",
+    };
+
+    private static Option<string?> OutputFormat { get; } = new(
+        name: @"--output-format")
+    {
+        Description = @"Output image format, png or jpeg.",
+    };
+
+    private static Option<bool?> Watermark { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--watermark",
+        description: @"Add an AI-generated content watermark where supported.");
 
     private static Option<string?> Template { get; } = new(
         name: @"--template")
     {
-        Description = @"Template name, such as asset_extraction, character_completion, t_pose, head_extraction, 3d_enhance, variants, print_clay, or figure.",
+        Description = @"Template name, such as asset_extraction, character_completion, t_pose, variants, or figure.",
     };
 
     private static Option<bool?> TPose { get; } = CliRuntime.CreateNullableBoolOption(
@@ -33,6 +61,7 @@ internal static partial class ImageGenerationTextToImageCommandApiCommand
     private static Option<bool?> SketchToRender { get; } = CliRuntime.CreateNullableBoolOption(
         name: @"--sketch-to-render",
         description: @"Convert a sketch to a rendered image.");
+    private static readonly InputSourceObjectOptionSet StyleImageOptions = InputSourceObjectOptionSet.Create(@"style-image");
       private static Option<string?> Input { get; } = new(@"--input")
       {
           Description = "Load request JSON from a file path, '-' for stdin, or an inline JSON object/array string.",
@@ -74,10 +103,17 @@ internal static partial class ImageGenerationTextToImageCommandApiCommand
     {
         var command = new Command(@"text-to-image", @"Generate an image from a text prompt");
                         command.Options.Add(Prompt);
+                        command.Options.Add(NegativePrompt);
                         command.Options.Add(Model);
+                        command.Options.Add(Size);
+                        command.Options.Add(AspectRatio);
+                        command.Options.Add(OutputFormat);
+                        command.Options.Add(Watermark);
                         command.Options.Add(Template);
                         command.Options.Add(TPose);
-                        command.Options.Add(SketchToRender);
+                        command.Options.Add(SketchToRender);                        command.Options.Add(StyleImageOptions.Type);
+                        command.Options.Add(StyleImageOptions.Url);
+                        command.Options.Add(StyleImageOptions.FileToken);
           command.Options.Add(Input);
           command.Options.Add(RequestJson);
           command.Options.Add(RequestFile);
@@ -104,19 +140,45 @@ internal static partial class ImageGenerationTextToImageCommandApiCommand
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
                         var prompt = parseResult.GetRequiredValue(Prompt);
+                        var negativePrompt = CliRuntime.WasSpecified(parseResult, NegativePrompt) ? parseResult.GetValue(NegativePrompt) : (__requestBase is { } __NegativePromptBaseValue ? __NegativePromptBaseValue.NegativePrompt : default);
                         var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
+                        var size = CliRuntime.WasSpecified(parseResult, Size) ? parseResult.GetValue(Size) : (__requestBase is { } __SizeBaseValue ? __SizeBaseValue.Size : default);
+                        var aspectRatio = CliRuntime.WasSpecified(parseResult, AspectRatio) ? parseResult.GetValue(AspectRatio) : (__requestBase is { } __AspectRatioBaseValue ? __AspectRatioBaseValue.AspectRatio : default);
+                        var outputFormat = CliRuntime.WasSpecified(parseResult, OutputFormat) ? parseResult.GetValue(OutputFormat) : (__requestBase is { } __OutputFormatBaseValue ? __OutputFormatBaseValue.OutputFormat : default);
+                        var watermark = CliRuntime.WasSpecified(parseResult, Watermark) ? parseResult.GetValue(Watermark) : (__requestBase is { } __WatermarkBaseValue ? __WatermarkBaseValue.Watermark : default);
                         var template = CliRuntime.WasSpecified(parseResult, Template) ? parseResult.GetValue(Template) : (__requestBase is { } __TemplateBaseValue ? __TemplateBaseValue.Template : default);
                         var tPose = CliRuntime.WasSpecified(parseResult, TPose) ? parseResult.GetValue(TPose) : (__requestBase is { } __TPoseBaseValue ? __TPoseBaseValue.TPose : default);
                         var sketchToRender = CliRuntime.WasSpecified(parseResult, SketchToRender) ? parseResult.GetValue(SketchToRender) : (__requestBase is { } __SketchToRenderBaseValue ? __SketchToRenderBaseValue.SketchToRender : default);
+
+                        var __StyleImageBase = __requestBase is { } __StyleImageBaseValue ? __StyleImageBaseValue.StyleImage : default;                        var styleImageType = CliRuntime.WasSpecified(parseResult, StyleImageOptions.Type) ? parseResult.GetValue(StyleImageOptions.Type) : (__StyleImageBase is { } __StyleImagetypeBaseValue ? __StyleImagetypeBaseValue.Type : default);
+                        var styleImageUrl = CliRuntime.WasSpecified(parseResult, StyleImageOptions.Url) ? parseResult.GetValue(StyleImageOptions.Url) : (__StyleImageBase is { } __StyleImageurlBaseValue ? __StyleImageurlBaseValue.Url : default);
+                        var styleImageFileToken = CliRuntime.WasSpecified(parseResult, StyleImageOptions.FileToken) ? parseResult.GetValue(StyleImageOptions.FileToken) : (__StyleImageBase is { } __StyleImagefileTokenBaseValue ? __StyleImagefileTokenBaseValue.FileToken : default);
+                        var __StyleImageSpecified = CliRuntime.WasSpecified(parseResult, StyleImageOptions.Type) || CliRuntime.WasSpecified(parseResult, StyleImageOptions.Url) || CliRuntime.WasSpecified(parseResult, StyleImageOptions.FileToken);
+                        var styleImage =
+                            __StyleImageSpecified || __StyleImageBase is not null
+                                ? new global::Tripo.InputSourceObject
+                                {
+	                                Type = styleImageType,
+                                Url = styleImageUrl,
+                                FileToken = styleImageFileToken,
+
+                                }
+                                : __StyleImageBase;
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
                                 var response = await client.ImageGeneration.TextToImageAsync(
                                     prompt: prompt,
+                                    negativePrompt: negativePrompt,
                                     model: model,
+                                    size: size,
+                                    aspectRatio: aspectRatio,
+                                    outputFormat: outputFormat,
+                                    watermark: watermark,
                                     template: template,
                                     tPose: tPose,
                                     sketchToRender: sketchToRender,
+                                    styleImage: styleImage,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

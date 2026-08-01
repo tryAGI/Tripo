@@ -7,11 +7,10 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class MeshDecimateMeshCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"Model source. Accepts task_id or file_token.",
-        Required = true,
     };
 
     private static Option<string?> Model { get; } = new(
@@ -39,6 +38,12 @@ internal static partial class MeshDecimateMeshCommandApiCommand
     private static Option<bool?> Bake { get; } = CliRuntime.CreateNullableBoolOption(
         name: @"--bake",
         description: @"Bake textures onto the low-poly model.");
+
+    private static Option<string?> OriginalModelTaskId { get; } = new(
+        name: @"--original-model-task-id")
+    {
+        Description = @"V2-compatible source model task ID.",
+    };
       private static Option<string?> RequestInput { get; } = new(@"--request-input")
       {
           Description = "Load request JSON from a file path, '-' for stdin, or an inline JSON object/array string.",
@@ -85,6 +90,7 @@ internal static partial class MeshDecimateMeshCommandApiCommand
                         command.Options.Add(Quad);
                         command.Options.Add(PartNames);
                         command.Options.Add(Bake);
+                        command.Options.Add(OriginalModelTaskId);
           command.Options.Add(RequestInput);
           command.Options.Add(RequestJson);
           command.Options.Add(RequestFile);
@@ -110,12 +116,13 @@ internal static partial class MeshDecimateMeshCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
                         var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
                         var faceLimit = CliRuntime.WasSpecified(parseResult, FaceLimit) ? parseResult.GetValue(FaceLimit) : (__requestBase is { } __FaceLimitBaseValue ? __FaceLimitBaseValue.FaceLimit : default);
                         var quad = CliRuntime.WasSpecified(parseResult, Quad) ? parseResult.GetValue(Quad) : (__requestBase is { } __QuadBaseValue ? __QuadBaseValue.Quad : default);
                         var partNames = CliRuntime.WasSpecified(parseResult, PartNames) ? parseResult.GetValue(PartNames) : (__requestBase is { } __PartNamesBaseValue ? __PartNamesBaseValue.PartNames : default);
                         var bake = CliRuntime.WasSpecified(parseResult, Bake) ? parseResult.GetValue(Bake) : (__requestBase is { } __BakeBaseValue ? __BakeBaseValue.Bake : default);
+                        var originalModelTaskId = CliRuntime.WasSpecified(parseResult, OriginalModelTaskId) ? parseResult.GetValue(OriginalModelTaskId) : (__requestBase is { } __OriginalModelTaskIdBaseValue ? __OriginalModelTaskIdBaseValue.OriginalModelTaskId : default);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
@@ -126,6 +133,7 @@ internal static partial class MeshDecimateMeshCommandApiCommand
                                     quad: quad,
                                     partNames: partNames,
                                     bake: bake,
+                                    originalModelTaskId: originalModelTaskId,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 

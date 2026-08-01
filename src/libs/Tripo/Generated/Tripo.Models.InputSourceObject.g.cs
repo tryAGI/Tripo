@@ -9,6 +9,12 @@ namespace Tripo
     public sealed partial class InputSourceObject
     {
         /// <summary>
+        /// File extension such as png, jpeg, webp, glb, or fbx.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("type")]
+        public string? Type { get; set; }
+
+        /// <summary>
         /// Public URL input.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("url")]
@@ -35,6 +41,9 @@ namespace Tripo
         /// <summary>
         /// Initializes a new instance of the <see cref="InputSourceObject" /> class.
         /// </summary>
+        /// <param name="type">
+        /// File extension such as png, jpeg, webp, glb, or fbx.
+        /// </param>
         /// <param name="url">
         /// Public URL input.
         /// </param>
@@ -48,10 +57,12 @@ namespace Tripo
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public InputSourceObject(
+            string? type,
             string? url,
             string? fileToken,
             object? @object)
         {
+            this.Type = type;
             this.Url = url;
             this.FileToken = fileToken;
             this.Object = @object;

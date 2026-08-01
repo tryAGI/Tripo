@@ -7,11 +7,16 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class ModelsConvertModelCommandApiCommand
 {
-    private static Option<string> InputOption { get; } = new(
+    private static Option<string?> InputOption { get; } = new(
         name: @"--input")
     {
         Description = @"Model source. Accepts task_id or file_token.",
-        Required = true,
+    };
+
+    private static Option<string?> OriginalModelTaskId { get; } = new(
+        name: @"--original-model-task-id")
+    {
+        Description = @"V2-compatible source model task ID.",
     };
 
     private static Option<string> Format { get; } = new(
@@ -87,6 +92,10 @@ internal static partial class ModelsConvertModelCommandApiCommand
         name: @"--animate-in-place",
         description: @"In-place animation.");
 
+    private static Option<bool?> AssembleAnimation { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--assemble-animation",
+        description: @"Assemble multiple animations in the exported model.");
+
     private static Option<global::System.Collections.Generic.IList<string>?> PartNames { get; } = new(
         name: @"--part-names")
     {
@@ -145,6 +154,7 @@ internal static partial class ModelsConvertModelCommandApiCommand
     {
         var command = new Command(@"convert-model", @"Convert a 3D model to another format");
                         command.Options.Add(InputOption);
+                        command.Options.Add(OriginalModelTaskId);
                         command.Options.Add(Format);
                         command.Options.Add(Quad);
                         command.Options.Add(ForceSymmetry);
@@ -160,6 +170,7 @@ internal static partial class ModelsConvertModelCommandApiCommand
                         command.Options.Add(ScaleFactor);
                         command.Options.Add(WithAnimation);
                         command.Options.Add(AnimateInPlace);
+                        command.Options.Add(AssembleAnimation);
                         command.Options.Add(PartNames);
                         command.Options.Add(ExportOrientation);
                         command.Options.Add(FbxPreset);
@@ -188,7 +199,8 @@ internal static partial class ModelsConvertModelCommandApiCommand
                             RequestFile,
                             global::Tripo.SourceGenerationContext.Default,
                             cancellationToken).ConfigureAwait(false);
-                        var input = parseResult.GetRequiredValue(InputOption);
+                        var input = CliRuntime.WasSpecified(parseResult, InputOption) ? parseResult.GetValue(InputOption) : (__requestBase is { } __InputBaseValue ? __InputBaseValue.Input : default);
+                        var originalModelTaskId = CliRuntime.WasSpecified(parseResult, OriginalModelTaskId) ? parseResult.GetValue(OriginalModelTaskId) : (__requestBase is { } __OriginalModelTaskIdBaseValue ? __OriginalModelTaskIdBaseValue.OriginalModelTaskId : default);
                         var format = parseResult.GetRequiredValue(Format);
                         var quad = CliRuntime.WasSpecified(parseResult, Quad) ? parseResult.GetValue(Quad) : (__requestBase is { } __QuadBaseValue ? __QuadBaseValue.Quad : default);
                         var forceSymmetry = CliRuntime.WasSpecified(parseResult, ForceSymmetry) ? parseResult.GetValue(ForceSymmetry) : (__requestBase is { } __ForceSymmetryBaseValue ? __ForceSymmetryBaseValue.ForceSymmetry : default);
@@ -204,6 +216,7 @@ internal static partial class ModelsConvertModelCommandApiCommand
                         var scaleFactor = CliRuntime.WasSpecified(parseResult, ScaleFactor) ? parseResult.GetValue(ScaleFactor) : (__requestBase is { } __ScaleFactorBaseValue ? __ScaleFactorBaseValue.ScaleFactor : default);
                         var withAnimation = CliRuntime.WasSpecified(parseResult, WithAnimation) ? parseResult.GetValue(WithAnimation) : (__requestBase is { } __WithAnimationBaseValue ? __WithAnimationBaseValue.WithAnimation : default);
                         var animateInPlace = CliRuntime.WasSpecified(parseResult, AnimateInPlace) ? parseResult.GetValue(AnimateInPlace) : (__requestBase is { } __AnimateInPlaceBaseValue ? __AnimateInPlaceBaseValue.AnimateInPlace : default);
+                        var assembleAnimation = CliRuntime.WasSpecified(parseResult, AssembleAnimation) ? parseResult.GetValue(AssembleAnimation) : (__requestBase is { } __AssembleAnimationBaseValue ? __AssembleAnimationBaseValue.AssembleAnimation : default);
                         var partNames = CliRuntime.WasSpecified(parseResult, PartNames) ? parseResult.GetValue(PartNames) : (__requestBase is { } __PartNamesBaseValue ? __PartNamesBaseValue.PartNames : default);
                         var exportOrientation = CliRuntime.WasSpecified(parseResult, ExportOrientation) ? parseResult.GetValue(ExportOrientation) : (__requestBase is { } __ExportOrientationBaseValue ? __ExportOrientationBaseValue.ExportOrientation : default);
                         var fbxPreset = CliRuntime.WasSpecified(parseResult, FbxPreset) ? parseResult.GetValue(FbxPreset) : (__requestBase is { } __FbxPresetBaseValue ? __FbxPresetBaseValue.FbxPreset : default);
@@ -212,6 +225,7 @@ internal static partial class ModelsConvertModelCommandApiCommand
 
                                 var response = await client.Models.ConvertModelAsync(
                                     input: input,
+                                    originalModelTaskId: originalModelTaskId,
                                     format: format,
                                     quad: quad,
                                     forceSymmetry: forceSymmetry,
@@ -227,6 +241,7 @@ internal static partial class ModelsConvertModelCommandApiCommand
                                     scaleFactor: scaleFactor,
                                     withAnimation: withAnimation,
                                     animateInPlace: animateInPlace,
+                                    assembleAnimation: assembleAnimation,
                                     partNames: partNames,
                                     exportOrientation: exportOrientation,
                                     fbxPreset: fbxPreset,

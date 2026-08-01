@@ -28,10 +28,11 @@ namespace Tripo
         public int? ImageSeed { get; set; }
 
         /// <summary>
-        /// AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
+        /// Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("model")]
-        public string? Model { get; set; }
+        [global::System.Text.Json.Serialization.JsonRequired]
+        public required string Model { get; set; }
 
         /// <summary>
         /// Random seed for geometry generation.
@@ -112,6 +113,36 @@ namespace Tripo
         public bool? ExportUv { get; set; }
 
         /// <summary>
+        /// Include generated multiview images in the task output.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("return_multiview")]
+        public bool? ReturnMultiview { get; set; }
+
+        /// <summary>
+        /// Generate a rendered image sequence.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("render_sequence")]
+        public bool? RenderSequence { get; set; }
+
+        /// <summary>
+        /// Generate a rendered preview video.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("render_video")]
+        public bool? RenderVideo { get; set; }
+
+        /// <summary>
+        /// Check whether the generated model is suitable for 3D printing. Requires account entitlement.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("check_printable")]
+        public bool? CheckPrintable { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("style_image")]
+        public global::Tripo.InputSourceObject? StyleImage { get; set; }
+
+        /// <summary>
         /// Additional properties that are not explicitly defined in the schema
         /// </summary>
         [global::System.Text.Json.Serialization.JsonExtensionData]
@@ -123,14 +154,14 @@ namespace Tripo
         /// <param name="prompt">
         /// Text prompt, up to 1024 characters.
         /// </param>
+        /// <param name="model">
+        /// Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.
+        /// </param>
         /// <param name="negativePrompt">
         /// Negative prompt, up to 255 characters.
         /// </param>
         /// <param name="imageSeed">
         /// Random seed for the text-to-image stage.
-        /// </param>
-        /// <param name="model">
-        /// AI model version, for example tripo-p1, tripo-turbo, tripo-v3.1, tripo-v3.0, tripo-v2.5, or tripo-v2.0.
         /// </param>
         /// <param name="modelSeed">
         /// Random seed for geometry generation.
@@ -171,14 +202,27 @@ namespace Tripo
         /// <param name="exportUv">
         /// Control UV unwrapping where supported.
         /// </param>
+        /// <param name="returnMultiview">
+        /// Include generated multiview images in the task output.
+        /// </param>
+        /// <param name="renderSequence">
+        /// Generate a rendered image sequence.
+        /// </param>
+        /// <param name="renderVideo">
+        /// Generate a rendered preview video.
+        /// </param>
+        /// <param name="checkPrintable">
+        /// Check whether the generated model is suitable for 3D printing. Requires account entitlement.
+        /// </param>
+        /// <param name="styleImage"></param>
 #if NET7_0_OR_GREATER
         [global::System.Diagnostics.CodeAnalysis.SetsRequiredMembers]
 #endif
         public TextToModelRequest(
             string prompt,
+            string model,
             string? negativePrompt,
             int? imageSeed,
-            string? model,
             int? modelSeed,
             int? faceLimit,
             bool? texture,
@@ -191,12 +235,17 @@ namespace Tripo
             bool? smartLowPoly,
             bool? generateParts,
             string? compress,
-            bool? exportUv)
+            bool? exportUv,
+            bool? returnMultiview,
+            bool? renderSequence,
+            bool? renderVideo,
+            bool? checkPrintable,
+            global::Tripo.InputSourceObject? styleImage)
         {
             this.Prompt = prompt ?? throw new global::System.ArgumentNullException(nameof(prompt));
             this.NegativePrompt = negativePrompt;
             this.ImageSeed = imageSeed;
-            this.Model = model;
+            this.Model = model ?? throw new global::System.ArgumentNullException(nameof(model));
             this.ModelSeed = modelSeed;
             this.FaceLimit = faceLimit;
             this.Texture = texture;
@@ -210,6 +259,11 @@ namespace Tripo
             this.GenerateParts = generateParts;
             this.Compress = compress;
             this.ExportUv = exportUv;
+            this.ReturnMultiview = returnMultiview;
+            this.RenderSequence = renderSequence;
+            this.RenderVideo = renderVideo;
+            this.CheckPrintable = checkPrintable;
+            this.StyleImage = styleImage;
         }
 
         /// <summary>

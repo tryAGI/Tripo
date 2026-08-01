@@ -7,7 +7,17 @@ namespace Tripo.CLI.Commands;
 
 internal static partial class AccountGetUsageCommandApiCommand
 {
+    private static Option<int?> Limit { get; } = new(
+        name: @"--limit")
+    {
+        Description = @"Maximum number of usage rows to return.",
+    };
 
+    private static Option<int?> Offset { get; } = new(
+        name: @"--offset")
+    {
+        Description = @"Number of usage rows to skip.",
+    };
 
                     private static string FormatResponse(ParseResult parseResult, global::Tripo.UsageResponse value, global::System.Text.Json.Serialization.JsonSerializerContext context, bool truncateLongStrings)
                     {
@@ -32,18 +42,21 @@ internal static partial class AccountGetUsageCommandApiCommand
     public static Command Create()
     {
         var command = new Command(@"get-usage", @"Query account credit usage details");
-
+                        command.Options.Add(Limit);
+                        command.Options.Add(Offset);
 
 
         command.SetAction(async (ParseResult parseResult, CancellationToken cancellationToken) =>
             await CliRuntime.RunAsync(async () =>
             {
-
+                        var limit = parseResult.GetValue(Limit);
+                        var offset = parseResult.GetValue(Offset);
                 using var client = await CliRuntime.CreateClientAsync(parseResult, cancellationToken).ConfigureAwait(false);
 
 
                                 var response = await client.Account.GetUsageAsync(
-
+                                    limit: limit,
+                                    offset: offset,
                                     cancellationToken: cancellationToken).ConfigureAwait(false);
 
 
