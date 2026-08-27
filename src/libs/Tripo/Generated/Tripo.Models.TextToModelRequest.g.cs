@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class TextToModelRequest
     {
@@ -137,7 +137,7 @@ namespace Tripo
         public bool? CheckPrintable { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("style_image")]
         public global::Tripo.InputSourceObject? StyleImage { get; set; }

@@ -10,7 +10,7 @@ namespace Tripo
     public sealed partial class ImageGenerationClient : global::Tripo.IImageGenerationClient, global::System.IDisposable
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const string DefaultBaseUrl = "https://openapi.tripo3d.ai/v3";
 
@@ -37,7 +37,7 @@ namespace Tripo
         internal global::System.Lazy<global::System.Text.Json.Serialization.JsonSerializerContext> JsonSerializerContextProvider { get; set; } = new(() => global::Tripo.SourceGenerationContext.Default);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public global::System.Text.Json.Serialization.JsonSerializerContext JsonSerializerContext
         {

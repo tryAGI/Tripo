@@ -40,48 +40,48 @@ namespace Tripo
 
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         global::System.Text.Json.Serialization.JsonSerializerContext JsonSerializerContext { get; set; }
 
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public AccountClient Account { get; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public AnimationClient Animation { get; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public FilesClient Files { get; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public ImageGenerationClient ImageGeneration { get; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public MeshClient Mesh { get; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public ModelsClient Models { get; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public TasksClient Tasks { get; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public ThreeDGenerationClient ThreeDGeneration { get; }
 

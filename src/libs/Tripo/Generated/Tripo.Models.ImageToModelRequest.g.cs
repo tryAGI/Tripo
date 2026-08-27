@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class ImageToModelRequest
     {
@@ -15,7 +15,7 @@ namespace Tripo
         public string? Input { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("file")]
         public global::Tripo.InputSourceObject? File { get; set; }

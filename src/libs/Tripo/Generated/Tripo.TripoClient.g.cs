@@ -11,7 +11,7 @@ namespace Tripo
     public sealed partial class TripoClient : global::Tripo.ITripoClient, global::System.IDisposable
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const string DefaultBaseUrl = "https://openapi.tripo3d.ai/v3";
 
@@ -38,7 +38,7 @@ namespace Tripo
         internal global::System.Lazy<global::System.Text.Json.Serialization.JsonSerializerContext> JsonSerializerContextProvider { get; set; } = new(() => global::Tripo.SourceGenerationContext.Default);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public global::System.Text.Json.Serialization.JsonSerializerContext JsonSerializerContext
         {
@@ -48,7 +48,7 @@ namespace Tripo
 
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public AccountClient Account => new AccountClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
@@ -57,7 +57,7 @@ namespace Tripo
         };
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public AnimationClient Animation => new AnimationClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
@@ -66,7 +66,7 @@ namespace Tripo
         };
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public FilesClient Files => new FilesClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
@@ -75,7 +75,7 @@ namespace Tripo
         };
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public ImageGenerationClient ImageGeneration => new ImageGenerationClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
@@ -84,7 +84,7 @@ namespace Tripo
         };
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public MeshClient Mesh => new MeshClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
@@ -93,7 +93,7 @@ namespace Tripo
         };
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public ModelsClient Models => new ModelsClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
@@ -102,7 +102,7 @@ namespace Tripo
         };
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public TasksClient Tasks => new TasksClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {
@@ -111,7 +111,7 @@ namespace Tripo
         };
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public ThreeDGenerationClient ThreeDGeneration => new ThreeDGenerationClient(HttpClient, baseUri: null, authorizations: Authorizations, options: Options)
         {

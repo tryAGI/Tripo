@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class TextToImageRequest
     {
@@ -22,7 +22,7 @@ namespace Tripo
         public string? NegativePrompt { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("style_image")]
         public global::Tripo.InputSourceObject? StyleImage { get; set; }

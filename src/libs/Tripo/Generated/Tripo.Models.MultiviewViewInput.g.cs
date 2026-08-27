@@ -9,28 +9,28 @@ namespace Tripo
     public sealed partial class MultiviewViewInput
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("front")]
         [global::System.Text.Json.Serialization.JsonConverter(typeof(global::Tripo.JsonConverters.OneOfJsonConverter<string, global::Tripo.InputSourceObject>))]
         public global::Tripo.OneOf<string, global::Tripo.InputSourceObject>? Front { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("left")]
         [global::System.Text.Json.Serialization.JsonConverter(typeof(global::Tripo.JsonConverters.OneOfJsonConverter<string, global::Tripo.InputSourceObject>))]
         public global::Tripo.OneOf<string, global::Tripo.InputSourceObject>? Left { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("back")]
         [global::System.Text.Json.Serialization.JsonConverter(typeof(global::Tripo.JsonConverters.OneOfJsonConverter<string, global::Tripo.InputSourceObject>))]
         public global::Tripo.OneOf<string, global::Tripo.InputSourceObject>? Back { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("right")]
         [global::System.Text.Json.Serialization.JsonConverter(typeof(global::Tripo.JsonConverters.OneOfJsonConverter<string, global::Tripo.InputSourceObject>))]
