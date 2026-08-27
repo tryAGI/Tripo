@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class StylizeModelRequest
     {

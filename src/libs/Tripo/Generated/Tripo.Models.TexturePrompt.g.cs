@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class TexturePrompt
     {
@@ -15,13 +15,13 @@ namespace Tripo
         public string? Text { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("style_image")]
         public global::Tripo.InputSourceObject? StyleImage { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("image")]
         public global::Tripo.InputSourceObject? Image { get; set; }

@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class Task
     {
@@ -41,7 +41,7 @@ namespace Tripo
         public object? Input { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("output")]
         public global::Tripo.TaskOutput? Output { get; set; }

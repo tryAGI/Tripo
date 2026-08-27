@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class FileResponse
     {
@@ -22,7 +22,7 @@ namespace Tripo
         public string? Status { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("data")]
         [global::System.Text.Json.Serialization.JsonRequired]

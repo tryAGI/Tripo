@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class TextureModelRequest
     {
@@ -27,7 +27,7 @@ namespace Tripo
         public string? OriginalModelTaskId { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("texture_prompt")]
         public global::Tripo.TexturePrompt? TexturePrompt { get; set; }

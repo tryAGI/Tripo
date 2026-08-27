@@ -4,7 +4,7 @@
 namespace Tripo
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class TaskOutput
     {
@@ -63,7 +63,7 @@ namespace Tripo
         public string? RightViewUrl { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("generate_multiview_image")]
         public global::Tripo.MultiviewImages? GenerateMultiviewImage { get; set; }
