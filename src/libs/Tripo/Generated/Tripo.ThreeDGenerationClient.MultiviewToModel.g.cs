@@ -505,7 +505,13 @@ namespace Tripo
         /// Random seed for texture generation.
         /// </param>
         /// <param name="textureQuality">
-        /// Texture quality, such as standard, detailed, or extreme. Extreme can produce 8K textures where supported.
+        /// Texture quality. fast requires texture_version v3.5-20260815; standard, detailed, and extreme are also supported. Extreme can produce 8K textures where supported.
+        /// </param>
+        /// <param name="textureVersion">
+        /// Texture model version, independent of the geometry model. Use v3.5-20260815 for fast quality and delight. If omitted, v2.5 geometry uses v2.5-20250123; all other geometry uses v3.0-20250812.
+        /// </param>
+        /// <param name="delight">
+        /// Remove baked-in lighting from the reference image. Defaults to true and is effective only with texture_version v3.5-20260815.
         /// </param>
         /// <param name="geometryQuality">
         /// Geometry quality, such as standard or detailed.
@@ -550,6 +556,8 @@ namespace Tripo
             bool? pbr = default,
             int? textureSeed = default,
             string? textureQuality = default,
+            string? textureVersion = default,
+            bool? delight = default,
             string? geometryQuality = default,
             bool? autoSize = default,
             bool? quad = default,
@@ -576,6 +584,8 @@ namespace Tripo
                 Pbr = pbr,
                 TextureSeed = textureSeed,
                 TextureQuality = textureQuality,
+                TextureVersion = textureVersion,
+                Delight = delight,
                 GeometryQuality = geometryQuality,
                 AutoSize = autoSize,
                 Quad = quad,

@@ -475,7 +475,7 @@ namespace Tripo
         /// Model source. Accepts task_id, file_token, or URL.
         /// </param>
         /// <param name="model">
-        /// Texture model version, v3.0-20250812 or v2.5-20250123. Defaults to v3.0-20250812.
+        /// Texture model version. v3.5-20260815 enables fast quality and delight; v3.0-20250812 and v2.5-20250123 are also supported. Defaults to v3.0-20250812.
         /// </param>
         /// <param name="originalModelTaskId">
         /// V2-compatible source model task ID.
@@ -488,7 +488,10 @@ namespace Tripo
         /// Random seed for texture generation.
         /// </param>
         /// <param name="textureQuality">
-        /// Texture quality, such as standard, detailed, or extreme.
+        /// Texture quality, fast, standard, detailed, or extreme. fast requires model v3.5-20260815.
+        /// </param>
+        /// <param name="delight">
+        /// Remove baked-in lighting from the reference image. Defaults to true and is effective only with model v3.5-20260815.
         /// </param>
         /// <param name="pbr">
         /// Enable PBR materials.
@@ -519,6 +522,7 @@ namespace Tripo
             bool? texture = default,
             int? textureSeed = default,
             string? textureQuality = default,
+            bool? delight = default,
             bool? pbr = default,
             string? textureAlignment = default,
             global::System.Collections.Generic.IList<string>? partNames = default,
@@ -537,6 +541,7 @@ namespace Tripo
                 Texture = texture,
                 TextureSeed = textureSeed,
                 TextureQuality = textureQuality,
+                Delight = delight,
                 Pbr = pbr,
                 TextureAlignment = textureAlignment,
                 PartNames = partNames,

@@ -1,8 +1,77 @@
 namespace Tripo.IntegrationTests;
 
+using System.Text.Json;
+
 [TestClass]
 public sealed class V3SchemaTests
 {
+    [TestMethod]
+    public void TextureV35ControlsSerializeForEveryTextureEntryPoint()
+    {
+        var requests = new (string Name, string Json, string VersionField)[]
+        {
+            ("text-to-model", new TextToModelRequest
+            {
+                Prompt = "A ceramic vase",
+                Model = "v3.1-20260211",
+                TextureVersion = "v3.5-20260815",
+                TextureQuality = "fast",
+                Delight = false,
+            }.ToJson(), "texture_version"),
+            ("image-to-model", new ImageToModelRequest
+            {
+                Input = "file_abc123",
+                Model = "v3.1-20260211",
+                TextureVersion = "v3.5-20260815",
+                TextureQuality = "fast",
+                Delight = false,
+            }.ToJson(), "texture_version"),
+            ("multiview-to-model", new MultiviewToModelRequest
+            {
+                Model = "v3.1-20260211",
+                TextureVersion = "v3.5-20260815",
+                TextureQuality = "fast",
+                Delight = false,
+            }.ToJson(), "texture_version"),
+            ("texture-model", new TextureModelRequest
+            {
+                Input = "task_abc123",
+                Model = "v3.5-20260815",
+                TextureQuality = "fast",
+                Delight = false,
+            }.ToJson(), "model"),
+        };
+
+        foreach (var (name, json, versionField) in requests)
+        {
+            using var document = JsonDocument.Parse(json);
+            var root = document.RootElement;
+            root.GetProperty(versionField).GetString().Should().Be("v3.5-20260815", name);
+            root.GetProperty("texture_quality").GetString().Should().Be("fast", name);
+            root.GetProperty("delight").GetBoolean().Should().BeFalse(name);
+        }
+    }
+
+    [TestMethod]
+    public void TextureV35DefaultsRemainServerControlled()
+    {
+        using var generation = JsonDocument.Parse(new TextToModelRequest
+        {
+            Prompt = "A ceramic vase",
+            Model = "v3.1-20260211",
+        }.ToJson());
+        using var texture = JsonDocument.Parse(new TextureModelRequest
+        {
+            Input = "task_abc123",
+        }.ToJson());
+
+        generation.RootElement.TryGetProperty("texture_version", out _).Should().BeFalse();
+        generation.RootElement.TryGetProperty("delight", out _).Should().BeFalse();
+        generation.RootElement.TryGetProperty("texture_quality", out _).Should().BeFalse();
+        texture.RootElement.TryGetProperty("model", out _).Should().BeFalse();
+        texture.RootElement.TryGetProperty("delight", out _).Should().BeFalse();
+    }
+
     [TestMethod]
     public void TaskResponseDeserializesV3FailureFields()
     {

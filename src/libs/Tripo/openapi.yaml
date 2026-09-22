@@ -725,7 +725,13 @@ components:
           description: Random seed for texture generation.
         texture_quality:
           type: string
-          description: Texture quality, such as standard, detailed, or extreme. Extreme can produce 8K textures where supported.
+          description: Texture quality. fast requires texture_version v3.5-20260815; standard, detailed, and extreme are also supported. Extreme can produce 8K textures where supported.
+        texture_version:
+          type: string
+          description: Texture model version, independent of the geometry model. Use v3.5-20260815 for fast quality and delight. If omitted, v2.5 geometry uses v2.5-20250123; all other geometry uses v3.0-20250812.
+        delight:
+          type: boolean
+          description: Remove baked-in lighting from the reference image. Defaults to true and is effective only with texture_version v3.5-20260815.
         geometry_quality:
           type: string
           description: Geometry quality, such as standard or detailed.
@@ -803,7 +809,13 @@ components:
           description: Random seed for texture generation.
         texture_quality:
           type: string
-          description: Texture quality, such as standard, detailed, or extreme. Extreme can produce 8K textures where supported.
+          description: Texture quality. fast requires texture_version v3.5-20260815; standard, detailed, and extreme are also supported. Extreme can produce 8K textures where supported.
+        texture_version:
+          type: string
+          description: Texture model version, independent of the geometry model. Use v3.5-20260815 for fast quality and delight. If omitted, v2.5 geometry uses v2.5-20250123; all other geometry uses v3.0-20250812.
+        delight:
+          type: boolean
+          description: Remove baked-in lighting from the reference image. Defaults to true and is effective only with texture_version v3.5-20260815.
         geometry_quality:
           type: string
           description: Geometry quality, such as standard or detailed.
@@ -884,7 +896,13 @@ components:
           description: Random seed for texture generation.
         texture_quality:
           type: string
-          description: Texture quality, such as standard, detailed, or extreme. Extreme can produce 8K textures where supported.
+          description: Texture quality. fast requires texture_version v3.5-20260815; standard, detailed, and extreme are also supported. Extreme can produce 8K textures where supported.
+        texture_version:
+          type: string
+          description: Texture model version, independent of the geometry model. Use v3.5-20260815 for fast quality and delight. If omitted, v2.5 geometry uses v2.5-20250123; all other geometry uses v3.0-20250812.
+        delight:
+          type: boolean
+          description: Remove baked-in lighting from the reference image. Defaults to true and is effective only with texture_version v3.5-20260815.
         geometry_quality:
           type: string
           description: Geometry quality, such as standard or detailed.
@@ -1128,7 +1146,7 @@ components:
           description: Model source. Accepts task_id, file_token, or URL.
         model:
           type: string
-          description: Texture model version, v3.0-20250812 or v2.5-20250123. Defaults to v3.0-20250812.
+          description: Texture model version. v3.5-20260815 enables fast quality and delight; v3.0-20250812 and v2.5-20250123 are also supported. Defaults to v3.0-20250812.
         original_model_task_id:
           type: string
           description: V2-compatible source model task ID.
@@ -1142,7 +1160,10 @@ components:
           description: Random seed for texture generation.
         texture_quality:
           type: string
-          description: Texture quality, such as standard, detailed, or extreme.
+          description: Texture quality, fast, standard, detailed, or extreme. fast requires model v3.5-20260815.
+        delight:
+          type: boolean
+          description: Remove baked-in lighting from the reference image. Defaults to true and is effective only with model v3.5-20260815.
         pbr:
           type: boolean
           description: Enable PBR materials.

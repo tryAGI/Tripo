@@ -76,10 +76,22 @@ namespace Tripo
         public int? TextureSeed { get; set; }
 
         /// <summary>
-        /// Texture quality, such as standard, detailed, or extreme. Extreme can produce 8K textures where supported.
+        /// Texture quality. fast requires texture_version v3.5-20260815; standard, detailed, and extreme are also supported. Extreme can produce 8K textures where supported.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("texture_quality")]
         public string? TextureQuality { get; set; }
+
+        /// <summary>
+        /// Texture model version, independent of the geometry model. Use v3.5-20260815 for fast quality and delight. If omitted, v2.5 geometry uses v2.5-20250123; all other geometry uses v3.0-20250812.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("texture_version")]
+        public string? TextureVersion { get; set; }
+
+        /// <summary>
+        /// Remove baked-in lighting from the reference image. Defaults to true and is effective only with texture_version v3.5-20260815.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("delight")]
+        public bool? Delight { get; set; }
 
         /// <summary>
         /// Geometry quality, such as standard or detailed.
@@ -182,7 +194,13 @@ namespace Tripo
         /// Random seed for texture generation.
         /// </param>
         /// <param name="textureQuality">
-        /// Texture quality, such as standard, detailed, or extreme. Extreme can produce 8K textures where supported.
+        /// Texture quality. fast requires texture_version v3.5-20260815; standard, detailed, and extreme are also supported. Extreme can produce 8K textures where supported.
+        /// </param>
+        /// <param name="textureVersion">
+        /// Texture model version, independent of the geometry model. Use v3.5-20260815 for fast quality and delight. If omitted, v2.5 geometry uses v2.5-20250123; all other geometry uses v3.0-20250812.
+        /// </param>
+        /// <param name="delight">
+        /// Remove baked-in lighting from the reference image. Defaults to true and is effective only with texture_version v3.5-20260815.
         /// </param>
         /// <param name="geometryQuality">
         /// Geometry quality, such as standard or detailed.
@@ -230,6 +248,8 @@ namespace Tripo
             bool? pbr,
             int? textureSeed,
             string? textureQuality,
+            string? textureVersion,
+            bool? delight,
             string? geometryQuality,
             bool? autoSize,
             bool? quad,
@@ -253,6 +273,8 @@ namespace Tripo
             this.Pbr = pbr;
             this.TextureSeed = textureSeed;
             this.TextureQuality = textureQuality;
+            this.TextureVersion = textureVersion;
+            this.Delight = delight;
             this.GeometryQuality = geometryQuality;
             this.AutoSize = autoSize;
             this.Quad = quad;

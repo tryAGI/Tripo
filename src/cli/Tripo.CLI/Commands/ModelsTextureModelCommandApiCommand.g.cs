@@ -16,7 +16,7 @@ internal static partial class ModelsTextureModelCommandApiCommand
     private static Option<string?> Model { get; } = new(
         name: @"--model")
     {
-        Description = @"Texture model version, v3.0-20250812 or v2.5-20250123. Defaults to v3.0-20250812.",
+        Description = @"Texture model version. v3.5-20260815 enables fast quality and delight; v3.0-20250812 and v2.5-20250123 are also supported. Defaults to v3.0-20250812.",
     };
 
     private static Option<string?> OriginalModelTaskId { get; } = new(
@@ -44,8 +44,12 @@ internal static partial class ModelsTextureModelCommandApiCommand
     private static Option<string?> TextureQuality { get; } = new(
         name: @"--texture-quality")
     {
-        Description = @"Texture quality, such as standard, detailed, or extreme.",
+        Description = @"Texture quality, fast, standard, detailed, or extreme. fast requires model v3.5-20260815.",
     };
+
+    private static Option<bool?> Delight { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--delight",
+        description: @"Remove baked-in lighting from the reference image. Defaults to true and is effective only with model v3.5-20260815.");
 
     private static Option<bool?> Pbr { get; } = CliRuntime.CreateNullableBoolOption(
         name: @"--pbr",
@@ -123,6 +127,7 @@ internal static partial class ModelsTextureModelCommandApiCommand
                         command.Options.Add(Texture);
                         command.Options.Add(TextureSeed);
                         command.Options.Add(TextureQuality);
+                        command.Options.Add(Delight);
                         command.Options.Add(Pbr);
                         command.Options.Add(TextureAlignment);
                         command.Options.Add(PartNames);
@@ -161,6 +166,7 @@ internal static partial class ModelsTextureModelCommandApiCommand
                         var texture = CliRuntime.WasSpecified(parseResult, Texture) ? parseResult.GetValue(Texture) : (__requestBase is { } __TextureBaseValue ? __TextureBaseValue.Texture : default);
                         var textureSeed = CliRuntime.WasSpecified(parseResult, TextureSeed) ? parseResult.GetValue(TextureSeed) : (__requestBase is { } __TextureSeedBaseValue ? __TextureSeedBaseValue.TextureSeed : default);
                         var textureQuality = CliRuntime.WasSpecified(parseResult, TextureQuality) ? parseResult.GetValue(TextureQuality) : (__requestBase is { } __TextureQualityBaseValue ? __TextureQualityBaseValue.TextureQuality : default);
+                        var delight = CliRuntime.WasSpecified(parseResult, Delight) ? parseResult.GetValue(Delight) : (__requestBase is { } __DelightBaseValue ? __DelightBaseValue.Delight : default);
                         var pbr = CliRuntime.WasSpecified(parseResult, Pbr) ? parseResult.GetValue(Pbr) : (__requestBase is { } __PbrBaseValue ? __PbrBaseValue.Pbr : default);
                         var textureAlignment = CliRuntime.WasSpecified(parseResult, TextureAlignment) ? parseResult.GetValue(TextureAlignment) : (__requestBase is { } __TextureAlignmentBaseValue ? __TextureAlignmentBaseValue.TextureAlignment : default);
                         var partNames = CliRuntime.WasSpecified(parseResult, PartNames) ? parseResult.GetValue(PartNames) : (__requestBase is { } __PartNamesBaseValue ? __PartNamesBaseValue.PartNames : default);
@@ -178,6 +184,7 @@ internal static partial class ModelsTextureModelCommandApiCommand
                                     texture: texture,
                                     textureSeed: textureSeed,
                                     textureQuality: textureQuality,
+                                    delight: delight,
                                     pbr: pbr,
                                     textureAlignment: textureAlignment,
                                     partNames: partNames,

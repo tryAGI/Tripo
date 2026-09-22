@@ -39,6 +39,35 @@ Console.WriteLine($"Model: {taskResponse.Data.Output?.ModelUrl}");
 ```
 ![Result](assets/rendered_image.webp)
 
+### Texture V3.5
+
+Texture V3.5 is opt-in. Set `TextureVersion` when generating a model, or `Model` when texturing an existing one.
+`TextureQuality = "fast"` requires `v3.5-20260815`. `Delight` defaults to `true` on V3.5; set it to `false`
+to preserve lighting from the reference image. Omitting these fields keeps Tripo's existing defaults.
+
+```csharp
+using var api = new TripoClient(apiKey);
+
+// Texture a new model while keeping the geometry model version independent.
+var generated = await api.ThreeDGeneration.TextToModelAsync(new TextToModelRequest
+{
+    Prompt = "A ceramic vase",
+    Model = "v3.1-20260211",
+    TextureVersion = "v3.5-20260815",
+    TextureQuality = "fast",
+    Delight = false,
+});
+
+// Or texture an already completed model with the same V3.5 controls.
+var textured = await api.Models.TextureModelAsync(new TextureModelRequest
+{
+    Input = "task_id_from_a_completed_model",
+    Model = "v3.5-20260815",
+    TextureQuality = "fast",
+    Delight = false,
+});
+```
+
 ### Migrating from Tripo API V2
 
 This SDK now targets `https://openapi.tripo3d.ai/v3`. Tripo ends V2 maintenance on October 1, 2026 and disables all V2

@@ -62,8 +62,18 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
     private static Option<string?> TextureQuality { get; } = new(
         name: @"--texture-quality")
     {
-        Description = @"Texture quality, such as standard, detailed, or extreme. Extreme can produce 8K textures where supported.",
+        Description = @"Texture quality. fast requires texture_version v3.5-20260815; standard, detailed, and extreme are also supported. Extreme can produce 8K textures where supported.",
     };
+
+    private static Option<string?> TextureVersion { get; } = new(
+        name: @"--texture-version")
+    {
+        Description = @"Texture model version, independent of the geometry model. Use v3.5-20260815 for fast quality and delight. If omitted, v2.5 geometry uses v2.5-20250123; all other geometry uses v3.0-20250812.",
+    };
+
+    private static Option<bool?> Delight { get; } = CliRuntime.CreateNullableBoolOption(
+        name: @"--delight",
+        description: @"Remove baked-in lighting from the reference image. Defaults to true and is effective only with texture_version v3.5-20260815.");
 
     private static Option<string?> GeometryQuality { get; } = new(
         name: @"--geometry-quality")
@@ -163,6 +173,8 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
                         command.Options.Add(Pbr);
                         command.Options.Add(TextureSeed);
                         command.Options.Add(TextureQuality);
+                        command.Options.Add(TextureVersion);
+                        command.Options.Add(Delight);
                         command.Options.Add(GeometryQuality);
                         command.Options.Add(AutoSize);
                         command.Options.Add(Quad);
@@ -211,6 +223,8 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
                         var pbr = CliRuntime.WasSpecified(parseResult, Pbr) ? parseResult.GetValue(Pbr) : (__requestBase is { } __PbrBaseValue ? __PbrBaseValue.Pbr : default);
                         var textureSeed = CliRuntime.WasSpecified(parseResult, TextureSeed) ? parseResult.GetValue(TextureSeed) : (__requestBase is { } __TextureSeedBaseValue ? __TextureSeedBaseValue.TextureSeed : default);
                         var textureQuality = CliRuntime.WasSpecified(parseResult, TextureQuality) ? parseResult.GetValue(TextureQuality) : (__requestBase is { } __TextureQualityBaseValue ? __TextureQualityBaseValue.TextureQuality : default);
+                        var textureVersion = CliRuntime.WasSpecified(parseResult, TextureVersion) ? parseResult.GetValue(TextureVersion) : (__requestBase is { } __TextureVersionBaseValue ? __TextureVersionBaseValue.TextureVersion : default);
+                        var delight = CliRuntime.WasSpecified(parseResult, Delight) ? parseResult.GetValue(Delight) : (__requestBase is { } __DelightBaseValue ? __DelightBaseValue.Delight : default);
                         var geometryQuality = CliRuntime.WasSpecified(parseResult, GeometryQuality) ? parseResult.GetValue(GeometryQuality) : (__requestBase is { } __GeometryQualityBaseValue ? __GeometryQualityBaseValue.GeometryQuality : default);
                         var autoSize = CliRuntime.WasSpecified(parseResult, AutoSize) ? parseResult.GetValue(AutoSize) : (__requestBase is { } __AutoSizeBaseValue ? __AutoSizeBaseValue.AutoSize : default);
                         var quad = CliRuntime.WasSpecified(parseResult, Quad) ? parseResult.GetValue(Quad) : (__requestBase is { } __QuadBaseValue ? __QuadBaseValue.Quad : default);
@@ -251,6 +265,8 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
                                     pbr: pbr,
                                     textureSeed: textureSeed,
                                     textureQuality: textureQuality,
+                                    textureVersion: textureVersion,
+                                    delight: delight,
                                     geometryQuality: geometryQuality,
                                     autoSize: autoSize,
                                     quad: quad,
