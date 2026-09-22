@@ -41,10 +41,16 @@ namespace Tripo
         /// Image editing instruction. Required when template is not specified.
         /// </param>
         /// <param name="model">
-        /// Image model alias. Supported values include seedream_v5, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v5.
+        /// Image model alias. Supported values include seedream_v5, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, chat_image_2, chat_image_2.5_flare, and chat_image_2.5_sunburst. Defaults to seedream_v5.
         /// </param>
         /// <param name="size">
         /// Output image size. Supported values depend on the selected model.
+        /// </param>
+        /// <param name="quality">
+        /// Rendering quality for chat_image_2 (low, medium, high) and chat_image_2.5_flare or chat_image_2.5_sunburst (also xhigh, max). Defaults to low; auto is unsupported.
+        /// </param>
+        /// <param name="background">
+        /// Background mode for chat_image_2.5_flare or chat_image_2.5_sunburst (auto, opaque, transparent). transparent requires output_format png.
         /// </param>
         /// <param name="aspectRatio">
         /// Output aspect ratio. Supported only by banana-family models.
@@ -73,6 +79,8 @@ namespace Tripo
             string? prompt = default,
             string? model = default,
             string? size = default,
+            string? quality = default,
+            string? background = default,
             string? aspectRatio = default,
             string? outputFormat = default,
             bool? watermark = default,

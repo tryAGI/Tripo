@@ -28,13 +28,25 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
     private static Option<string?> Model { get; } = new(
         name: @"--model")
     {
-        Description = @"Image model alias. Supported values include seedream_v5, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v5.",
+        Description = @"Image model alias. Supported values include seedream_v5, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, chat_image_2, chat_image_2.5_flare, and chat_image_2.5_sunburst. Defaults to seedream_v5.",
     };
 
     private static Option<string?> Size { get; } = new(
         name: @"--size")
     {
         Description = @"Output image size. Supported values depend on the selected model.",
+    };
+
+    private static Option<string?> Quality { get; } = new(
+        name: @"--quality")
+    {
+        Description = @"Rendering quality for chat_image_2 (low, medium, high) and chat_image_2.5_flare or chat_image_2.5_sunburst (also xhigh, max). Defaults to low; auto is unsupported.",
+    };
+
+    private static Option<string?> Background { get; } = new(
+        name: @"--background")
+    {
+        Description = @"Background mode for chat_image_2.5_flare or chat_image_2.5_sunburst (auto, opaque, transparent). transparent requires output_format png.",
     };
 
     private static Option<string?> AspectRatio { get; } = new(
@@ -111,6 +123,8 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
                         command.Options.Add(Prompt);
                         command.Options.Add(Model);
                         command.Options.Add(Size);
+                        command.Options.Add(Quality);
+                        command.Options.Add(Background);
                         command.Options.Add(AspectRatio);
                         command.Options.Add(OutputFormat);
                         command.Options.Add(Watermark);
@@ -147,6 +161,8 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
                         var prompt = CliRuntime.WasSpecified(parseResult, Prompt) ? parseResult.GetValue(Prompt) : (__requestBase is { } __PromptBaseValue ? __PromptBaseValue.Prompt : default);
                         var model = CliRuntime.WasSpecified(parseResult, Model) ? parseResult.GetValue(Model) : (__requestBase is { } __ModelBaseValue ? __ModelBaseValue.Model : default);
                         var size = CliRuntime.WasSpecified(parseResult, Size) ? parseResult.GetValue(Size) : (__requestBase is { } __SizeBaseValue ? __SizeBaseValue.Size : default);
+                        var quality = CliRuntime.WasSpecified(parseResult, Quality) ? parseResult.GetValue(Quality) : (__requestBase is { } __QualityBaseValue ? __QualityBaseValue.Quality : default);
+                        var background = CliRuntime.WasSpecified(parseResult, Background) ? parseResult.GetValue(Background) : (__requestBase is { } __BackgroundBaseValue ? __BackgroundBaseValue.Background : default);
                         var aspectRatio = CliRuntime.WasSpecified(parseResult, AspectRatio) ? parseResult.GetValue(AspectRatio) : (__requestBase is { } __AspectRatioBaseValue ? __AspectRatioBaseValue.AspectRatio : default);
                         var outputFormat = CliRuntime.WasSpecified(parseResult, OutputFormat) ? parseResult.GetValue(OutputFormat) : (__requestBase is { } __OutputFormatBaseValue ? __OutputFormatBaseValue.OutputFormat : default);
                         var watermark = CliRuntime.WasSpecified(parseResult, Watermark) ? parseResult.GetValue(Watermark) : (__requestBase is { } __WatermarkBaseValue ? __WatermarkBaseValue.Watermark : default);
@@ -162,6 +178,8 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
                                     prompt: prompt,
                                     model: model,
                                     size: size,
+                                    quality: quality,
+                                    background: background,
                                     aspectRatio: aspectRatio,
                                     outputFormat: outputFormat,
                                     watermark: watermark,

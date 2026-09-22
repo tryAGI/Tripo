@@ -10,7 +10,7 @@
 - Same day update to support new features
 - Updated and supported automatically if there are no breaking changes
 - All modern .NET features - nullability, trimming, NativeAOT, etc.
-- Support .Net Framework/.Net Standard 2.0
+- Targets .NET 10
 
 ### Usage
 ```csharp
@@ -44,6 +44,7 @@ Console.WriteLine($"Model: {taskResponse.Data.Output?.ModelUrl}");
 Texture V3.5 is opt-in. Set `TextureVersion` when generating a model, or `Model` when texturing an existing one.
 `TextureQuality = "fast"` requires `v3.5-20260815`. `Delight` defaults to `true` on V3.5; set it to `false`
 to preserve lighting from the reference image. Omitting these fields keeps Tripo's existing defaults.
+For P-series geometry, set `Model = "P2-20260801"`; `Quad = true` is supported on P2 but rejected on P1.
 
 ```csharp
 using var api = new TripoClient(apiKey);
@@ -65,6 +66,25 @@ var textured = await api.Models.TextureModelAsync(new TextureModelRequest
     Model = "v3.5-20260815",
     TextureQuality = "fast",
     Delight = false,
+});
+```
+
+### Image generation quality and transparent backgrounds
+
+`TextToImageRequest` and `ImageToImageRequest` support `chat_image_2.5_flare` and
+`chat_image_2.5_sunburst`. Set `Quality` to `low`, `medium`, `high`, `xhigh`, or `max` for these models.
+Set `Background = "transparent"` with `OutputFormat = "png"` when an alpha channel is needed.
+
+```csharp
+using var api = new TripoClient(apiKey);
+
+var image = await api.ImageGeneration.TextToImageAsync(new TextToImageRequest
+{
+    Prompt = "A glass vase on a transparent background",
+    Model = "chat_image_2.5_flare",
+    Quality = "high",
+    Background = "transparent",
+    OutputFormat = "png",
 });
 ```
 

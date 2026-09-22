@@ -6,6 +6,48 @@ using System.Text.Json;
 public sealed class V3SchemaTests
 {
     [TestMethod]
+    public void ChatImage25ControlsSerializeForBothImageEntryPoints()
+    {
+        var requests = new (string Name, string Json)[]
+        {
+            ("text-to-image", new TextToImageRequest
+            {
+                Prompt = "A glass vase",
+                Model = "chat_image_2.5_flare",
+                Quality = "high",
+                Background = "transparent",
+                OutputFormat = "png",
+            }.ToJson()),
+            ("image-to-image", new ImageToImageRequest
+            {
+                Input = "file_abc123",
+                Prompt = "Make the vase blue",
+                Model = "chat_image_2.5_sunburst",
+                Quality = "max",
+                Background = "transparent",
+                OutputFormat = "png",
+            }.ToJson()),
+        };
+
+        foreach (var (name, json) in requests)
+        {
+            using var document = JsonDocument.Parse(json);
+            var root = document.RootElement;
+            root.GetProperty("model").GetString().Should().StartWith("chat_image_2.5_", name);
+            root.GetProperty("quality").GetString().Should().Be(name == "text-to-image" ? "high" : "max", name);
+            root.GetProperty("background").GetString().Should().Be("transparent", name);
+            root.GetProperty("output_format").GetString().Should().Be("png", name);
+        }
+
+        using var defaultRequest = JsonDocument.Parse(new TextToImageRequest
+        {
+            Prompt = "A glass vase",
+        }.ToJson());
+        defaultRequest.RootElement.TryGetProperty("quality", out _).Should().BeFalse();
+        defaultRequest.RootElement.TryGetProperty("background", out _).Should().BeFalse();
+    }
+
+    [TestMethod]
     public void TextureV35ControlsSerializeForEveryTextureEntryPoint()
     {
         var requests = new (string Name, string Json, string VersionField)[]

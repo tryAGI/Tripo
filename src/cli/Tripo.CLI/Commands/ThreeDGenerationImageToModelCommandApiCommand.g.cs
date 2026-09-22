@@ -32,7 +32,7 @@ internal static partial class ThreeDGenerationImageToModelCommandApiCommand
     private static Option<string> Model { get; } = new(
         name: @"--model")
     {
-        Description = @"Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.",
+        Description = @"Required AI model version. Supported values include v3.1-20260211, v3.0-20250812, v2.5-20250123, P1-20260311, and P2-20260801.",
         Required = true,
     };
 

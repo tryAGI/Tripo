@@ -28,7 +28,7 @@ namespace Tripo
         public global::Tripo.InputSourceObject? StyleImage { get; set; }
 
         /// <summary>
-        /// Image model alias. Supported values include seedream_v5, seedream_v4, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v4.
+        /// Image model alias. Supported values include seedream_v5, seedream_v4, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, chat_image_2, chat_image_2.5_flare, and chat_image_2.5_sunburst. Defaults to seedream_v4.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("model")]
         public string? Model { get; set; }
@@ -38,6 +38,18 @@ namespace Tripo
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("size")]
         public string? Size { get; set; }
+
+        /// <summary>
+        /// Rendering quality for chat_image_2 (low, medium, high) and chat_image_2.5_flare or chat_image_2.5_sunburst (also xhigh, max). Defaults to low; auto is unsupported.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("quality")]
+        public string? Quality { get; set; }
+
+        /// <summary>
+        /// Background mode for chat_image_2.5_flare or chat_image_2.5_sunburst (auto, opaque, transparent). transparent requires output_format png.
+        /// </summary>
+        [global::System.Text.Json.Serialization.JsonPropertyName("background")]
+        public string? Background { get; set; }
 
         /// <summary>
         /// Output aspect ratio. Supported only by banana-family models.
@@ -92,10 +104,16 @@ namespace Tripo
         /// </param>
         /// <param name="styleImage"></param>
         /// <param name="model">
-        /// Image model alias. Supported values include seedream_v5, seedream_v4, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v4.
+        /// Image model alias. Supported values include seedream_v5, seedream_v4, banana, banana_pro, banana2, chat_image_1, chat_image_1.5, chat_image_2, chat_image_2.5_flare, and chat_image_2.5_sunburst. Defaults to seedream_v4.
         /// </param>
         /// <param name="size">
         /// Output image size. Supported values depend on the selected model.
+        /// </param>
+        /// <param name="quality">
+        /// Rendering quality for chat_image_2 (low, medium, high) and chat_image_2.5_flare or chat_image_2.5_sunburst (also xhigh, max). Defaults to low; auto is unsupported.
+        /// </param>
+        /// <param name="background">
+        /// Background mode for chat_image_2.5_flare or chat_image_2.5_sunburst (auto, opaque, transparent). transparent requires output_format png.
         /// </param>
         /// <param name="aspectRatio">
         /// Output aspect ratio. Supported only by banana-family models.
@@ -124,6 +142,8 @@ namespace Tripo
             global::Tripo.InputSourceObject? styleImage,
             string? model,
             string? size,
+            string? quality,
+            string? background,
             string? aspectRatio,
             string? outputFormat,
             bool? watermark,
@@ -136,6 +156,8 @@ namespace Tripo
             this.StyleImage = styleImage;
             this.Model = model;
             this.Size = size;
+            this.Quality = quality;
+            this.Background = background;
             this.AspectRatio = aspectRatio;
             this.OutputFormat = outputFormat;
             this.Watermark = watermark;

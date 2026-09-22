@@ -41,7 +41,7 @@ namespace Tripo
         /// Random seed for the text-to-image stage.
         /// </param>
         /// <param name="model">
-        /// Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.
+        /// Required AI model version. Supported values include v3.1-20260211, v3.0-20250812, v2.5-20250123, P1-20260311, and P2-20260801.
         /// </param>
         /// <param name="modelSeed">
         /// Random seed for geometry generation.

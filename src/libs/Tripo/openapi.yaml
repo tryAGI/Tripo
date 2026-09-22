@@ -706,8 +706,8 @@ components:
           description: Random seed for the text-to-image stage.
         model:
           type: string
-          description: Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123,
-            and P1-20260311.
+          description: Required AI model version. Supported values include v3.1-20260211, v3.0-20250812, v2.5-20250123,
+            P1-20260311, and P2-20260801.
         model_seed:
           type: integer
           description: Random seed for geometry generation.
@@ -790,8 +790,8 @@ components:
           description: Model orientation, such as default or align_image.
         model:
           type: string
-          description: Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123,
-            and P1-20260311.
+          description: Required AI model version. Supported values include v3.1-20260211, v3.0-20250812, v2.5-20250123,
+            P1-20260311, and P2-20260801.
         model_seed:
           type: integer
           description: Random seed for geometry generation.
@@ -877,8 +877,8 @@ components:
           description: Model orientation, such as default or align_image.
         model:
           type: string
-          description: Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123,
-            and P1-20260311.
+          description: Required AI model version. Supported values include v3.1-20260211, v3.0-20250812, v2.5-20250123,
+            P1-20260311, and P2-20260801.
         model_seed:
           type: integer
           description: Random seed for geometry generation.
@@ -1007,10 +1007,16 @@ components:
         model:
           type: string
           description: Image model alias. Supported values include seedream_v5, seedream_v4, banana, banana_pro, banana2,
-            chat_image_1, chat_image_1.5, and chat_image_2. Defaults to seedream_v4.
+            chat_image_1, chat_image_1.5, chat_image_2, chat_image_2.5_flare, and chat_image_2.5_sunburst. Defaults to seedream_v4.
         size:
           type: string
           description: Output image size. Supported values depend on the selected model.
+        quality:
+          type: string
+          description: Rendering quality for chat_image_2 (low, medium, high) and chat_image_2.5_flare or chat_image_2.5_sunburst (also xhigh, max). Defaults to low; auto is unsupported.
+        background:
+          type: string
+          description: Background mode for chat_image_2.5_flare or chat_image_2.5_sunburst (auto, opaque, transparent). transparent requires output_format png.
         aspect_ratio:
           type: string
           description: Output aspect ratio. Supported only by banana-family models.
@@ -1050,10 +1056,16 @@ components:
         model:
           type: string
           description: Image model alias. Supported values include seedream_v5, banana, banana_pro, banana2, chat_image_1,
-            chat_image_1.5, and chat_image_2. Defaults to seedream_v5.
+            chat_image_1.5, chat_image_2, chat_image_2.5_flare, and chat_image_2.5_sunburst. Defaults to seedream_v5.
         size:
           type: string
           description: Output image size. Supported values depend on the selected model.
+        quality:
+          type: string
+          description: Rendering quality for chat_image_2 (low, medium, high) and chat_image_2.5_flare or chat_image_2.5_sunburst (also xhigh, max). Defaults to low; auto is unsupported.
+        background:
+          type: string
+          description: Background mode for chat_image_2.5_flare or chat_image_2.5_sunburst (auto, opaque, transparent). transparent requires output_format png.
         aspect_ratio:
           type: string
           description: Output aspect ratio. Supported only by banana-family models.

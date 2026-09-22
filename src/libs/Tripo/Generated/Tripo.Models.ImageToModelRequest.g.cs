@@ -39,7 +39,7 @@ namespace Tripo
         public string? Orientation { get; set; }
 
         /// <summary>
-        /// Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.
+        /// Required AI model version. Supported values include v3.1-20260211, v3.0-20250812, v2.5-20250123, P1-20260311, and P2-20260801.
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("model")]
         [global::System.Text.Json.Serialization.JsonRequired]
@@ -163,7 +163,7 @@ namespace Tripo
         /// Initializes a new instance of the <see cref="ImageToModelRequest" /> class.
         /// </summary>
         /// <param name="model">
-        /// Required AI model version. Supported values are v3.1-20260211, v3.0-20250812, v2.5-20250123, and P1-20260311.
+        /// Required AI model version. Supported values include v3.1-20260211, v3.0-20250812, v2.5-20250123, P1-20260311, and P2-20260801.
         /// </param>
         /// <param name="input">
         /// Image source. Accepts a file token, URL, or task ID.
