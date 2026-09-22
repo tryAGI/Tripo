@@ -8,6 +8,7 @@
     <PackAsTool>true</PackAsTool>
     <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
     <PackageId>Tripo.CLI</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <ToolCommandName>tripo</ToolCommandName>
     <UserSecretsId>Tripo.CLI</UserSecretsId>
