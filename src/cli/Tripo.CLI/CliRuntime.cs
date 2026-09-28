@@ -355,9 +355,10 @@ internal static class CliRuntime
 
     public static T DeserializeJsonValue<T>(string json, JsonSerializerContext context)
     {
-        _ = context;
-        return JsonSerializer.Deserialize<T>(json) ??
-            throw new CliException($"Unable to deserialize generated CLI value as {typeof(T).Name}.");
+        var value = JsonSerializer.Deserialize(json, typeof(T), context);
+        return value is T typed
+            ? typed
+            : throw new CliException($"Unable to deserialize generated CLI value as {typeof(T).Name}.");
     }
 
     public static string SerializeKeyValuePairs(IEnumerable<string> pairs)
