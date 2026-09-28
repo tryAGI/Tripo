@@ -161,6 +161,8 @@ internal static partial class ThreeDGenerationImageToModelCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"image-to-model", @"Generate a 3D model from an image");
@@ -290,6 +292,7 @@ internal static partial class ThreeDGenerationImageToModelCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

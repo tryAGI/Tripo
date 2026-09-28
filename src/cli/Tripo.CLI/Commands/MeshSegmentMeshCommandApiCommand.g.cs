@@ -77,6 +77,8 @@ internal static partial class MeshSegmentMeshCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"segment-mesh", @"Perform semantic segmentation on a 3D model");
@@ -137,6 +139,7 @@ internal static partial class MeshSegmentMeshCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

@@ -4,8 +4,10 @@ using System.CommandLine;
 
 namespace Tripo.CLI.Commands;
 
-internal static class MeshApiGroupCommand
+internal static partial class MeshApiGroupCommand
 {
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"mesh", @"Mesh endpoint commands.");
@@ -13,6 +15,7 @@ internal static class MeshApiGroupCommand
                          command.Subcommands.Add(MeshDecimateMeshCommandApiCommand.Create());
                          command.Subcommands.Add(MeshSegmentMeshCommandApiCommand.Create());
                          command.Subcommands.Add(MeshSmartSegmentMeshCommandApiCommand.Create());
+        CustomizeCommand(ref command);
         return command;
     }
 }

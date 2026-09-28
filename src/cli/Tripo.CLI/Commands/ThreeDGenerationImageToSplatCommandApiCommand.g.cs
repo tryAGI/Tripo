@@ -56,6 +56,8 @@ internal static partial class ThreeDGenerationImageToSplatCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"image-to-splat", @"Generate a 3D Gaussian Splat from a single image");
@@ -104,6 +106,7 @@ internal static partial class ThreeDGenerationImageToSplatCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

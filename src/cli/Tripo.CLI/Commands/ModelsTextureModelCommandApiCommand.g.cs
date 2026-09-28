@@ -117,6 +117,8 @@ internal static partial class ModelsTextureModelCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"texture-model", @"Regenerate texture maps for an existing model");
@@ -201,6 +203,7 @@ internal static partial class ModelsTextureModelCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

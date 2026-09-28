@@ -73,6 +73,8 @@ internal static partial class MeshCompleteMeshCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"complete-mesh", @"Complete selected mesh parts");
@@ -130,6 +132,7 @@ internal static partial class MeshCompleteMeshCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

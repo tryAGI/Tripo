@@ -115,6 +115,8 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"image-to-image", @"Generate or edit an image from reference images");
@@ -196,6 +198,7 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }
