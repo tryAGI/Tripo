@@ -75,6 +75,8 @@ internal static partial class MeshSmartSegmentMeshCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"smart-segment-mesh", @"Run the end-to-end smart segmentation pipeline");
@@ -132,6 +134,7 @@ internal static partial class MeshSmartSegmentMeshCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

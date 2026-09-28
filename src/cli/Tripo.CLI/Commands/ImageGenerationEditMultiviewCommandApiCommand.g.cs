@@ -62,6 +62,8 @@ internal static partial class ImageGenerationEditMultiviewCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"edit-multiview", @"Edit multiview images");
@@ -113,6 +115,7 @@ internal static partial class ImageGenerationEditMultiviewCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

@@ -4,8 +4,10 @@ using System.CommandLine;
 
 namespace Tripo.CLI.Commands;
 
-internal static class ModelsApiGroupCommand
+internal static partial class ModelsApiGroupCommand
 {
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"models", @"Models endpoint commands.");
@@ -14,6 +16,7 @@ internal static class ModelsApiGroupCommand
                          command.Subcommands.Add(ModelsRefineModelCommandApiCommand.Create());
                          command.Subcommands.Add(ModelsStylizeModelCommandApiCommand.Create());
                          command.Subcommands.Add(ModelsTextureModelCommandApiCommand.Create());
+        CustomizeCommand(ref command);
         return command;
     }
 }

@@ -111,6 +111,8 @@ internal static partial class ImageGenerationTextToImageCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"text-to-image", @"Generate an image from a text prompt");
@@ -207,6 +209,7 @@ internal static partial class ImageGenerationTextToImageCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

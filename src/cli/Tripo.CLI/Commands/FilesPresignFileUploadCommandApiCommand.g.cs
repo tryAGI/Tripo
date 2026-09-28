@@ -34,6 +34,8 @@ internal static partial class FilesPresignFileUploadCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"presign-file-upload", @"Get a presigned upload URL for direct file upload");
@@ -59,6 +61,7 @@ internal static partial class FilesPresignFileUploadCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }

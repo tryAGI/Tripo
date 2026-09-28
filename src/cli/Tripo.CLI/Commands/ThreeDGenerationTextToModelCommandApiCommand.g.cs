@@ -160,6 +160,8 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
                     static partial void CustomizeResponseFormatHints(Dictionary<string, CliFormatHint> hints);
 
 
+    static partial void CustomizeCommand(ref Command command);
+
     public static Command Create()
     {
         var command = new Command(@"text-to-model", @"Generate a 3D model from a text prompt");
@@ -289,6 +291,7 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
                                     FormatResponse,
                                     cancellationToken).ConfigureAwait(false);
             }, cancellationToken).ConfigureAwait(false));
+        CustomizeCommand(ref command);
         return command;
     }
 }
