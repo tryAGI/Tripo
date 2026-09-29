@@ -79,9 +79,9 @@ internal static partial class MeshSegmentMeshCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"segment-mesh", @"Perform semantic segmentation on a 3D model");
+        var command = new Command(commandName ?? @"segment-mesh", @"Perform semantic segmentation on a 3D model");
                         command.Options.Add(InputOption);
                         command.Options.Add(Model);
                         command.Options.Add(SegmentationGranularity);

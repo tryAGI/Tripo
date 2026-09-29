@@ -78,9 +78,9 @@ internal static partial class ModelsStylizeModelCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"stylize-model", @"Stylize an existing model");
+        var command = new Command(commandName ?? @"stylize-model", @"Stylize an existing model");
                         command.Options.Add(InputOption);
                         command.Options.Add(OriginalModelTaskId);
                         command.Options.Add(Style);

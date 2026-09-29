@@ -58,9 +58,9 @@ internal static partial class ThreeDGenerationImageToSplatCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"image-to-splat", @"Generate a 3D Gaussian Splat from a single image");
+        var command = new Command(commandName ?? @"image-to-splat", @"Generate a 3D Gaussian Splat from a single image");
                         command.Options.Add(InputOption);
                         command.Options.Add(ModelSeed);
           command.Options.Add(RequestInput);

@@ -41,9 +41,9 @@ internal static partial class AccountGetUsageCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"get-usage", @"Query account credit usage details");
+        var command = new Command(commandName ?? @"get-usage", @"Query account credit usage details");
                         command.Options.Add(Limit);
                         command.Options.Add(Offset);
 

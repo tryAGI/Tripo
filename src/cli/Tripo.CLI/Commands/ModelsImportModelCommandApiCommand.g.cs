@@ -52,9 +52,9 @@ internal static partial class ModelsImportModelCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"import-model", @"Import an external 3D model file");
+        var command = new Command(commandName ?? @"import-model", @"Import an external 3D model file");
                         command.Options.Add(InputOption);                        command.Options.Add(FileOptions.Type);
                         command.Options.Add(FileOptions.Url);
                         command.Options.Add(FileOptions.FileToken);

@@ -163,9 +163,9 @@ internal static partial class ThreeDGenerationImageToModelCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"image-to-model", @"Generate a 3D model from an image");
+        var command = new Command(commandName ?? @"image-to-model", @"Generate a 3D model from an image");
                         command.Options.Add(InputOption);
                         command.Options.Add(EnableImageAutofix);
                         command.Options.Add(TextureAlignment);

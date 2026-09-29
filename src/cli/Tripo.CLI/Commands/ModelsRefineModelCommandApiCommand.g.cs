@@ -63,9 +63,9 @@ internal static partial class ModelsRefineModelCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"refine-model", @"Refine a draft model");
+        var command = new Command(commandName ?? @"refine-model", @"Refine a draft model");
                         command.Options.Add(InputOption);
                         command.Options.Add(DraftModelTaskId);
                         command.Options.Add(Model);

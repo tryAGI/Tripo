@@ -117,9 +117,9 @@ internal static partial class ImageGenerationImageToImageCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"image-to-image", @"Generate or edit an image from reference images");
+        var command = new Command(commandName ?? @"image-to-image", @"Generate or edit an image from reference images");
                         command.Options.Add(InputOption);
                         command.Options.Add(Inputs);
                         command.Options.Add(Prompt);

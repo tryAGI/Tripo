@@ -64,9 +64,9 @@ internal static partial class ImageGenerationEditMultiviewCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"edit-multiview", @"Edit multiview images");
+        var command = new Command(commandName ?? @"edit-multiview", @"Edit multiview images");
                         command.Options.Add(InputOption);
                         command.Options.Add(OriginalTaskId);
                         command.Options.Add(Prompts);

@@ -36,9 +36,9 @@ internal static partial class FilesPresignFileUploadCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"presign-file-upload", @"Get a presigned upload URL for direct file upload");
+        var command = new Command(commandName ?? @"presign-file-upload", @"Get a presigned upload URL for direct file upload");
                         command.Options.Add(Format);
 
 

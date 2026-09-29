@@ -152,9 +152,9 @@ internal static partial class ModelsConvertModelCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"convert-model", @"Convert a 3D model to another format");
+        var command = new Command(commandName ?? @"convert-model", @"Convert a 3D model to another format");
                         command.Options.Add(InputOption);
                         command.Options.Add(OriginalModelTaskId);
                         command.Options.Add(Format);
