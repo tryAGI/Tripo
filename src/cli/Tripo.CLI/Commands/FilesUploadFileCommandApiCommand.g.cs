@@ -43,9 +43,9 @@ internal static partial class FilesUploadFileCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"upload-file", @"Upload a file and obtain a file_token");
+        var command = new Command(commandName ?? @"upload-file", @"Upload a file and obtain a file_token");
                         command.Options.Add(File);
                         command.Options.Add(Filename);
 

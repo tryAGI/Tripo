@@ -57,9 +57,9 @@ internal static partial class AnimationRigCheckCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"rig-check", @"Check whether a model is riggable");
+        var command = new Command(commandName ?? @"rig-check", @"Check whether a model is riggable");
                         command.Options.Add(InputOption);
                         command.Options.Add(OriginalModelTaskId);
           command.Options.Add(RequestInput);

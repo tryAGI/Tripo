@@ -36,9 +36,9 @@ internal static partial class ImageGenerationImageToMultiviewCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"image-to-multiview", @"Generate multiview images from a single image");
+        var command = new Command(commandName ?? @"image-to-multiview", @"Generate multiview images from a single image");
                         command.Options.Add(InputOption);
 
 

@@ -35,9 +35,9 @@ internal static partial class TasksGetTaskCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"get-task", @"Query the status and result of a single task");
+        var command = new Command(commandName ?? @"get-task", @"Query the status and result of a single task");
                         command.Arguments.Add(TaskId);
 
 

@@ -164,9 +164,9 @@ internal static partial class ThreeDGenerationMultiviewToModelCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"multiview-to-model", @"Generate a 3D model from multiview images");
+        var command = new Command(commandName ?? @"multiview-to-model", @"Generate a 3D model from multiview images");
                         command.Options.Add(Inputs);
                         command.Options.Add(OriginalModelTaskId);
                         command.Options.Add(Files);

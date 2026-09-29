@@ -77,9 +77,9 @@ internal static partial class MeshSmartSegmentMeshCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"smart-segment-mesh", @"Run the end-to-end smart segmentation pipeline");
+        var command = new Command(commandName ?? @"smart-segment-mesh", @"Run the end-to-end smart segmentation pipeline");
                         command.Options.Add(SegType);
                         command.Options.Add(InputOption);
                         command.Options.Add(Granularity);

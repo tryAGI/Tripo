@@ -31,9 +31,9 @@ internal static partial class FilesGetUploadCredentialsCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"get-upload-credentials", @"Get direct upload credentials for large file uploads");
+        var command = new Command(commandName ?? @"get-upload-credentials", @"Get direct upload credentials for large file uploads");
 
 
 

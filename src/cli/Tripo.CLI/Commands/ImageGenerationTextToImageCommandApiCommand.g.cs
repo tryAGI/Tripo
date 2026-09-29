@@ -113,9 +113,9 @@ internal static partial class ImageGenerationTextToImageCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"text-to-image", @"Generate an image from a text prompt");
+        var command = new Command(commandName ?? @"text-to-image", @"Generate an image from a text prompt");
                         command.Options.Add(Prompt);
                         command.Options.Add(NegativePrompt);
                         command.Options.Add(Model);

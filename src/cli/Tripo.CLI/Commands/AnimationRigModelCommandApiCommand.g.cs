@@ -81,9 +81,9 @@ internal static partial class AnimationRigModelCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"rig-model", @"Rig a 3D model");
+        var command = new Command(commandName ?? @"rig-model", @"Rig a 3D model");
                         command.Options.Add(InputOption);
                         command.Options.Add(OriginalModelTaskId);
                         command.Options.Add(Model);

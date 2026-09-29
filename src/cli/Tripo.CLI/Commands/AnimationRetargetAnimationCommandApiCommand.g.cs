@@ -91,9 +91,9 @@ internal static partial class AnimationRetargetAnimationCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"retarget-animation", @"Apply preset animations to a rigged 3D model");
+        var command = new Command(commandName ?? @"retarget-animation", @"Apply preset animations to a rigged 3D model");
                         command.Options.Add(InputOption);
                         command.Options.Add(OriginalModelTaskId);
                         command.Options.Add(Animation);

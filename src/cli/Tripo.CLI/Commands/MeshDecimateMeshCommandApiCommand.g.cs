@@ -83,9 +83,9 @@ internal static partial class MeshDecimateMeshCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"decimate-mesh", @"Decimate or retopologize a 3D model");
+        var command = new Command(commandName ?? @"decimate-mesh", @"Decimate or retopologize a 3D model");
                         command.Options.Add(InputOption);
                         command.Options.Add(Model);
                         command.Options.Add(FaceLimit);

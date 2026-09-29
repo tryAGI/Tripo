@@ -162,9 +162,9 @@ internal static partial class ThreeDGenerationTextToModelCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"text-to-model", @"Generate a 3D model from a text prompt");
+        var command = new Command(commandName ?? @"text-to-model", @"Generate a 3D model from a text prompt");
                         command.Options.Add(Prompt);
                         command.Options.Add(NegativePrompt);
                         command.Options.Add(ImageSeed);

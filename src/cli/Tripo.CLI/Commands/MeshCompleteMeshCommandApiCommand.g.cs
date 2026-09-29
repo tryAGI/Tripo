@@ -75,9 +75,9 @@ internal static partial class MeshCompleteMeshCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"complete-mesh", @"Complete selected mesh parts");
+        var command = new Command(commandName ?? @"complete-mesh", @"Complete selected mesh parts");
                         command.Options.Add(InputOption);
                         command.Options.Add(Model);
                         command.Options.Add(PartNames);

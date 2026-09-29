@@ -36,9 +36,9 @@ internal static partial class TasksListTasksCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"list-tasks", @"Batch query multiple tasks");
+        var command = new Command(commandName ?? @"list-tasks", @"Batch query multiple tasks");
                         command.Options.Add(TaskIds);
 
 

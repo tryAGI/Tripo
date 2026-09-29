@@ -119,9 +119,9 @@ internal static partial class ModelsTextureModelCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"texture-model", @"Regenerate texture maps for an existing model");
+        var command = new Command(commandName ?? @"texture-model", @"Regenerate texture maps for an existing model");
                         command.Options.Add(InputOption);
                         command.Options.Add(Model);
                         command.Options.Add(OriginalModelTaskId);

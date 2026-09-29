@@ -31,9 +31,9 @@ internal static partial class AccountGetBalanceCommandApiCommand
 
     static partial void CustomizeCommand(ref Command command);
 
-    public static Command Create()
+    public static Command Create(string? commandName = null)
     {
-        var command = new Command(@"get-balance", @"Query the current account credit balance");
+        var command = new Command(commandName ?? @"get-balance", @"Query the current account credit balance");
 
 
 
