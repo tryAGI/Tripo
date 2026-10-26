@@ -4,9 +4,6 @@ using System.CommandLine;
 using System.CommandLine.Parsing;
 using System.Globalization;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 
 namespace Tripo.CLI;
 
@@ -131,7 +128,7 @@ internal static class CliRuntime
 
         var values = await ReadUserSecretsAsync(cancellationToken).ConfigureAwait(false);
         values[name] = value;
-        var json = PrettyJson(JsonSerializer.Serialize(values, UserSecretsJsonContext.Default.DictionaryStringString));
+        var json = PrettyJson(global::System.Text.Json.JsonSerializer.Serialize(values, UserSecretsJsonContext.Default.DictionaryStringString));
         await File.WriteAllTextAsync(path, json, cancellationToken).ConfigureAwait(false);
     }
 
@@ -149,7 +146,7 @@ internal static class CliRuntime
             return;
         }
 
-        var json = PrettyJson(JsonSerializer.Serialize(values, UserSecretsJsonContext.Default.DictionaryStringString));
+        var json = PrettyJson(global::System.Text.Json.JsonSerializer.Serialize(values, UserSecretsJsonContext.Default.DictionaryStringString));
         await File.WriteAllTextAsync(path, json, cancellationToken).ConfigureAwait(false);
     }
 
@@ -311,7 +308,7 @@ internal static class CliRuntime
         Option<string?> inputOption,
         Option<string?> requestJsonOption,
         Option<string?> requestFileOption,
-        JsonSerializerContext context,
+        global::System.Text.Json.Serialization.JsonSerializerContext context,
         CancellationToken cancellationToken = default)
     {
         var requestJson = await ReadInputAsync(
@@ -322,7 +319,7 @@ internal static class CliRuntime
             required: true,
             cancellationToken).ConfigureAwait(false);
 
-        var value = JsonSerializer.Deserialize(requestJson ?? throw new CliException("Request input is required."), typeof(T), context);
+        var value = global::System.Text.Json.JsonSerializer.Deserialize(requestJson ?? throw new CliException("Request input is required."), typeof(T), context);
         return value is T typed
             ? typed
             : throw new CliException($"Unable to deserialize request JSON as {typeof(T).Name}.");
@@ -333,7 +330,7 @@ internal static class CliRuntime
         Option<string?> inputOption,
         Option<string?> requestJsonOption,
         Option<string?> requestFileOption,
-        JsonSerializerContext context,
+        global::System.Text.Json.Serialization.JsonSerializerContext context,
         CancellationToken cancellationToken = default)
     {
         var requestJson = await ReadInputAsync(
@@ -347,15 +344,15 @@ internal static class CliRuntime
             return default;
         }
 
-        var value = JsonSerializer.Deserialize(requestJson!, typeof(T), context);
+        var value = global::System.Text.Json.JsonSerializer.Deserialize(requestJson!, typeof(T), context);
         return value is T typed
             ? typed
             : throw new CliException($"Unable to deserialize request JSON as {typeof(T).Name}.");
     }
 
-    public static T DeserializeJsonValue<T>(string json, JsonSerializerContext context)
+    public static T DeserializeJsonValue<T>(string json, global::System.Text.Json.Serialization.JsonSerializerContext context)
     {
-        var value = JsonSerializer.Deserialize(json, typeof(T), context);
+        var value = global::System.Text.Json.JsonSerializer.Deserialize(json, typeof(T), context);
         return value is T typed
             ? typed
             : throw new CliException($"Unable to deserialize generated CLI value as {typeof(T).Name}.");
@@ -363,7 +360,7 @@ internal static class CliRuntime
 
     public static string SerializeKeyValuePairs(IEnumerable<string> pairs)
     {
-        var objectNode = new JsonObject();
+        var objectNode = new global::System.Text.Json.Nodes.JsonObject();
         foreach (var pair in pairs)
         {
             var separatorIndex = pair.IndexOf('=', StringComparison.Ordinal);
@@ -387,32 +384,32 @@ internal static class CliRuntime
 
     public static string SerializeStringArray(IEnumerable<string> values)
     {
-        var array = new JsonArray();
+        var array = new global::System.Text.Json.Nodes.JsonArray();
         foreach (var value in values)
         {
-            array.Add((JsonNode?)JsonValue.Create(value));
+            array.Add((global::System.Text.Json.Nodes.JsonNode?)global::System.Text.Json.Nodes.JsonValue.Create(value));
         }
 
         return array.ToJsonString();
     }
 
-    public static async global::System.Threading.Tasks.Task WriteJsonAsync<T>(ParseResult parseResult, T value, JsonSerializerContext context, CancellationToken cancellationToken = default)
+    public static async global::System.Threading.Tasks.Task WriteJsonAsync<T>(ParseResult parseResult, T value, global::System.Text.Json.Serialization.JsonSerializerContext context, CancellationToken cancellationToken = default)
     {
-        var json = JsonSerializer.Serialize(value, typeof(T), context);
+        var json = global::System.Text.Json.JsonSerializer.Serialize(value, typeof(T), context);
         await WriteTextAsync(parseResult, PrettyJson(json), cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
-    public static async global::System.Threading.Tasks.Task WriteJsonLineAsync<T>(ParseResult parseResult, T value, JsonSerializerContext context, CancellationToken cancellationToken = default)
+    public static async global::System.Threading.Tasks.Task WriteJsonLineAsync<T>(ParseResult parseResult, T value, global::System.Text.Json.Serialization.JsonSerializerContext context, CancellationToken cancellationToken = default)
     {
-        var json = JsonSerializer.Serialize(value, typeof(T), context);
+        var json = global::System.Text.Json.JsonSerializer.Serialize(value, typeof(T), context);
         await WriteTextAsync(parseResult, json + Environment.NewLine, append: true, cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     public static async global::System.Threading.Tasks.Task WriteResponseAsync<T>(
         ParseResult parseResult,
         T value,
-        JsonSerializerContext context,
-        Func<ParseResult, T, JsonSerializerContext, bool, string>? formatter = null,
+        global::System.Text.Json.Serialization.JsonSerializerContext context,
+        Func<ParseResult, T, global::System.Text.Json.Serialization.JsonSerializerContext, bool, string>? formatter = null,
         CancellationToken cancellationToken = default)
     {
         if (parseResult.GetValue(CliOptions.Json))
@@ -431,8 +428,8 @@ internal static class CliRuntime
     public static async global::System.Threading.Tasks.Task WriteResponseLineAsync<T>(
         ParseResult parseResult,
         T value,
-        JsonSerializerContext context,
-        Func<ParseResult, T, JsonSerializerContext, bool, string>? formatter = null,
+        global::System.Text.Json.Serialization.JsonSerializerContext context,
+        Func<ParseResult, T, global::System.Text.Json.Serialization.JsonSerializerContext, bool, string>? formatter = null,
         CancellationToken cancellationToken = default)
     {
         if (parseResult.GetValue(CliOptions.Json))
@@ -451,7 +448,7 @@ internal static class CliRuntime
     public static async global::System.Threading.Tasks.Task<bool> TryWriteOutputDirectoryAsync<T>(
         ParseResult parseResult,
         T value,
-        JsonSerializerContext context,
+        global::System.Text.Json.Serialization.JsonSerializerContext context,
         string itemsPropertyName,
         CancellationToken cancellationToken = default)
     {
@@ -463,8 +460,8 @@ internal static class CliRuntime
 
         var rootNode = ToJsonNode(value, typeof(T), context);
         var items = itemsPropertyName == "$self"
-            ? rootNode as JsonArray
-            : rootNode?[itemsPropertyName] as JsonArray;
+            ? rootNode as global::System.Text.Json.Nodes.JsonArray
+            : rootNode?[itemsPropertyName] as global::System.Text.Json.Nodes.JsonArray;
         if (items is null)
         {
             throw new CliException("The response does not contain a writable item collection for --output-dir.");
@@ -565,7 +562,7 @@ internal static class CliRuntime
             return new Dictionary<string, string>(StringComparer.Ordinal);
         }
 
-        return JsonSerializer.Deserialize(json, UserSecretsJsonContext.Default.DictionaryStringString) ??
+        return global::System.Text.Json.JsonSerializer.Deserialize(json, UserSecretsJsonContext.Default.DictionaryStringString) ??
             new Dictionary<string, string>(StringComparer.Ordinal);
     }
 
@@ -656,22 +653,22 @@ internal static class CliRuntime
         return await File.ReadAllTextAsync(pathOrDash, cancellationToken).ConfigureAwait(false);
     }
 
-    private static JsonNode? ToJsonNode<T>(T value, Type type, JsonSerializerContext context)
+    private static global::System.Text.Json.Nodes.JsonNode? ToJsonNode<T>(T value, Type type, global::System.Text.Json.Serialization.JsonSerializerContext context)
     {
-        var json = JsonSerializer.Serialize(value, type, context);
-        return JsonNode.Parse(json);
+        var json = global::System.Text.Json.JsonSerializer.Serialize(value, type, context);
+        return global::System.Text.Json.Nodes.JsonNode.Parse(json);
     }
 
-    private static JsonElement ToJsonElement<T>(T value, JsonSerializerContext context)
+    private static global::System.Text.Json.JsonElement ToJsonElement<T>(T value, global::System.Text.Json.Serialization.JsonSerializerContext context)
     {
-        var json = JsonSerializer.Serialize(value, typeof(T), context);
-        using var document = JsonDocument.Parse(json);
+        var json = global::System.Text.Json.JsonSerializer.Serialize(value, typeof(T), context);
+        using var document = global::System.Text.Json.JsonDocument.Parse(json);
         return document.RootElement.Clone();
     }
 
     public static string FormatHumanReadable<T>(
         T value,
-        JsonSerializerContext context,
+        global::System.Text.Json.Serialization.JsonSerializerContext context,
         bool truncateLongStrings,
         IReadOnlyDictionary<string, CliFormatHint>? formatHints = null)
     {
@@ -684,7 +681,7 @@ internal static class CliRuntime
     private static void AppendFormattedValue(
         StringBuilder builder,
         string? name,
-        JsonElement element,
+        global::System.Text.Json.JsonElement element,
         int indent,
         bool truncateLongStrings,
         IReadOnlyDictionary<string, CliFormatHint>? formatHints,
@@ -695,7 +692,7 @@ internal static class CliRuntime
             return;
         }
 
-        if (element.ValueKind == JsonValueKind.String &&
+        if (element.ValueKind == global::System.Text.Json.JsonValueKind.String &&
             HasFormatHint(path, CliFormatHint.Code, formatHints))
         {
             AppendCodeBlock(builder, name, element.GetString() ?? string.Empty, indent);
@@ -704,10 +701,10 @@ internal static class CliRuntime
 
         switch (element.ValueKind)
         {
-            case JsonValueKind.Object:
+            case global::System.Text.Json.JsonValueKind.Object:
                 AppendFormattedObject(builder, name, element, indent, truncateLongStrings, formatHints, path);
                 break;
-            case JsonValueKind.Array:
+            case global::System.Text.Json.JsonValueKind.Array:
                 AppendFormattedArray(builder, name, element, indent, truncateLongStrings, formatHints, path);
                 break;
             default:
@@ -719,7 +716,7 @@ internal static class CliRuntime
     private static void AppendFormattedObject(
         StringBuilder builder,
         string? name,
-        JsonElement element,
+        global::System.Text.Json.JsonElement element,
         int indent,
         bool truncateLongStrings,
         IReadOnlyDictionary<string, CliFormatHint>? formatHints,
@@ -751,7 +748,7 @@ internal static class CliRuntime
     private static void AppendFormattedArray(
         StringBuilder builder,
         string? name,
-        JsonElement element,
+        global::System.Text.Json.JsonElement element,
         int indent,
         bool truncateLongStrings,
         IReadOnlyDictionary<string, CliFormatHint>? formatHints,
@@ -770,7 +767,7 @@ internal static class CliRuntime
             return;
         }
 
-        if (items.All(static item => item.ValueKind is not JsonValueKind.Object and not JsonValueKind.Array))
+        if (items.All(static item => item.ValueKind is not global::System.Text.Json.JsonValueKind.Object and not global::System.Text.Json.JsonValueKind.Array))
         {
             foreach (var item in items)
             {
@@ -787,15 +784,15 @@ internal static class CliRuntime
         }
     }
 
-    private static string FormatScalar(JsonElement element, bool truncateLongStrings)
+    private static string FormatScalar(global::System.Text.Json.JsonElement element, bool truncateLongStrings)
     {
         return element.ValueKind switch
         {
-            JsonValueKind.String => FormatStringScalar(element.GetString() ?? string.Empty, truncateLongStrings),
-            JsonValueKind.True => "true",
-            JsonValueKind.False => "false",
-            JsonValueKind.Number => element.GetRawText(),
-            JsonValueKind.Null => "null",
+            global::System.Text.Json.JsonValueKind.String => FormatStringScalar(element.GetString() ?? string.Empty, truncateLongStrings),
+            global::System.Text.Json.JsonValueKind.True => "true",
+            global::System.Text.Json.JsonValueKind.False => "false",
+            global::System.Text.Json.JsonValueKind.Number => element.GetRawText(),
+            global::System.Text.Json.JsonValueKind.Null => "null",
             _ => element.GetRawText(),
         };
     }
@@ -859,18 +856,18 @@ internal static class CliRuntime
         builder.AppendLine(value);
     }
 
-    private static async global::System.Threading.Tasks.Task WriteItemFilesAsync(string outputDirectory, JsonArray items, CancellationToken cancellationToken = default)
+    private static async global::System.Threading.Tasks.Task WriteItemFilesAsync(string outputDirectory, global::System.Text.Json.Nodes.JsonArray items, CancellationToken cancellationToken = default)
     {
         Directory.CreateDirectory(outputDirectory);
 
         for (var index = 0; index < items.Count; index++)
         {
-            if (items[index] is not JsonNode itemNode)
+            if (items[index] is not global::System.Text.Json.Nodes.JsonNode itemNode)
             {
                 continue;
             }
 
-            var itemObject = itemNode as JsonObject;
+            var itemObject = itemNode as global::System.Text.Json.Nodes.JsonObject;
             var baseName = itemObject is null
                 ? $"{index + 1:000}"
                 : SanitizeFileName(GetOutputItemName(itemObject) ?? $"{index + 1:000}");
@@ -884,7 +881,7 @@ internal static class CliRuntime
                 wroteStructuredFile |= await TryWriteTextPropertyAsync(itemObject, outputDirectory, baseName, "raw_html", ".raw.html", cancellationToken).ConfigureAwait(false);
                 wroteStructuredFile |= await TryWriteTextPropertyAsync(itemObject, outputDirectory, baseName, "text", ".txt", cancellationToken).ConfigureAwait(false);
 
-                if (TryGetNamedNode(itemObject, out var linksNode, "links") && linksNode is JsonArray links)
+                if (TryGetNamedNode(itemObject, out var linksNode, "links") && linksNode is global::System.Text.Json.Nodes.JsonArray links)
                 {
                     var linkLines = links
                         .Select(static node => node?.GetValue<string>())
@@ -901,7 +898,7 @@ internal static class CliRuntime
                 }
             }
 
-            var json = itemNode.ToJsonString(new JsonSerializerOptions { WriteIndented = true });
+            var json = itemNode.ToJsonString(new global::System.Text.Json.JsonSerializerOptions { WriteIndented = true });
             var fileName = wroteStructuredFile
                 ? $"{baseName}.metadata.json"
                 : $"{baseName}.json";
@@ -910,7 +907,7 @@ internal static class CliRuntime
     }
 
     private static async global::System.Threading.Tasks.Task<bool> TryWriteTextPropertyAsync(
-        JsonObject item,
+        global::System.Text.Json.Nodes.JsonObject item,
         string outputDirectory,
         string baseName,
         string propertyName,
@@ -935,7 +932,7 @@ internal static class CliRuntime
         return true;
     }
 
-    private static string? GetOutputItemName(JsonObject item)
+    private static string? GetOutputItemName(global::System.Text.Json.Nodes.JsonObject item)
     {
         if (TryGetNamedNode(item, out var node, "url", "sourceUrl", "source_url", "id"))
         {
@@ -945,7 +942,7 @@ internal static class CliRuntime
         return null;
     }
 
-    private static bool TryGetNamedNode(JsonObject item, out JsonNode? node, params string[] names)
+    private static bool TryGetNamedNode(global::System.Text.Json.Nodes.JsonObject item, out global::System.Text.Json.Nodes.JsonNode? node, params string[] names)
     {
         foreach (var property in item)
         {
@@ -993,9 +990,9 @@ internal static class CliRuntime
 
     private static string PrettyJson(string json)
     {
-        using var document = JsonDocument.Parse(json);
+        using var document = global::System.Text.Json.JsonDocument.Parse(json);
         using var stream = new MemoryStream();
-        using (var writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true }))
+        using (var writer = new global::System.Text.Json.Utf8JsonWriter(stream, new global::System.Text.Json.JsonWriterOptions { Indented = true }))
         {
             document.WriteTo(writer);
         }
@@ -1072,6 +1069,6 @@ internal sealed record AuthSourceProbe(string Source, string DisplayName, string
     public bool Present => !string.IsNullOrWhiteSpace(RawValue);
 }
 
-[JsonSerializable(typeof(AuthStatusInfo))]
-[JsonSerializable(typeof(Dictionary<string, string>))]
-internal sealed partial class UserSecretsJsonContext : JsonSerializerContext;
+[global::System.Text.Json.Serialization.JsonSerializable(typeof(AuthStatusInfo))]
+[global::System.Text.Json.Serialization.JsonSerializable(typeof(Dictionary<string, string>))]
+internal sealed partial class UserSecretsJsonContext : global::System.Text.Json.Serialization.JsonSerializerContext;
